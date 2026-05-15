@@ -7,14 +7,26 @@ type Language = 'en' | 'es'
 export default function ComplaintsBookForm({ language }: { language: Language }) {
     const [loading, setLoading] = useState(false)
     const [errors, setErrors] = useState<Record<string, boolean>>({})
-    const [toast, setToast] = useState('')
+    const [toast, setToast] = useState<{
+        message: string
+        type: 'success' | 'error'
+    } | null>(null)
 
+    const messages = {
+        es: {
+            success: 'Mensaje enviado exitosamente',
+            error: 'Error al enviar mensaje',
+        },
+        en: {
+            success: 'Message sent successfully',
+            error: 'Error sending message',
+        }
+    }
     const translations = {
         en: {
             hero: 'COMPLAINTS BOOK',
             title: 'Virtual complaints book',
-            subtitle:
-                'In accordance with consumer protection law, this company provides a virtual complaints book.',
+            subtitle: 'In accordance with consumer protection law, this company provides a virtual complaints book.',
             consumer: 'CONSUMER IDENTIFICATION',
             details: 'DETAILS OF CLAIM / COMPLAINT',
             name: 'Name*',
@@ -28,8 +40,7 @@ export default function ComplaintsBookForm({ language }: { language: Language })
             service: 'Service contracted*',
             date: 'Date*',
             message: 'Observations',
-            accept:
-                'I declare that the information provided is true and accurate.',
+            accept: 'I declare that the information provided is true and accurate.',
             send: 'SEND NOW',
             error: 'Complete all required fields',
             success: 'Sent successfully',
@@ -37,8 +48,7 @@ export default function ComplaintsBookForm({ language }: { language: Language })
         es: {
             hero: 'LIBRO DE RECLAMACIONES',
             title: 'Libro virtual de reclamaciones',
-            subtitle:
-                'De conformidad con el Código de Protección y Defensa del Consumidor, esta empresa pone a su disposición un Libro Virtual de Reclamaciones.',
+            subtitle: 'De conformidad con el Código de Protección y Defensa del Consumidor, esta empresa pone a su disposición un Libro Virtual de Reclamaciones.',
             consumer: 'IDENTIFICACION DEL CONSUMIDOR',
             details: 'DETALLES DEL RECLAMO / QUEJA',
             name: 'Nombre*',
@@ -52,8 +62,7 @@ export default function ComplaintsBookForm({ language }: { language: Language })
             service: 'Servicio contratado*',
             date: 'Fecha*',
             message: 'Observaciones',
-            accept:
-                'Declaro que los datos consignados son correctos y fiel expresión de la verdad.',
+            accept: 'Declaro que los datos consignados son correctos y fiel expresión de la verdad.',
             send: 'ENVIAR AHORA',
             error: 'Completa todos los campos obligatorios',
             success: 'Enviado correctamente',
@@ -70,7 +79,8 @@ export default function ComplaintsBookForm({ language }: { language: Language })
         if (!data.address) e.address = true
         if (!data.email || !data.email.includes('@')) e.email = true
         if (!data.phone) e.phone = true
-        if (!data.type) e.type = true
+        if (!data.typeService) e.typeService = true
+        if (!data.typeDocument) e.typeDocument = true
         if (!data.service) e.service = true
         if (!data.date) e.date = true
         if (!data.accept) e.accept = true
@@ -87,29 +97,37 @@ export default function ComplaintsBookForm({ language }: { language: Language })
             address: form.get('address'),
             email: form.get('email'),
             phone: form.get('phone'),
-            type: form.get('type'),
+            typeDocument: form.get('typeDocument'),
+            typeService: form.get('typeService'),
             service: form.get('service'),
             date: form.get('date'),
             message: form.get('message'),
             accept: form.get('accept'),
+            lang: language,
         }
         const validation = validate(data)
         if (Object.keys(validation).length > 0) {
             setErrors(validation)
-            setToast(texto.error)
+            setToast({ message: texto.error, type: 'error'})
             return
         }
+
         setErrors({})
         setLoading(true)
-        await new Promise((r) => setTimeout(r, 1500))
-        setToast(texto.success)
-        e.target.reset()
+
+        const res = await fetch('/api/complaint', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        })
+
+        const result = await res.json()
+        setToast(result.success ? {message: messages[language].success, type: "success"} : {message: messages[language].error, type: "success"})
         setLoading(false)
     }
 
     useEffect(() => {
         if (!toast) return
-        const timer = setTimeout(() => setToast(''), 2500)
+        const timer = setTimeout(() => setToast({message: '', type: "success"}), 2500)
         return () => clearTimeout(timer)
     }, [toast])
 
@@ -117,6 +135,16 @@ export default function ComplaintsBookForm({ language }: { language: Language })
         `w-full border-b bg-transparent px-1 py-2 outline-none ${
         errors[field] ? 'border-red-500 border-b-2' : 'border-gray-300'
     }`
+
+    useEffect(() => {
+        if (!toast) return
+
+        const timer = setTimeout(() => {
+            setToast(null)
+        }, 2000)
+
+        return () => clearTimeout(timer)
+    }, [toast])
 
     return (
         <>
@@ -135,8 +163,14 @@ export default function ComplaintsBookForm({ language }: { language: Language })
 
             <section className="w-full">
                 {toast && (
-                    <div className="fixed top-5 right-5 z-[9999] bg-red-50 border border-red-400 text-red-900 px-5 py-3 rounded-lg shadow-lg text-sm">
-                        {toast}
+                    <div
+                        className={`fixed top-5 right-5 z-[9999] px-5 py-3 rounded-lg shadow-lg text-sm
+                        ${toast.type === 'success'
+                            ? 'bg-green-50 border border-green-400 text-green-900'
+                            : 'bg-red-50 border border-red-400 text-red-900'
+                        }`}
+                    >
+                        {toast.message}
                     </div>
                 )}
 
@@ -158,7 +192,7 @@ export default function ComplaintsBookForm({ language }: { language: Language })
                         <div className="grid md:grid-cols-2 gap-10">
                             <input name="name" placeholder={texto.name} className={inputClass('name')} />
                             <input name="lastname" placeholder={texto.lastname} className={inputClass('lastname')} />
-                            <select name="type" className={inputClass('type')}>
+                            <select name="typeDocument" className={inputClass('typeDocument')}>
                                 <option value="">{texto.document}</option>
                                 <option>DNI</option>
                                 <option>Pasaporte</option>
@@ -174,7 +208,7 @@ export default function ComplaintsBookForm({ language }: { language: Language })
                         </h3>
 
                         <div className="grid md:grid-cols-3 gap-10">
-                            <select name="type" className={inputClass('type')}>
+                            <select name="typeService" className={inputClass('typeService')}>
                                 <option value="">{texto.type}</option>
                                 <option>Reclamo</option>
                                 <option>Queja</option>

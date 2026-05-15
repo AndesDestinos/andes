@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 type Language = 'en' | 'es'
 
@@ -17,9 +17,57 @@ export default function TravelPlannerForm({ language }: { language: Language }) 
     const [email, setEmail] = useState('')
     const [phone, setPhone] = useState('')
     const [country, setCountry] = useState('')
-    const [travelers, setTravelers] = useState(2)
+    const [travelers, setTravelers] = useState(1)
     const [includeHotel, setIncludeHotel] = useState(false)
-    const [stars, setStars] = useState(4)
+    const [stars, setStars] = useState(1)
+    const [message, setMessage] = useState('')
+    const [loading, setLoading] = useState(false)
+
+    const [toast, setToast] = useState<{
+    message: string
+    type: 'success' | 'error'
+    } | null>(null)
+
+    const messages = {
+        es: {
+            success: 'Solicitud enviada correctamente',
+            error: 'Error al enviar solicitud',
+        },
+        en: {
+            success: 'Request sent successfully',
+            error: 'Error sending request',
+        }
+    }
+
+    const resetForm = () => {
+        setDestinations([])
+        setService(null)
+        setMonth(null)
+        setYear(null)
+        setContact(null)
+
+        setName('')
+        setEmail('')
+        setPhone('')
+        setCountry('')
+
+        setTravelers(1)
+        setIncludeHotel(false)
+        setStars(1)
+        setMessage('')
+
+        setErrors({
+            step1: false,
+            step2: false,
+            step3: false,
+            fields: {
+                name: false,
+                email: false,
+                phone: false,
+                country: false,
+            }
+        })
+    }
 
     const [errors, setErrors] = useState({
         step1: false,
@@ -96,9 +144,82 @@ export default function TravelPlannerForm({ language }: { language: Language }) 
     const chip = (active: boolean) =>
         `px-4 py-2 rounded-full border text-sm transition ${
             active
-                ? 'border-black bg-gray-200'
+                ? 'border-black bg-[#F5F2EB]'
                 : 'border-gray-300 bg-white hover:border-black'
         }`
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault()
+        const ok = validate()
+        if (!ok) {
+            setToast({
+            message: language === 'es'
+                ? 'Completa todos los campos'
+                : 'Please complete all fields',
+            type: 'error'
+            })
+            return
+        }
+
+        setLoading(true)
+
+        const data = {
+            destinations,
+            service,
+            month,
+            year,
+            contact,
+            name,
+            email,
+            phone,
+            country,
+            travelers,
+            includeHotel,
+            stars,
+            message,
+            lang: language,
+        }
+
+        try {
+            const res = await fetch('/api/planning', {
+                method: 'POST',
+                body: JSON.stringify(data),
+            })
+
+            const result = await res.json()
+
+            if (result.success) {
+                setToast({
+                    message: messages[language].success,
+                    type: 'success'
+                })
+                resetForm()
+            } else {
+                setToast({
+                    message: messages[language].error,
+                    type: 'error'
+                })
+            }
+
+        } catch (err) {
+            setToast({
+            message: messages[language].error,
+            type: 'error'
+            })
+        }
+
+        setLoading(false)
+    }
+
+    useEffect(() => {
+        if (!toast) return
+
+        const timer = setTimeout(() => {
+            setToast(null)
+        }, 2000)
+
+        return () => clearTimeout(timer)
+    }, [toast])
 
     return (
         <>
@@ -113,7 +234,18 @@ export default function TravelPlannerForm({ language }: { language: Language }) 
             </section>
 
             <section className="w-full mt-12">
-                <div className="andes-contenido">
+                {toast && (
+                    <div
+                        className={`fixed top-5 right-5 z-[9999] px-5 py-3 rounded-lg shadow-lg text-sm
+                        ${toast.type === 'success'
+                        ? 'bg-green-50 border border-green-400 text-green-900'
+                        : 'bg-red-50 border border-red-400 text-red-900'
+                        }`}
+                    >
+                        {toast.message}
+                    </div>
+                )}
+                <form onSubmit={handleSubmit} className="andes-contenido">
                     <div className="text-center mb-10">
                         <h2 className="text-xl md:text-3xl font-serif">{texto.title}</h2>
                         <p className="text-gray-600 mt-3 text-sm">{texto.subtitle}</p>
@@ -121,7 +253,7 @@ export default function TravelPlannerForm({ language }: { language: Language }) 
                         <div className="mb-12">
                             <div className="flex justify-between max-w-3xl mx-auto">
                                 <div className="flex flex-col items-center text-center flex-1">
-                                    <div className="w-10 h-10 flex items-center justify-center border border-black rounded-full text-sm font-medium">
+                                    <div className="w-10 h-10 flex items-center justify-center border bg-[#F5F2EB] border-black rounded-full text-sm font-medium">
                                         1
                                     </div>
                                     <span className="mt-2 text-xs sm:text-sm tracking-wide">
@@ -134,7 +266,7 @@ export default function TravelPlannerForm({ language }: { language: Language }) 
                                 <div className="flex-1 h-px bg-gray-300 mx-2"></div>
 
                                 <div className="flex flex-col items-center text-center flex-1">
-                                    <div className="w-10 h-10 flex items-center justify-center border border-gray-300 rounded-full text-sm">
+                                    <div className="w-10 h-10 flex items-center justify-center border bg-[#F5F2EB] border-gray-300 rounded-full text-sm">
                                         2
                                     </div>
                                     <span className="mt-2 text-xs sm:text-sm text-gray-400">
@@ -147,7 +279,7 @@ export default function TravelPlannerForm({ language }: { language: Language }) 
                                 <div className="flex-1 h-px bg-gray-300 mx-2"></div>
 
                                 <div className="flex flex-col items-center text-center flex-1">
-                                    <div className="w-10 h-10 flex items-center justify-center border border-gray-300 rounded-full text-sm">
+                                    <div className="w-10 h-10 flex items-center justify-center border bg-[#F5F2EB] border-gray-300 rounded-full text-sm">
                                         3
                                     </div>
                                     <span className="mt-2 text-xs sm:text-sm text-gray-400">
@@ -164,7 +296,7 @@ export default function TravelPlannerForm({ language }: { language: Language }) 
                     <Section title={texto.destinations} error={errors.step1} open={activeSection===0} onClick={()=>toggleSection(0)}>
                         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
                             {['Machu Picchu','Cusco','Valle Sagrado','Camino Inca','Lima','Cañón del Colca','Huacachina','Turismo Vivencial'].map(item => (
-                                <button key={item} onClick={()=>toggleMulti(item)} className={chip(destinations.includes(item))}>
+                                <button type="button" key={item} onClick={()=>toggleMulti(item)} className={chip(destinations.includes(item))}>
                                     {item}
                                 </button>
                             ))}
@@ -174,7 +306,7 @@ export default function TravelPlannerForm({ language }: { language: Language }) 
                     <Section title={texto.service} error={errors.step2} open={activeSection===1} onClick={()=>toggleSection(1)}>
                         <div className="flex gap-3 flex-wrap">
                             {['Privado','Lujo'].map(item => (
-                                <button key={item} onClick={()=>setService(item)} className={chip(service===item)}>
+                                <button type="button" key={item} onClick={()=>setService(item)} className={chip(service===item)}>
                                     {item}
                                 </button>
                             ))}
@@ -183,8 +315,8 @@ export default function TravelPlannerForm({ language }: { language: Language }) 
 
                     <Section title={texto.date} error={errors.step2} open={activeSection===2} onClick={()=>toggleSection(2)}>
                         <div className="flex gap-3 flex-wrap mb-4">
-                            {['2025','2026','2027'].map(y => (
-                                <button key={y} onClick={()=>setYear(y)} className={chip(year===y)}>
+                            {['2026','2027'].map(y => (
+                                <button type="button" key={y} onClick={()=>setYear(y)} className={chip(year===y)}>
                                     {y}
                                 </button>
                             ))}
@@ -192,7 +324,7 @@ export default function TravelPlannerForm({ language }: { language: Language }) 
                         {year && (
                             <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
                                 {texto.months.map(m => (
-                                    <button key={m} onClick={()=>setMonth(m)} className={chip(month===m)}>
+                                    <button type="button" key={m} onClick={()=>setMonth(m)} className={chip(month===m)}>
                                         {m}
                                     </button>
                                 ))}
@@ -203,7 +335,7 @@ export default function TravelPlannerForm({ language }: { language: Language }) 
                     <Section title={texto.contact} error={errors.step2} open={activeSection===3} onClick={()=>toggleSection(3)}>
                         <div className="flex gap-3 flex-wrap">
                             {['Correo','Llamada','WhatsApp'].map(item => (
-                                <button key={item} onClick={()=>setContact(item)} className={chip(contact===item)}>
+                                <button type="button" key={item} onClick={()=>setContact(item)} className={chip(contact===item)}>
                                     {item}
                                 </button>
                             ))}
@@ -249,14 +381,14 @@ export default function TravelPlannerForm({ language }: { language: Language }) 
                         <div className="flex flex-wrap items-center gap-6 mt-8">
                             <div className="flex items-center gap-3">
                                 <span className="text-sm">¿Cuántos viajan?</span>
-                                <button
+                                <button type="button"
                                     onClick={()=>setTravelers(prev => Math.max(1, prev - 1))}
                                     className="w-10 h-10 border rounded-lg flex items-center justify-center text-lg"
                                 >
                                     -
                                 </button>
                                 <span className="w-6 text-center">{travelers}</span>
-                                <button
+                                <button type="button"
                                     onClick={()=>setTravelers(prev => prev + 1)}
                                     className="w-10 h-10 border rounded-lg flex items-center justify-center text-lg"
                                 >
@@ -266,7 +398,7 @@ export default function TravelPlannerForm({ language }: { language: Language }) 
 
                             <div className="flex items-center gap-3">
                                 <span className="text-sm">Incluir hotel al tour</span>
-                                <button
+                                <button type="button"
                                     onClick={()=>setIncludeHotel(!includeHotel)}
                                     className={`w-12 h-6 flex items-center rounded-full p-1 transition ${
                                         includeHotel ? 'bg-black' : 'bg-gray-300'
@@ -297,23 +429,26 @@ export default function TravelPlannerForm({ language }: { language: Language }) 
                         </div>
 
                         <textarea
+                            value={message}
+                            onChange={(e) => setMessage(e.target.value)}
                             placeholder="Mensaje"
                             className="w-full border-b mt-8 py-3 outline-none"
                         />
 
                         <div className="flex justify-center mt-8">
-                            <button
-                                onClick={() => {
-                                    const ok = validate()
-                                    if (!ok) return
-                                }}
-                                className="bg-black text-white px-10 py-3"
+                            <button 
+                                disabled={loading}
+                                className="w-full sm:w-auto cursor-pointer relative overflow-hidden border border-black px-6 sm:px-10 py-3 text-black group transition-colors duration-300 hover:text-white"
                             >
-                                {texto.send}
+                                <span className="relative z-10">
+                                    {loading ? '...' : texto.send}
+                                </span>
+
+                                <span className="absolute inset-0 bg-black scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100"></span>
                             </button>
                         </div>
                     </Section>
-                </div>
+                </form>
             </section>
         </>
     )

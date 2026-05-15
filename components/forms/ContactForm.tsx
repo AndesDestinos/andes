@@ -7,8 +7,21 @@ type Language = 'en' | 'es'
 export default function ContactUsForm({ language }: { language: Language }) {
   const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState<Record<string, boolean>>({})
-  const [toast, setToast] = useState('')
+    const [toast, setToast] = useState<{
+        message: string
+        type: 'success' | 'error'
+    } | null>(null)
 
+    const messages = {
+        es: {
+            success: 'Mensaje enviado exitosamente',
+            error: 'Error al enviar mensaje',
+        },
+        en: {
+            success: 'Message sent successfully',
+            error: 'Error sending message',
+        }
+    }
   const translations = {
     en: {
       titlePage: "CONTACT US",
@@ -78,13 +91,14 @@ export default function ContactUsForm({ language }: { language: Language }) {
       country: form.get('country'),
       message: form.get('message'),
       accept: form.get('accept'),
+      lang: language,
     }
 
     const validation = validate(data)
 
     if (Object.keys(validation).length > 0) {
       setErrors(validation)
-      setToast(texto.error)
+      setToast({message: texto.error, type: "error"})
       return
     }
 
@@ -97,26 +111,19 @@ export default function ContactUsForm({ language }: { language: Language }) {
     })
 
     const result = await res.json()
-
-    if (result.ok) {
-      setToast(texto.success)
-      e.target.reset()
-    } else {
-      setToast('Error')
-    }
-
+    setToast(result.success ? {message: messages[language].success, type: "success"} : {message: messages[language].error, type: "success"})
     setLoading(false)
   }
 
-  useEffect(() => {
-    if (!toast) return
+    useEffect(() => {
+        if (!toast) return
 
-    const timer = setTimeout(() => {
-        setToast('')
-    }, 2500)
+        const timer = setTimeout(() => {
+            setToast(null)
+        }, 2000)
 
-    return () => clearTimeout(timer)
-  }, [toast])
+        return () => clearTimeout(timer)
+    }, [toast])
 
   return (
     <>
@@ -135,8 +142,14 @@ export default function ContactUsForm({ language }: { language: Language }) {
 
         <section className="w-full">
             {toast && (
-                <div className="fixed top-5 right-5 z-[9999] bg-red-50 border border-red-400 text-red-900 px-5 py-3 rounded-lg shadow-lg text-sm animate-[fadeIn_0.4s_ease]">
-                    {toast}
+                <div
+                    className={`fixed top-5 right-5 z-[9999] px-5 py-3 rounded-lg shadow-lg text-sm
+                    ${toast.type === 'success'
+                        ? 'bg-green-50 border border-green-400 text-green-900'
+                        : 'bg-red-50 border border-red-400 text-red-900'
+                    }`}
+                >
+                    {toast.message}
                 </div>
             )}
 
@@ -227,10 +240,10 @@ export default function ContactUsForm({ language }: { language: Language }) {
                 <textarea
                     name="message"
                     placeholder={texto.message}
-                    className="w-full input mt-8 md:mt-10 h-[100px]"
+                    className="w-full input mt-8 md:mt-10 h-[100px] border-none outline-none focus:border-none focus:ring-0"
                 />
 
-                <div className="mt-6 flex items-start gap-2 text-sm">
+                <div className="mt-6 flex items-center gap-2 text-sm">
                     <input type="checkbox" name="accept" />
                     <span className={errors.accept ? 'text-red-500' : ''}>
                         {texto.accept}
