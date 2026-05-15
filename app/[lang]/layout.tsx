@@ -3,8 +3,14 @@ import { notFound } from 'next/navigation'
 import { client } from '@/lib/sanity.client'
 import Footer from '@/components/footer/Footer'
 
-export default async function Layout({ children, params }: { children: React.ReactNode, params: { lang: string } }) {
-  const { lang } = params
+export default async function Layout({
+  children,
+  params,
+}: {
+  children: React.ReactNode
+  params: Promise<{ lang: string }>
+}) {
+  const { lang } = await params
 
   if (lang !== 'es' && lang !== 'en') {
     notFound()
