@@ -5,4 +5,7 @@ export const client = createClient({
   dataset: 'production',
   apiVersion: '2024-01-01',
   useCdn: true,
+  fetch: {
+    next: { revalidate: 60 },
+  },
 })
