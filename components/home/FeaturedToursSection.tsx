@@ -7,14 +7,14 @@ export default function FeaturedToursSection({ tours, lang }: any) {
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-10">
         <div>
           <p className="text-sm tracking-widest text-gray-500 uppercase">
-            Tours más recomendados
+            { lang === 'es' ? 'TOURS MÁS RECOMENDADOS' : 'MOST RECOMMENDED TOURS' }
           </p>
           <h2 className="text-3xl md:text-4xl font-serif text-gray-900 mt-2">
-            Tours destacados por Perú
+            { lang === 'es' ? 'Tours destacados por Perú' : 'Featured tours of Peru' }
           </h2>
         </div>
         <button className="mt-4 md:mt-0 border border-gray-400 px-6 py-2 text-sm tracking-wide hover:bg-black hover:text-white transition">
-          EXPLORAR MÁS
+          { lang === 'es' ? 'EXPLORAR MÁS' : 'EXPLORE MORE' }
         </button>
       </div>
 
@@ -33,7 +33,7 @@ export default function FeaturedToursSection({ tours, lang }: any) {
                         : "/images/share/noImage.jpg"
                     }
                     alt={tour.title?.[lang]}
-                    className="object-cover group-hover:scale-105 transition duration-500"
+                    className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
                 />
                 </div>
 
@@ -54,7 +54,7 @@ export default function FeaturedToursSection({ tours, lang }: any) {
                     href={`/${lang}/tours/${tour.category.slug.current}/${tour.slug.current}`}
                     className="inline-block mt-4 text-sm tracking-widest border-b border-gray-400 pb-1 hover:border-black"
                 >
-                    VER ITINERARIO
+                    { lang === 'es' ? 'VER ITINERARIO' : 'VIEW ITINERARY' }
                 </Link>
                 </div>
             </div>

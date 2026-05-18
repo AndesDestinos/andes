@@ -1,6 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 
 type Props = {
   lang: string,
@@ -9,76 +10,94 @@ type Props = {
 
 export default function Footer({ lang, home }: Props) {
   const router = useRouter()
+  const [openSection, setOpenSection] = useState<string | null>('contact')
 
   const goTo = (path: string) => {
     router.push(`/${lang}/${path}`)
+  }
+
+  const toggleSection = (section: string) => {
+    setOpenSection(openSection === section ? null : section)
   }
 
   return (
     <footer className="border-t border-[#BFBFBF] w-full justify-center items-center">
       <div className="andes-contenido">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-          <div className="space-y-4">
-            <h3 className="tracking-widest opacity-70">
-              {lang === 'es' ? 'CONTACTOS' : 'CONTACT'}
-            </h3>
-            <div className="text-sm space-y-2">
+          <div className="space-y-4 border-b md:border-none pb-4 md:pb-0">
+            <div
+              className="flex justify-between items-center cursor-pointer"
+              onClick={() => toggleSection('contact')}
+            >
+              <h3 className="tracking-widest opacity-70">
+                {lang === 'es' ? 'CONTACTOS' : 'CONTACT'}
+              </h3>
+              <span className="md:hidden">
+                {openSection === 'contact' ? '−' : '+'}
+              </span>
+            </div>
+
+            <div className={`${openSection === 'contact' ? 'block' : 'hidden'} md:block text-sm space-y-2`}>
               <p>
-                <b>{lang === 'es' ? 'Razón social:' : 'Company name:'}{' '}</b>
-                {home?.companyName}
+                <b>{lang === 'es' ? 'Razón social:' : 'Company name:'} </b>
+                {home?.businessName}
               </p>
               <p>
-                <b>{lang === 'es' ? 'RUC:' : 'RUC:'}{' '}</b>
+                <b>RUC: </b>
                 {home?.ruc}
               </p>
               <p>
-                <b>{lang === 'es' ? 'Reservas:' : 'Reservations:'}{' '}</b>
-                <a href={`mailto:${home?.email?.replace(/\s+/g, '')}`}
+                <b>{lang === 'es' ? 'Reservas:' : 'Reservations:'} </b>
+                <a
+                  href={`mailto:${home?.email?.replace(/\s+/g, '')}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="opacity-80 hover:opacity-100 hover:underline transition">
+                  className="opacity-80 hover:underline"
+                >
                   {home?.email}
                 </a>
               </p>
               <p>
-                <b>{lang === 'es' ? 'Teléfono / WhatsApp:' : 'Phone / WhatsApp:'}{' '}</b>
-                <a href={`https://wa.me/${home?.phone?.replace(/\s+/g, '')}`}
+                <b>{lang === 'es' ? 'Teléfono / WhatsApp:' : 'Phone / WhatsApp:'} </b>
+                <a
+                  href={`https://wa.me/${home?.phone?.replace(/\s+/g, '')}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="opacity-80 hover:opacity-100 hover:underline transition">
+                  className="opacity-80 hover:underline"
+                >
                   {home?.phone}
                 </a>
               </p>
               <p>
-              <b>{lang === 'es' ? 'Dirección:' : 'Address:'}{' '}</b>
+                <b>{lang === 'es' ? 'Dirección:' : 'Address:'} </b>
                 {home?.address}
               </p>
-            </div>
-            <button
+
+              <button
                 onClick={() => goTo('contact-us')}
-                className="
-                    relative mt-3 px-5 py-2 border border-black
-                    text-sm text-black overflow-hidden rounded-none
-                    transition-colors duration-300
-                    before:content-[''] before:absolute before:top-0 before:left-0
-                    before:h-full before:w-0 before:bg-black
-                    before:transition-all before:duration-300
-                    before:z-0
-                    hover:before:w-full
-                    hover:text-white
-                "
-                >
+                className="relative mt-3 px-5 py-2 border border-black text-sm text-black overflow-hidden transition-colors duration-300 before:absolute before:top-0 before:left-0 before:h-full before:w-0 before:bg-black before:transition-all before:duration-300 hover:before:w-full hover:text-white"
+              >
                 <span className="relative z-10">
-                    {lang === 'es' ? 'CONTACTAR AHORA' : 'CONTACT NOW'}
+                  {lang === 'es' ? 'CONTACTAR AHORA' : 'CONTACT NOW'}
                 </span>
-            </button>
+              </button>
+            </div>
           </div>
 
-          <div className="space-y-4">
-            <h3 className="tracking-widest opacity-70">
-              {lang === 'es' ? 'AYUDA' : 'HELP'}
-            </h3>
-            <ul className="space-y-2 text-sm">
+          <div className="space-y-4 border-b md:border-none pb-4 md:pb-0">
+            <div
+              className="flex justify-between items-center cursor-pointer"
+              onClick={() => toggleSection('help')}
+            >
+              <h3 className="tracking-widest opacity-70">
+                {lang === 'es' ? 'AYUDA' : 'HELP'}
+              </h3>
+              <span className="md:hidden">
+                {openSection === 'help' ? '−' : '+'}
+              </span>
+            </div>
+
+            <ul className={`${openSection === 'help' ? 'block' : 'hidden'} md:block space-y-2 text-sm`}>
               <li onClick={() => goTo('contact-us')} className="cursor-pointer hover:underline">
                 {lang === 'es' ? 'Contáctenos' : 'Contact us'}
               </li>
@@ -91,11 +110,20 @@ export default function Footer({ lang, home }: Props) {
             </ul>
           </div>
 
-          <div className="space-y-4">
-            <h3 className="tracking-widest opacity-70">
-              {lang === 'es' ? 'COMPAÑÍA' : 'COMPANY'}
-            </h3>
-            <ul className="space-y-2 text-sm">
+          <div className="space-y-4 border-b md:border-none pb-4 md:pb-0">
+            <div
+              className="flex justify-between items-center cursor-pointer"
+              onClick={() => toggleSection('company')}
+            >
+              <h3 className="tracking-widest opacity-70">
+                {lang === 'es' ? 'COMPAÑÍA' : 'COMPANY'}
+              </h3>
+              <span className="md:hidden">
+                {openSection === 'company' ? '−' : '+'}
+              </span>
+            </div>
+
+            <ul className={`${openSection === 'company' ? 'block' : 'hidden'} md:block space-y-2 text-sm`}>
               <li onClick={() => goTo('about-us')} className="cursor-pointer hover:underline">
                 {lang === 'es' ? 'Sobre Andes' : 'About Andes'}
               </li>
@@ -114,11 +142,20 @@ export default function Footer({ lang, home }: Props) {
             </ul>
           </div>
 
-          <div className="space-y-4">
-            <h3 className="tracking-widest opacity-70">
-              {lang === 'es' ? 'LEGAL' : 'LEGAL'}
-            </h3>
-            <ul className="space-y-2 text-sm">
+          <div className="space-y-4 border-b md:border-none pb-4 md:pb-0">
+            <div
+              className="flex justify-between items-center cursor-pointer"
+              onClick={() => toggleSection('legal')}
+            >
+              <h3 className="tracking-widest opacity-70">
+                {lang === 'es' ? 'LEGAL' : 'LEGAL'}
+              </h3>
+              <span className="md:hidden">
+                {openSection === 'legal' ? '−' : '+'}
+              </span>
+            </div>
+
+            <ul className={`${openSection === 'legal' ? 'block' : 'hidden'} md:block space-y-2 text-sm`}>
               <li onClick={() => goTo('terms-conditions')} className="cursor-pointer hover:underline">
                 {lang === 'es' ? 'Términos y condiciones' : 'Terms & Conditions'}
               </li>
@@ -139,14 +176,8 @@ export default function Footer({ lang, home }: Props) {
               {lang === 'es' ? 'Síguenos en' : 'Follow us'}
             </p>
             <div className="flex gap-4">
-              {home?.socialLinks?.map((social: any, i: number) => (
-                <a
-                  key={i}
-                  href={social.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:opacity-70 transition border p-2 border-[#BFBFBF] rounded-full"
-                >
+              {home?.socials?.map((social: any, i: number) => (
+                <a key={i} href={social.url} target="_blank">
                   <img src={social.icon} className="h-5 w-5" />
                 </a>
               ))}
@@ -158,9 +189,13 @@ export default function Footer({ lang, home }: Props) {
               {lang === 'es' ? 'Métodos de pago' : 'Payment methods'}
             </p>
             <div className="flex gap-4 items-center flex-wrap">
-              <img src="/images/footer/visa.svg" className="h-12" />
-              <img src="/images/footer/mastercard.svg" className="h-12" />
-              <img src="/images/footer/paypal.svg" className="h-12" />
+              {home?.paymentMethods?.map((method: any, i: number) => (
+                <img
+                  key={i}
+                  src={method.icon}
+                  className="h-10 object-contain"
+                />
+              ))}
             </div>
           </div>
         </div>

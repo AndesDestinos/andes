@@ -1,6 +1,6 @@
 import {urlFor} from '@/lib/sanity.image'
 
-export default function SummarySection({summary, title, category, rating, lang}: any) {
+export default function SummarySection({summary, title, price, category, rating, lang}: any) {
   return (
     <section id="resumen">
       <div className="andes-contenido">
@@ -13,7 +13,7 @@ export default function SummarySection({summary, title, category, rating, lang}:
             <div className='flex justify-between gap-7'>
               <div className='flex flex-col'>
                 <span>{ lang === 'es' ? 'Desde' : 'From' }</span>
-                <span className='text-[36px] font-medium'>{ '$1400' }</span>
+                <span className='text-[36px] font-medium'>{ `$${price}` }</span>
                 <span>{ lang === 'es' ? 'por persona' : 'per person' }</span>
               </div>
               <div className='flex items-center w-[170px]'>

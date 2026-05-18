@@ -73,9 +73,7 @@ export default function StoreGrid({ products, categories, lang }: any) {
               </h3>
 
               <p className="text-gray-500">
-                {lang === 'en'
-                  ? `$${product.price?.usd}`
-                  : `S/ ${product.price?.pen}`}
+                { `$${product.price}` }
               </p>
             </div>
           </div>

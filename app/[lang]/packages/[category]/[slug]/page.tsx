@@ -65,6 +65,7 @@ export default async function PackagePage({
             <SummarySection 
                 summary={paquete.summary} 
                 title={paquete.title}
+                price={paquete.price}
                 category={paquete.category?.title}
                 rating={paquete.rating}
                 lang={lang} />

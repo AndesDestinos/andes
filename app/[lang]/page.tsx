@@ -5,6 +5,7 @@ import { client } from "@/lib/sanity.client";
 import StrengthsSection from "@/components/home/StrengthsSection";
 import FeaturedToursSection from "@/components/home/FeaturedToursSection";
 import BlogSection from "@/components/home/BlogSection";
+import FeaturedOtherssSection from "@/components/home/FeaturedOthersSection";
 
 
 export default async function HomePage({params}: any) {
@@ -23,6 +24,21 @@ export default async function HomePage({params}: any) {
 
   const featuredTours = await client.fetch(`
     *[_type == "tours" && featured == true]{
+      _id,
+      title,
+      slug,
+      durationLabel,
+      destinations,
+      mainImage,
+      category->{
+        title,
+        slug
+      }
+    }
+  `)
+
+  const featuredOthers = await client.fetch(`
+    *[_type in ["travelPackage", "experiences"] && featured == true]{
       _id,
       title,
       slug,
@@ -100,6 +116,10 @@ export default async function HomePage({params}: any) {
 
       <div className="andes-contenido-pequenio">
         <TripSection data={homeData.yourTripSection} lang={lang} />
+      </div>
+
+      <div className="andes-contenido">
+        <FeaturedOtherssSection tours={featuredOthers} lang={lang} />
       </div>
 
       <div className="andes-contenido">

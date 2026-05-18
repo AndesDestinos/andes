@@ -6,17 +6,21 @@
 
 /* estilos globales*/
 h1 {
-  font-size: 45px;
+  font-size: 60px;
   text-transform: uppercase;
 }
 h2 {
-  font-size: 36px;
+  font-size: 40px;
 }
 h3 {
-  font-size: 27px;
+  font-size: 20px;
 }
 h4 {
-  font-size: 20px;
+  font-size: 16px;
+}
+
+p, span {
+  font-size: 12px;
 }
 
 .andes-contenido {

@@ -50,23 +50,47 @@ export default async function Layout({
   `)
 
   const home = await client.fetch(`
-    *[_type == "homePage"][0]{
-      socialLinks[]{
-        "icon": icon.asset->url,
-        url
-      },
-      companyName,
-      ruc,
-      email,
-      phone,
-      address,
+*[_type == "siteSettings"][0]{
+  logoLight{
+    asset->{
+      url
     }
-  `)
+  },
+  logoDark{
+    asset->{
+      url
+    }
+  },
+  storeLogoLight{
+    asset->{
+      url
+    }
+  },
+  storeLogoDark{
+    asset->{
+      url
+    }
+  },
+  businessName,
+  ruc,
+  email,
+  phone,
+  address,
+  socials[]{
+    "icon": icon.asset->url,
+    url
+  },
+  paymentMethods[]{
+    "icon": asset->url
+  }
+}
+`)
 
   return (
     <>
       <Header
         lang={lang}
+        settings={home}
         tours={tours}
         packages={packages}
         experiences={experiences}
