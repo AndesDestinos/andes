@@ -6,7 +6,7 @@ import BlogTabs from './BlogTabs'
 import FeaturedWithCarousel from './FeaturedWithCarousel'
 import CategoryRow from './CategoryRow'
 
-export default function BlogClient({ categories, lang }: any) {
+export default function BlogClient({ categories, lang, hero }: any) {
   const [active, setActive] = useState(
     categories?.[0]?.slug?.current
   )
@@ -17,7 +17,7 @@ export default function BlogClient({ categories, lang }: any) {
 
   return (
     <main>
-      <BlogHero lang={lang} />
+      <BlogHero lang={lang} hero={hero} />
 
       <BlogTabs
         categories={categories}

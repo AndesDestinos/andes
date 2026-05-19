@@ -1,10 +1,11 @@
 'use client'
 
+import { urlFor } from '@/lib/sanity.image'
 import { useEffect, useState } from 'react'
 
 type Language = 'en' | 'es'
 
-export default function TravelPlannerForm({ language }: { language: Language }) {
+export default function TravelPlannerForm({ language, hero }: { language: Language, hero: any }) {
     const [activeSection, setActiveSection] = useState<number | null>(0)
 
     const [destinations, setDestinations] = useState<string[]>([])
@@ -224,11 +225,11 @@ export default function TravelPlannerForm({ language }: { language: Language }) 
     return (
         <>
             <section className="relative h-[40vh] sm:h-[50vh] md:h-[60vh] w-full">
-                <img src="/images/forms/planificar.webp" className="w-full h-full object-cover"/>
+                <img src={hero?.image ? urlFor(hero.image).url() : '/images/share/noImage.jpg'} className="w-full h-full object-cover"/>
                 <div className="absolute inset-0 bg-black/50"></div>
                 <div className="absolute inset-0 flex items-center justify-center">
                     <h1 className="text-white text-2xl sm:text-3xl md:text-5xl tracking-widest text-center px-4">
-                        {texto.hero}
+                        {hero?.title?.[language]}
                     </h1>
                 </div>
             </section>

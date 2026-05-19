@@ -5,6 +5,14 @@
 }
 
 /* estilos globales*/
+body {
+  font-family: var(--font-metropolis);
+}
+
+h2, h3 {
+  font-family: var(--font-bodoni);
+}
+
 h1 {
   font-size: 60px;
   text-transform: uppercase;

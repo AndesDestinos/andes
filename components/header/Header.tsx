@@ -66,9 +66,9 @@ export default function Header({
   }
 
   const logoLight = settings?.logoLight?.asset?.url
-const logoDark = settings?.logoDark?.asset?.url
-const storeLogoLight = settings?.storeLogoLight?.asset?.url
-const storeLogoDark = settings?.storeLogoDark?.asset?.url
+  const logoDark = settings?.logoDark?.asset?.url
+  const storeLogoLight = settings?.storeLogoLight?.asset?.url
+  const storeLogoDark = settings?.storeLogoDark?.asset?.url
   const currentLogo = (isScrolled || mobileOpen)
     ? logoDark
     : logoLight

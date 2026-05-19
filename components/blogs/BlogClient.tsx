@@ -1,11 +1,28 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { urlFor } from '@/lib/sanity.image'
+import { useRouter } from 'next/navigation'
 
 export default function BlogClient({ data, lang }: any) {
+    const router = useRouter()
+    const lastScroll = useRef(0)
     const [progress, setProgress] = useState(0)
     const [showIndex, setShowIndex] = useState(false)
+    const [showLayoutHeader, setShowLayoutHeader] = useState(false)
+
+    const handleShare = async () => {
+        if (navigator.share) {
+            await navigator.share({
+            title: data.headline?.[lang],
+            text: data.headline?.[lang],
+            url: window.location.href,
+            })
+        } else {
+            navigator.clipboard.writeText(window.location.href)
+            alert('Link copiado')
+        }
+    }
 
     useEffect(() => {
         const handleScroll = () => {
@@ -21,17 +38,70 @@ export default function BlogClient({ data, lang }: any) {
         return () => window.removeEventListener('scroll', handleScroll)
     }, [])
 
+    useEffect(() => {
+        const handleScroll = () => {
+            const current = window.scrollY
+
+            if (current < lastScroll.current) {
+                setShowLayoutHeader(true) // aparece
+            } else {
+                setShowLayoutHeader(false) // desaparece
+            }
+
+            lastScroll.current = current
+        }
+
+        window.addEventListener("scroll", handleScroll)
+        return () => window.removeEventListener("scroll", handleScroll)
+    }, [])
+
     if (!data) return null
 
     return (
+        <div className='w-full'>
+            <section className="relative w-full h-[60vh]">
+                <img
+                    src={data?.mainImage ? urlFor(data.mainImage).url() : '/images/share/noImage.jpg'}
+                    className="absolute inset-0 w-full h-full object-cover"
+                />
+
+                <div className="absolute inset-0 bg-black/40" />
+
+                <div className="relative z-10 flex items-center justify-center h-full">
+                    <h1 className="text-white text-3xl md:text-5xl text-center px-4">
+                    {data.headline?.[lang]}
+                    </h1>
+                </div>
+            </section>
         <div className="bg-white scroll-smooth">
-            <div className="sticky top-0 z-50 bg-white">
+            <div
+                className="sticky z-40 bg-white transition-all duration-300"
+                style={{
+                    top: showLayoutHeader ? "82px" : "0px",
+                }}
+            >
                 <div className="flex justify-between px-6 py-4 text-sm">
-                    <span>← VOLVER</span>
+                    <button
+                        onClick={() => {
+                        if (window.history.length > 1) {
+                            router.back()
+                        } else {
+                            router.push('/blogs')
+                        }
+                        }}
+                        className="hover:opacity-60 transition cursor-pointer"
+                    >
+                        ← VOLVER
+                    </button>
                     <span className="hidden md:block truncate max-w-[400px]">
                         {data.headline?.[lang]}
                     </span>
-                    <span>{ lang === 'es' ? 'COMPARTIR' : 'SHARE' }</span>
+                    <button
+                        onClick={handleShare}
+                        className="hover:opacity-60 transition cursor-pointer"
+                    >
+                        { lang === 'es' ? 'COMPARTIR' : 'SHARE' }
+                    </button>
                 </div>
                 <div className="h-[2px] bg-gray-200">
                     <div
@@ -186,6 +256,7 @@ export default function BlogClient({ data, lang }: any) {
                     </div>
                 </div>
             </section>
+        </div>
         </div>
     )
 }

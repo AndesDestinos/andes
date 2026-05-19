@@ -1,10 +1,11 @@
 'use client'
 
+import { urlFor } from '@/lib/sanity.image'
 import { useState, useEffect } from 'react'
 
 type Language = 'en' | 'es'
 
-export default function ContactUsForm({ language }: { language: Language }) {
+export default function ContactUsForm({ language, hero }: { language: Language, hero: any }) {
   const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState<Record<string, boolean>>({})
     const [toast, setToast] = useState<{
@@ -115,10 +116,18 @@ export default function ContactUsForm({ language }: { language: Language }) {
     setLoading(false)
   }
 
+  const getCalendlyUrl = () => {
+    const date = new Date()
+    date.setDate(date.getDate() + 3)
+    date.setHours(10, 0, 0, 0)
+    const iso = date.toISOString()
+    return `https://calendly.com/dominick-santariga/30min?date=${iso}`
+  }
+
     useEffect(() => {
         if (!toast) return
 
-        const timer = setTimeout(() => {
+        const timer = setTimeout(() => {{hero?.title?.[language]}
             setToast(null)
         }, 2000)
 
@@ -129,13 +138,13 @@ export default function ContactUsForm({ language }: { language: Language }) {
     <>
         <section className="relative h-[40vh] sm:h-[50vh] md:h-[60vh] w-full">
             <img
-                src="/images/forms/contactenos.webp"
+                src={hero?.image ? urlFor(hero.image).url() : '/images/share/noImage.jpg'}
                 className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-black/50"></div>
             <div className="absolute inset-0 flex items-center justify-center">
                 <h1 className="text-white text-center">
-                    {texto.titlePage}
+                    {hero?.title?.[language]}
                 </h1>
             </div>
         </section>
@@ -167,10 +176,15 @@ export default function ContactUsForm({ language }: { language: Language }) {
                     <h4 className="font-semibold">{texto.talk}</h4>
                     <p className="text-sm text-gray-600">{texto.talkDesc}</p>
                     <div className='w-full justify-center'>
-                        <button className="cursor-pointer relative overflow-hidden border border-black px-6 py-3 text-sm text-black group transition-colors duration-300 hover:text-white">
+                        <a
+                            href={getCalendlyUrl()}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="cursor-pointer relative overflow-hidden border border-black px-6 py-3 text-sm text-black group transition-colors duration-300 hover:text-white inline-block"
+                        >
                             <span className="relative z-10">{texto.meet}</span>
                             <span className="absolute inset-0 bg-black scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100"></span>
-                        </button>
+                        </a>
                     </div>
                 </div>
 
@@ -187,10 +201,12 @@ export default function ContactUsForm({ language }: { language: Language }) {
                     <h4 className="font-semibold">{texto.call}</h4>
                     <p className="text-sm text-gray-600">{texto.callDesc}</p>
                     <div className='w-full justify-center'>
-                        <button className="cursor-pointer relative overflow-hidden border border-black px-6 py-2 text-sm text-black group transition-colors duration-300 hover:text-white">
+                        <a href="tel:+51900 111 114"
+                            className="cursor-pointer relative overflow-hidden border border-black px-6 py-2 text-sm text-black group 
+                            transition-colors duration-300 hover:text-white inline-block">
                             <span className="relative z-10">{texto.request}</span>
                             <span className="absolute inset-0 bg-black scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100"></span>
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>

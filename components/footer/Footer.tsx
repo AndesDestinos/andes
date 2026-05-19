@@ -136,8 +136,8 @@ export default function Footer({ lang, home }: Props) {
               <li onClick={() => goTo('esnna')} className="cursor-pointer hover:underline">
                 {lang === 'es' ? 'Código ESNNA' : 'ESNNA Code'}
               </li>
-              <li>
-                <img src="/images/footer/protegeme.svg" className="w-20 h-auto" />
+              <li onClick={() => goTo('esnna')}>
+                <img src="/images/footer/protegeme.svg" className="w-20 h-auto cursor-pointer" />
               </li>
             </ul>
           </div>

@@ -23,6 +23,12 @@ const QUERY = `
 export default async function BlogPage({ params }: any) {
   const { lang } = await params;
 
+  const hero = `*[_type == "blogPage"][0]{
+    title,
+    image,
+  }`;
+
+  const heroData = await client.fetch(hero);
   const data = await client.fetch(QUERY);
 
   const categories = data.categories.map((cat: any) => ({
@@ -31,9 +37,6 @@ export default async function BlogPage({ params }: any) {
       (post: any) => post.categoryId === cat._id
     )
   }));
-  
-  console.log(data);
-  console.log(categories);
 
-  return <BlogClientGeneral categories={categories} lang={lang} />
+  return <BlogClientGeneral categories={categories} lang={lang} hero={heroData} />
 }

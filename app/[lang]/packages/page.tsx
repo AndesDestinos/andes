@@ -5,15 +5,6 @@ import { client } from "@/lib/sanity.client"
 import BlogSection from "@/components/packages/general/BlogSection"
 
 export default async function Page({ params }: any) {
-  const titulo = {
-    es: {
-      title: "Paquetes",
-    },
-    en: {
-      title: "Packages",
-    },
-  }
-
   const packagesByCategoryQuery = `
     *[_type == "category" && type == "package"]{
     _id,
@@ -28,6 +19,10 @@ export default async function Page({ params }: any) {
     }
     }
     `
+  const hero = `*[_type == "packagePage"][0]{
+    title,
+    image,
+  }`;
   const blogsQuery = `
     *[_type == "blogPost" && featured == true] | order(publishedAt desc){
     _id,
@@ -45,12 +40,13 @@ export default async function Page({ params }: any) {
 
   const { lang } = await params;
 
+  const heroData = await client.fetch(hero);
   const categories = await client.fetch(packagesByCategoryQuery);
   const blogs = await client.fetch(blogsQuery);
 
   return (
     <main>
-      <HeroSection lang={lang} titulo={titulo} />
+      <HeroSection lang={lang} hero={heroData} />
       <WhyChooseUs lang={lang} />
       <PackagesSection categories={categories} lang={lang} />
       <BlogSection posts={blogs} lang={lang} />

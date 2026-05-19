@@ -1,10 +1,11 @@
 'use client'
 
+import { urlFor } from '@/lib/sanity.image'
 import { useState, useEffect } from 'react'
 
 type Language = 'en' | 'es'
 
-export default function ComplaintsBookForm({ language }: { language: Language }) {
+export default function ComplaintsBookForm({ language, hero }: { language: Language, hero: any }) {
     const [loading, setLoading] = useState(false)
     const [errors, setErrors] = useState<Record<string, boolean>>({})
     const [toast, setToast] = useState<{
@@ -150,13 +151,13 @@ export default function ComplaintsBookForm({ language }: { language: Language })
         <>
             <section className="relative h-[40vh] sm:h-[50vh] md:h-[60vh] w-full">
                 <img
-                    src="/images/forms/reclamaciones.webp"
+                    src={hero?.image ? urlFor(hero.image).url() : '/images/share/noImage.jpg'}
                     className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-black/50"></div>
                 <div className="absolute inset-0 flex items-center justify-center">
                     <h1 className="text-white text-center tracking-widest">
-                        {texto.hero}
+                        {hero?.title?.[language]}
                     </h1>
                 </div>
             </section>

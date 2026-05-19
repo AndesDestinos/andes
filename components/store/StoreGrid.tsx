@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { urlFor } from '@/lib/sanity.image'
 
-export default function StoreGrid({ products, categories, lang }: any) {
+export default function StoreGrid({ hero, products, categories, lang }: any) {
 
   const [activeCategory, setActiveCategory] = useState(
     categories?.[0]?._id
@@ -17,6 +17,21 @@ export default function StoreGrid({ products, categories, lang }: any) {
     : products
 
   return (
+    <div className='w-full'>
+    <section className="relative w-full h-[60vh]">
+      <img
+        src={hero?.image ? urlFor(hero.image).url() : '/images/share/noImage.jpg'}
+        className="absolute inset-0 w-full h-full object-cover"
+      />
+
+      <div className="absolute inset-0 bg-black/50" />
+
+      <div className="relative z-10 flex items-center justify-center h-full">
+        <h1 className="text-white text-3xl md:text-5xl text-center px-4">
+          {hero?.title?.[lang]}
+        </h1>
+      </div>
+    </section>
     <section className="andes-contenido">
       <div className="mb-10">
         <h1 className="font-light">
@@ -80,5 +95,6 @@ export default function StoreGrid({ products, categories, lang }: any) {
         ))}
       </div>
     </section>
+    </div>
   )
 }

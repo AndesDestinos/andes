@@ -47,7 +47,8 @@ export default async function HomePage({params}: any) {
       mainImage,
       category->{
         title,
-        slug
+        slug,
+        type,
       }
     }
   `)

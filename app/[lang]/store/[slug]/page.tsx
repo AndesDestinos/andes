@@ -3,7 +3,6 @@ import { client } from "@/lib/sanity.client";
 
 export default async function ProductPage({ params }: any) {
   const { lang, slug } = await params;
-  console.log(slug);
 
   const product = await client.fetch(
     `
