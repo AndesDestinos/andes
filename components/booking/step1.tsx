@@ -78,20 +78,18 @@ export default function Step1({ form, setForm, next }: any) {
 
   return (
     <BookingLayout form={form}>
-
-      {/* HEADER */}
-      <div className="flex items-center justify-center gap-6 mb-10 text-sm">
+      <div className="flex items-center justify-center gap-6 mb-10 p-12 border-b border-b-2">
+        <img src='/images/booking/logo.svg' />
         <div className="flex items-center gap-2">
-          <div className="w-6 h-6 bg-black text-white rounded-full flex items-center justify-center text-xs">1</div>
+          <div className="w-7 h-7 bg-black text-white rounded-full flex items-center justify-center">1</div>
           <span className="font-medium">FECHA</span>
         </div>
-        <div className="w-10 h-[1px] bg-gray-300"/>
+        <div className="w-10 h-[1px] bg-black"/>
         <div className="text-gray-400">2 INFORMACIÓN</div>
-        <div className="w-10 h-[1px] bg-gray-300"/>
+        <div className="w-10 h-[1px] bg-black"/>
         <div className="text-gray-400">3 PAGAR</div>
       </div>
 
-      {/* resto igual */}
       <div className="border p-6 mb-6 bg-white">
         <h3 className="text-xs tracking-widest mb-4">
           SELECCIONA TU TOUR

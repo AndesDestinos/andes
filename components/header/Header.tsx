@@ -126,7 +126,7 @@ export default function Header({
       className="cursor-pointer"
       onClick={() => setMobileOpen(!mobileOpen)}
     >
-      ☰
+      <img src="/images/header/menu.svg" className="w-7 h-auto cursor-pointer" />
     </div>
 
     <div
@@ -136,7 +136,7 @@ export default function Header({
       <img
   src={currentLogo}
   alt="Logo"
-  className="h-3 w-auto"
+  className="h-5 w-auto"
 />
     </div>
   </div>
@@ -156,7 +156,7 @@ export default function Header({
     <img
       src={currentLogo}
       alt="Andes Logo"
-      className="h-3 w-auto"
+      className="h-5 w-auto"
     />
   </div>
 
@@ -324,12 +324,12 @@ export default function Header({
     <div className="flex-1 overflow-y-auto">
       <div className="flex justify-between items-center px-6 py-5 border-b border-black/10">
         <button onClick={() => setMobileOpen(false)} className="text-xl">
-          ✕
+          <img src="/images/header/close.svg" className="w-7 h-auto cursor-pointer" />
         </button>
 
         <img
   src={logoDark}
-  className="h-4"
+  className="h-5 w-auto"
 />
 
         <div className="w-5" />
@@ -337,12 +337,12 @@ export default function Header({
 
       <div className="px-6 py-5 border-b border-black/10 flex items-center justify-between">
         <div className="flex items-center gap-3 text-sm tracking-widest">
-          <span>🔍</span>
+          <img src="/images/header/search.svg" className="w-7 h-auto cursor-pointer" />
           <span className="uppercase opacity-70">
             {lang === "es" ? "Buscar" : "Search"}
           </span>
         </div>
-        <span className="text-lg">✕</span>
+        <img src="/images/header/close.svg" className="w-7 h-auto cursor-pointer" />
       </div>
 
       <div className="px-6 py-6 flex flex-col gap-6 text-sm tracking-widest">
@@ -452,7 +452,7 @@ export default function Header({
     onClick={() => { goTo('store'); setMobileOpen(false) }}
     className="flex items-center gap-2"
   >
-    <img src={currentStoreLogo} className="h-4" />
+    <img src={currentStoreLogo} className="h-5 w-auto" />
     <span>{lang === "es" ? "TIENDA" : "STORE"}</span>
   </div>
 
@@ -506,15 +506,15 @@ export default function Header({
     <div className="px-6 pb-6">
 
       <div className="flex justify-between text-xs tracking-widest mb-4">
-        <div className="flex items-center gap-2 opacity-70">
-          <span>✉</span>
+        <a href="mailto:hola@andes.travel" className="flex items-center gap-2 opacity-70">
+          <img src="/images/header/email.svg" className="w-7 h-auto cursor-pointer" />
           <span>{lang === "es" ? "CONTACTAR" : "CONTACT"}</span>
-        </div>
+        </a>
 
-        <div className="flex items-center gap-2 opacity-70">
-          <span>📞</span>
+        <a href="tel:+51900111114" className="flex items-center gap-2 opacity-70">
+          <img src="/images/header/phone.svg" className="w-7 h-auto cursor-pointer" />
           <span>{lang === "es" ? "LLAMAR AHORA" : "CALL NOW"}</span>
-        </div>
+        </a>
       </div>
 
       <div

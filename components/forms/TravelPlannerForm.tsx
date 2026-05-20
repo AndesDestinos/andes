@@ -24,6 +24,8 @@ export default function TravelPlannerForm({ language, hero }: { language: Langua
     const [message, setMessage] = useState('')
     const [loading, setLoading] = useState(false)
 
+    const [submitted, setSubmitted] = useState(false)
+
     const [toast, setToast] = useState<{
     message: string
     type: 'success' | 'error'
@@ -142,8 +144,13 @@ export default function TravelPlannerForm({ language, hero }: { language: Langua
         }
     }[language]
 
+    const currentYear = new Date().getFullYear();
+    const years = [currentYear, currentYear + 1];
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth();
+
     const chip = (active: boolean) =>
-        `px-4 py-2 rounded-full border text-sm transition ${
+        `p-2 rounded-[15px] border text-sm transition ${
             active
                 ? 'border-black bg-[#F5F2EB]'
                 : 'border-gray-300 bg-white hover:border-black'
@@ -194,6 +201,7 @@ export default function TravelPlannerForm({ language, hero }: { language: Langua
                     message: messages[language].success,
                     type: 'success'
                 })
+                setSubmitted(true)
                 resetForm()
             } else {
                 setToast({
@@ -234,6 +242,47 @@ export default function TravelPlannerForm({ language, hero }: { language: Langua
                 </div>
             </section>
 
+            {submitted ? (
+            <section className="w-full py-20 flex flex-col items-center justify-center text-center">
+                <h2 className="text-xl md:text-3xl font-serif mb-4">
+                {texto.title}
+                </h2>
+
+                <h4 className="text-gray-600 mb-12">
+                {texto.subtitle}
+                </h4>
+
+                <div className="relative flex items-center justify-center">
+
+                <img
+                    src="/images/forms/planning1.jpg"
+                    className="w-36 h-36 md:w-60 md:h-60 object-cover rounded-full absolute left-[-80px] md:left-[-175px]"
+                />
+
+                <div className="w-60 h-60 md:w-90 md:h-90 p-5 md:p-12 gap-2 md:gap-7 rounded-full z-1 flex flex-col items-center justify-center bg-white shadow-md">
+                    <div className="w-12 h-12 rounded-full border border-green-400 flex items-center justify-center mb-4 text-green-500 text-xl">
+                    ✓
+                    </div>
+
+                    <h3 className="text-xs md:text-sm tracking-widest mb-2 px-4">
+                    {language === 'es'
+                        ? 'TU PLAN DE VIAJE FUE ENVIADO CON ÉXITO'
+                        : 'YOUR TRAVEL PLAN WAS SENT SUCCESSFULLY'}
+                    </h3>
+
+                    <p className="text-xs text-gray-600 px-6">
+                    {language === 'es'
+                        ? 'Nuestro equipo se pondrá en contacto lo antes posible.'
+                        : 'Our team will contact you as soon as possible.'}
+                    </p>
+                </div>
+                <img
+                    src="/images/forms/planning2.jpg"
+                    className="w-36 h-36 md:w-60 md:h-60 object-cover rounded-full absolute right-[-80px] md:right-[-175px]"
+                />
+                </div>
+            </section>
+            ) : (
             <section className="w-full mt-12">
                 {toast && (
                     <div
@@ -246,7 +295,7 @@ export default function TravelPlannerForm({ language, hero }: { language: Langua
                         {toast.message}
                     </div>
                 )}
-                <form onSubmit={handleSubmit} className="andes-contenido">
+                <form onSubmit={handleSubmit} className="andes-contenido-pequenio">
                     <div className="text-center mb-10">
                         <h2 className="text-xl md:text-3xl font-serif">{texto.title}</h2>
                         <p className="text-gray-600 mt-3 text-sm">{texto.subtitle}</p>
@@ -295,10 +344,29 @@ export default function TravelPlannerForm({ language, hero }: { language: Langua
                     </div>
 
                     <Section title={texto.destinations} error={errors.step1} open={activeSection===0} onClick={()=>toggleSection(0)}>
-                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-                            {['Machu Picchu','Cusco','Valle Sagrado','Camino Inca','Lima','Cañón del Colca','Huacachina','Turismo Vivencial'].map(item => (
-                                <button type="button" key={item} onClick={()=>toggleMulti(item)} className={chip(destinations.includes(item))}>
-                                    {item}
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-12">
+                            {[
+                                { name: 'MACHU PICCHU', img: '/images/planning/machupicchu.jpg' },
+                                { name: 'CUSCO', img: '/images/planning/cusco.jpg' },
+                                { name: 'VALLE SAGRADO', img: '/images/planning/valleSagrado.jpg' },
+                                { name: 'HUACACHINA - ICA', img: '/images/planning/ica.jpg' },
+                                { name: 'PUNO', img: '/images/planning/puno.jpg' },
+                                { name: 'AREQUIPA', img: '/images/planning/arequipa.jpg' },
+                                { name: 'LIMA', img: '/images/planning/lima.jpg' },
+                                { name: 'TAMBOPATA', img: '/images/planning/tambopata.jpg' }
+                            ].map(item => (
+                                <button
+                                    type="button"
+                                    key={item.name}
+                                    onClick={() => toggleMulti(item.name)}
+                                    className={`${chip(destinations.includes(item.name))} flex items-center gap-3`}
+                                >
+                                    <img
+                                    src={item.img}
+                                    alt={item.name}
+                                    className="w-20 h-16 object-cover rounded-[15px]"
+                                    />
+                                    <span>{item.name}</span>
                                 </button>
                             ))}
                         </div>
@@ -316,19 +384,40 @@ export default function TravelPlannerForm({ language, hero }: { language: Langua
 
                     <Section title={texto.date} error={errors.step2} open={activeSection===2} onClick={()=>toggleSection(2)}>
                         <div className="flex gap-3 flex-wrap mb-4">
-                            {['2026','2027'].map(y => (
-                                <button type="button" key={y} onClick={()=>setYear(y)} className={chip(year===y)}>
+                            {years.map(y => (
+                                <button
+                                    type="button"
+                                    key={y}
+                                    onClick={() => setYear(y.toString())}
+                                    className={chip(year === y.toString())}
+                                >
                                     {y}
                                 </button>
                             ))}
                         </div>
                         {year && (
                             <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
-                                {texto.months.map(m => (
-                                    <button type="button" key={m} onClick={()=>setMonth(m)} className={chip(month===m)}>
+                                {texto.months.map((m, index) => {
+                                    const isCurrentYear = Number(year) === currentYear;
+
+                                    const isDisabled =
+                                        isCurrentYear && index < currentMonth;
+
+                                    return (
+                                        <button
+                                        key={m}
+                                        type="button"
+                                        disabled={isDisabled}
+                                        onClick={() => !isDisabled && setMonth(m)}
+                                        className={`
+                                            ${chip(month === m)}
+                                            ${isDisabled ? 'opacity-30 cursor-not-allowed' : ''}
+                                        `}
+                                        >
                                         {m}
-                                    </button>
-                                ))}
+                                        </button>
+                                    );
+                                })}
                             </div>
                         )}
                     </Section>
@@ -450,7 +539,7 @@ export default function TravelPlannerForm({ language, hero }: { language: Langua
                         </div>
                     </Section>
                 </form>
-            </section>
+            </section>)}
         </>
     )
 }

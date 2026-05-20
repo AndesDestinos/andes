@@ -2,14 +2,11 @@
 
 export default function BookingLayout({ children, form }: any) {
   return (
-    <div className="min-h-screen flex">
-
-      {/* LEFT */}
-      <div className="w-full lg:w-[70%] bg-[#f7f5f2] px-6 md:px-16 py-10">
+    <div className="flex w-full bg-[#f7f5f2]">
+      <div className="w-full andes-contenido-pequenio">
         {children}
       </div>
 
-      {/* RIGHT */}
       <div className="hidden lg:block w-[30%] relative">
         <img
           src="/images/booking/booking.webp"

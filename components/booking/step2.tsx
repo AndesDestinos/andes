@@ -12,11 +12,9 @@ const extrasList = [
 ];
 
 export default function Step2({ form, setForm, next, prev }: any) {
-
   const [openExtras, setOpenExtras] = useState<number | null>(null);
   const [openCard, setOpenCard] = useState<number | null>(0);
 
-  /* SINCRONIZA VIAJEROS */
   useEffect(() => {
     const nuevos = [...form.viajerosData];
 
@@ -32,14 +30,12 @@ export default function Step2({ form, setForm, next, prev }: any) {
 
   }, [form.viajeros]);
 
-  /* UPDATE INPUT */
   const update = (i: number, field: string, value: any) => {
     const arr = [...form.viajerosData];
     arr[i] = { ...arr[i], [field]: value };
     setForm({ ...form, viajerosData: arr });
   };
 
-  /* ELIMINAR */
   const removeViajero = (i: number) => {
     const arr = [...form.viajerosData];
     arr.splice(i, 1);
@@ -54,7 +50,6 @@ export default function Step2({ form, setForm, next, prev }: any) {
     setOpenExtras(null);
   };
 
-  /* AGREGAR */
   const addViajero = () => {
     setForm({
       ...form,
@@ -63,7 +58,6 @@ export default function Step2({ form, setForm, next, prev }: any) {
     });
   };
 
-  /* TOGGLE EXTRA */
   const toggleExtra = (i: number, id: number) => {
     const arr = [...form.viajerosData];
     const current = arr[i]?.extras || [];
@@ -79,8 +73,6 @@ export default function Step2({ form, setForm, next, prev }: any) {
 
   return (
     <BookingLayout form={form}>
-
-      {/* HEADER */}
       <div className="flex items-center justify-center gap-6 mb-10 text-sm">
         <div className="text-green-500">✓ FECHA</div>
         <div className="w-10 h-[1px] bg-gray-300"/>
@@ -97,13 +89,10 @@ export default function Step2({ form, setForm, next, prev }: any) {
       </h2>
 
       {viajeros.map((v: any, i: number) => {
-
         const isOpen = openCard === i;
-
         return (
           <div key={i} className="border bg-white mb-4 relative">
 
-            {/* HEADER CARD */}
             <div className="flex justify-between items-center p-4 border-b">
 
               <div className="font-medium">
@@ -112,7 +101,6 @@ export default function Step2({ form, setForm, next, prev }: any) {
 
               <div className="flex gap-2">
 
-                {/* ELIMINAR */}
                 <button
                   onClick={() => removeViajero(i)}
                   className="w-8 h-8 rounded-full border text-red-500"
@@ -120,7 +108,6 @@ export default function Step2({ form, setForm, next, prev }: any) {
                   ×
                 </button>
 
-                {/* TOGGLE */}
                 <button
                   onClick={() => setOpenCard(isOpen ? null : i)}
                   className="w-8 h-8 rounded-full border"
@@ -131,7 +118,6 @@ export default function Step2({ form, setForm, next, prev }: any) {
               </div>
             </div>
 
-            {/* BODY */}
             {isOpen && (
               <div className="p-6">
 
@@ -175,7 +161,6 @@ export default function Step2({ form, setForm, next, prev }: any) {
 
                 </div>
 
-                {/* ADICIONALES */}
                 <div className="mt-6 flex justify-end relative">
 
                   <button
@@ -190,7 +175,6 @@ export default function Step2({ form, setForm, next, prev }: any) {
 
     <div className="bg-white w-full max-w-md p-6 relative">
 
-      {/* CERRAR */}
       <button
         onClick={() => setOpenExtras(null)}
         className="absolute top-3 right-3 text-gray-500 text-lg"
@@ -246,7 +230,6 @@ export default function Step2({ form, setForm, next, prev }: any) {
         );
       })}
 
-      {/* AGREGAR VIAJERO */}
       <div className="flex justify-center my-6">
         <button
           onClick={addViajero}
@@ -256,7 +239,6 @@ export default function Step2({ form, setForm, next, prev }: any) {
         </button>
       </div>
 
-      {/* FOOTER */}
       <div className="flex justify-between mt-10">
         <button onClick={prev} className="border px-10 py-3 text-sm">
           ← VOLVER

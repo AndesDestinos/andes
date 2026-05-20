@@ -13,7 +13,6 @@ export default function PagoStep({ form, setForm, next, prev }: any) {
 
   return (
     <div className="flex min-h-screen bg-[#f7f7f5]">
-      {/* LEFT */}
       <div className="w-2/3 p-10">
         <h2 className="text-sm tracking-widest text-gray-500 mb-2">TOUR SELECCIONADO</h2>
         <h1 className="text-3xl font-semibold mb-2">Clásico camino inca a Machu Picchu</h1>
@@ -24,13 +23,11 @@ export default function PagoStep({ form, setForm, next, prev }: any) {
           <p className="text-sm text-gray-600">Verifique toda la información que proporcionó y a continuación pague.</p>
         </div>
 
-        {/* BOTONES PAGO */}
         <div className="flex gap-4 mb-6">
           <button className="border px-6 py-3 rounded">$ 350<br/>Pagar el 50%</button>
           <button className="border px-6 py-3 rounded">$ 700<br/>Pagar el total</button>
         </div>
 
-        {/* DONACION */}
         <div className="bg-[#efe6d2] p-6 rounded mb-6">
           <h4 className="font-semibold mb-2">Haz un viaje de impacto con una pequeña donación a la Fundación Andes</h4>
           <p className="text-sm text-gray-600 mb-4">Retribuya a las comunidades que visitará donando $1 por viajero.</p>
@@ -54,7 +51,6 @@ export default function PagoStep({ form, setForm, next, prev }: any) {
           </div>
         </div>
 
-        {/* ADICIONALES */}
         <div className="mb-6">
           <button
             onClick={() => setMostrarAdicionales(true)}
@@ -64,7 +60,6 @@ export default function PagoStep({ form, setForm, next, prev }: any) {
           </button>
         </div>
 
-        {/* MODAL */}
         {mostrarAdicionales && (
           <div className="fixed inset-0 bg-black/40 flex items-center justify-center">
             <div className="bg-white p-6 rounded w-[500px]">
@@ -94,14 +89,12 @@ export default function PagoStep({ form, setForm, next, prev }: any) {
           </div>
         )}
 
-        {/* PAYPAL */}
         <div className="border p-6 mb-6">
           <h4 className="mb-4">Pagar con PayPal</h4>
           <button className="w-full bg-yellow-400 py-3 mb-2">PayPal</button>
           <button className="w-full bg-black text-white py-3">Tarjeta de debito o crédito</button>
         </div>
 
-        {/* TARJETA */}
         <div className="border p-6 mb-6">
           <h4 className="mb-4">Pagar con tarjeta de crédito/debito</h4>
           <div className="grid grid-cols-2 gap-4">
@@ -118,7 +111,6 @@ export default function PagoStep({ form, setForm, next, prev }: any) {
         </div>
       </div>
 
-      {/* RIGHT */}
       <div className="w-1/3 bg-gray-200 p-6">
         <div className="bg-white p-6 rounded shadow">
           <h3 className="font-semibold mb-4">RESUMEN DEL TOUR</h3>
