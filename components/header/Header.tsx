@@ -184,7 +184,7 @@ export default function Header({
     />
   </div>
 
-        <div className="hidden md:flex items-center gap-7">
+        <div className="hidden md:flex items-center gap-5">
           <div
             onMouseEnter={() => openMenu('tours')}
             onMouseLeave={closeMenu}
@@ -197,7 +197,7 @@ export default function Header({
                 after:origin-center
                 after:scale-x-0
                 after:translate-x-[-50%]
-                after:transition-transform after:duration-300
+                after:transition-transform after:duration-300 
                 hover:after:scale-x-100">
               <span className='!tracking-[3px]'>TOURS</span>
             </div>
@@ -323,7 +323,7 @@ export default function Header({
 
           <div
             onClick={() => goTo('store')}
-            className="flex gap-3 items-center
+            className="flex gap-2 items-center
             relative cursor-pointer
             after:content-[''] after:absolute after:bottom-[-4px] after:left-1/2
             after:h-[1px] after:w-full after:bg-[#ABB8C3]
@@ -344,7 +344,7 @@ export default function Header({
         <div className="hidden md:flex items-center gap-6">
           <div
   onClick={() => goTo('booking')}
-  className={`
+  className={`!tracking-[3px]
     relative cursor-pointer px-6 py-2 overflow-hidden border
     transition-colors duration-300
     ${isScrolled ? 'border-black text-black' : 'border-white text-white'}
@@ -355,21 +355,21 @@ export default function Header({
     hover:before:w-full hover:text-white before:-z-10
   `}
 >
-            {lang === "es" ? "RESERVAR" : "BOOK NOW"}
+            {lang === "es" ? "RESERVAR AHORA" : "BOOK NOW"}
           </div>
           <div className="flex items-center">
   <select
     value={lang}
     onChange={(e) => changeLang(e.target.value)}
-    className={`
+    className={`!tracking-[3px]
       px-2 py-1 cursor-pointer outline-none transition
       ${isScrolled || mobileOpen
-        ? 'bg-white text-black border border-black/20'
-        : 'bg-transparent text-white border border-white/30'}
+        ? 'bg-white text-black'
+        : 'bg-transparent text-white'}
     `}
   >
-    <option className='text-black' value="es">ES</option>
-    <option className='text-black' value="en">EN</option>
+    <option className='text-black' value="es">ESPAÑOL</option>
+    <option className='text-black' value="en">ENGLISH</option>
   </select>
 </div>
         </div>
@@ -498,7 +498,6 @@ export default function Header({
   </div>
 
   <div>
-  {/* MAIN ITEM */}
   <div
     className="flex justify-between items-center cursor-pointer"
     onClick={() =>
@@ -552,7 +551,7 @@ export default function Header({
         : 'border border-black text-black'}
     `}
   >
-    ES
+    ESPAÑOL
   </span>
 
   <span
@@ -564,7 +563,7 @@ export default function Header({
         : 'border border-black text-black'}
     `}
   >
-    EN
+    ENGLISH
   </span>
 </div>
 
