@@ -38,9 +38,9 @@ export default function CompanySection({ data, lang }: any) {
           
           <Link
             href={`/${lang}/about-us`}
-            className="border-b border-black pb-1 hover:opacity-70 transition"
+            className="border-b border-black pb-1 hover:opacity-70 transition !tracking-[3px]"
           >
-            {lang==='es' ? 'Descubra nuestra filosofía' : 'Discover our philosophy'}
+            {lang==='es' ? 'DESCUBRA NUESTRA FILOSOFÍA' : 'DISCOVER OUR PHILOSOPLHY'}
           </Link>
         </div>
         </div>

@@ -199,7 +199,7 @@ export default function Header({
                 after:translate-x-[-50%]
                 after:transition-transform after:duration-300 
                 hover:after:scale-x-100">
-              <span className='!tracking-[3px]'>TOURS</span>
+              <span className='!tracking-[3px]' onClick={() => goTo('tours')}>TOURS</span>
             </div>
             {activeMenu === 'tours' && (
               <DropdownMenu
@@ -229,7 +229,7 @@ export default function Header({
                 after:translate-x-[-50%]
                 after:transition-transform after:duration-300
                 hover:after:scale-x-100">
-              <span className='!tracking-[3px]'>{lang === "es" ? "PAQUETES" : "PACKAGES"}</span>
+              <span className='!tracking-[3px]' onClick={() => goTo('packages')}>{lang === "es" ? "PAQUETES" : "PACKAGES"}</span>
             </div>
             {activeMenu === 'packages' && (
               <DropdownMenu
@@ -260,7 +260,7 @@ export default function Header({
                 after:translate-x-[-50%]
                 after:transition-transform after:duration-300
                 hover:after:scale-x-100">
-              <span className='!tracking-[3px]'>{lang === "es" ? "EXPERIENCIAS" : "EXPERIENCES"}</span>
+              <span className='!tracking-[3px]' onClick={() => goTo('experiences')}>{lang === "es" ? "EXPERIENCIAS" : "EXPERIENCES"}</span>
             </div>
             {activeMenu === 'experiences' && (
               <DropdownMenu
@@ -355,7 +355,7 @@ export default function Header({
     hover:before:w-full hover:text-white before:-z-10
   `}
 >
-            {lang === "es" ? "RESERVAR AHORA" : "BOOK NOW"}
+            {lang === "es" ? "RESERVAR" : "BOOK NOW"}
           </div>
           <div className="flex items-center">
   <select
