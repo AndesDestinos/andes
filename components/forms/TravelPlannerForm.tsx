@@ -150,7 +150,7 @@ export default function TravelPlannerForm({ language, hero }: { language: Langua
     const currentMonth = currentDate.getMonth();
 
     const chip = (active: boolean) =>
-        `p-2 rounded-[15px] border text-sm transition ${
+        `p-2 rounded-[15px] border transition ${
             active
                 ? 'border-black bg-[#F5F2EB]'
                 : 'border-gray-300 bg-white hover:border-black'
@@ -236,7 +236,7 @@ export default function TravelPlannerForm({ language, hero }: { language: Langua
                 <img src={hero?.image ? urlFor(hero.image).url() : '/images/share/noImage.jpg'} className="w-full h-full object-cover"/>
                 <div className="absolute inset-0 bg-black/50"></div>
                 <div className="absolute inset-0 flex items-center justify-center">
-                    <h1 className="text-white text-2xl sm:text-3xl md:text-5xl tracking-widest text-center px-4">
+                    <h1 className="text-white text-center px-4">
                         {hero?.title?.[language]}
                     </h1>
                 </div>
@@ -244,7 +244,7 @@ export default function TravelPlannerForm({ language, hero }: { language: Langua
 
             {submitted ? (
             <section className="w-full py-20 flex flex-col items-center justify-center text-center">
-                <h2 className="text-xl md:text-3xl font-serif mb-4">
+                <h2 className="mb-4">
                 {texto.title}
                 </h2>
 
@@ -260,17 +260,17 @@ export default function TravelPlannerForm({ language, hero }: { language: Langua
                 />
 
                 <div className="w-60 h-60 md:w-90 md:h-90 p-5 md:p-12 gap-2 md:gap-7 rounded-full z-1 flex flex-col items-center justify-center bg-white shadow-md">
-                    <div className="w-12 h-12 rounded-full border border-green-400 flex items-center justify-center mb-4 text-green-500 text-xl">
+                    <div className="w-12 h-12 rounded-full border border-green-400 flex items-center justify-center mb-4 text-green-500">
                     ✓
                     </div>
 
-                    <h3 className="text-xs md:text-sm tracking-widest mb-2 px-4">
+                    <h3 className="mb-2 px-4">
                     {language === 'es'
                         ? 'TU PLAN DE VIAJE FUE ENVIADO CON ÉXITO'
                         : 'YOUR TRAVEL PLAN WAS SENT SUCCESSFULLY'}
                     </h3>
 
-                    <p className="text-xs text-gray-600 px-6">
+                    <p className="text-gray-600 px-6">
                     {language === 'es'
                         ? 'Nuestro equipo se pondrá en contacto lo antes posible.'
                         : 'Our team will contact you as soon as possible.'}
@@ -286,7 +286,7 @@ export default function TravelPlannerForm({ language, hero }: { language: Langua
             <section className="w-full mt-12">
                 {toast && (
                     <div
-                        className={`fixed top-5 right-5 z-[9999] px-5 py-3 rounded-lg shadow-lg text-sm
+                        className={`fixed top-5 right-5 z-[9999] px-5 py-3 rounded-lg shadow-lg
                         ${toast.type === 'success'
                         ? 'bg-green-50 border border-green-400 text-green-900'
                         : 'bg-red-50 border border-red-400 text-red-900'
@@ -297,45 +297,45 @@ export default function TravelPlannerForm({ language, hero }: { language: Langua
                 )}
                 <form onSubmit={handleSubmit} className="andes-contenido-pequenio">
                     <div className="text-center mb-10">
-                        <h2 className="text-xl md:text-3xl font-serif">{texto.title}</h2>
-                        <p className="text-gray-600 mt-3 text-sm">{texto.subtitle}</p>
+                        <h2 className="">{texto.title}</h2>
+                        <p className="text-gray-600 mt-3">{texto.subtitle}</p>
 
                         <div className="mb-12">
                             <div className="flex justify-between max-w-3xl mx-auto">
                                 <div className="flex flex-col items-center text-center flex-1">
-                                    <div className="w-10 h-10 flex items-center justify-center border bg-[#F5F2EB] border-black rounded-full text-sm font-medium">
+                                    <div className="w-10 h-10 flex items-center justify-center border bg-[#F5F2EB] border-black rounded-full">
                                         1
                                     </div>
-                                    <span className="mt-2 text-xs sm:text-sm tracking-wide">
+                                    <span className="mt-2">
                                         {language === 'es' ? 'SELECCIONA' : 'SELECT'}
                                     </span>
-                                    <span className="mt-2 text-xs sm:text-sm tracking-wide">
+                                    <span className="mt-2">
                                         {language === 'es' ? 'Tu destino o tour y tipo de servicio que prefieres' : 'Your destination or tour and type of service you prefer'}
                                     </span>
                                 </div>
                                 <div className="flex-1 h-px bg-gray-300 mx-2"></div>
 
                                 <div className="flex flex-col items-center text-center flex-1">
-                                    <div className="w-10 h-10 flex items-center justify-center border bg-[#F5F2EB] border-gray-300 rounded-full text-sm">
+                                    <div className="w-10 h-10 flex items-center justify-center border bg-[#F5F2EB] border-gray-300 rounded-full">
                                         2
                                     </div>
-                                    <span className="mt-2 text-xs sm:text-sm text-gray-400">
+                                    <span className="mt-2 text-gray-400">
                                         {language === 'es' ? 'PLANIFICA' : 'PLAN'}
                                     </span>
-                                    <span className="mt-2 text-xs sm:text-sm tracking-wide">
+                                    <span className="mt-2">
                                         {language === 'es' ? 'Fecha de viaje, numero de viajeros y hotel' : 'Travel date, number of travelers and hotel'}
                                     </span>
                                 </div>
                                 <div className="flex-1 h-px bg-gray-300 mx-2"></div>
 
                                 <div className="flex flex-col items-center text-center flex-1">
-                                    <div className="w-10 h-10 flex items-center justify-center border bg-[#F5F2EB] border-gray-300 rounded-full text-sm">
+                                    <div className="w-10 h-10 flex items-center justify-center border bg-[#F5F2EB] border-gray-300 rounded-full">
                                         3
                                     </div>
-                                    <span className="mt-2 text-xs sm:text-sm text-gray-400">
+                                    <span className="mt-2 text-gray-400">
                                         {language === 'es' ? 'FINALIZA' : 'FINISH'}
                                     </span>
-                                    <span className="mt-2 text-xs sm:text-sm tracking-wide">
+                                    <span className="mt-2">
                                         {language === 'es' ? 'Agregando medio de contacto, Tus datos y listo viaja tranquilo' : "Add your contact information and details, and you're ready to travel with peace of mind."}
                                     </span>
                                 </div>
@@ -470,24 +470,24 @@ export default function TravelPlannerForm({ language, hero }: { language: Langua
 
                         <div className="flex flex-wrap items-center gap-6 mt-8">
                             <div className="flex items-center gap-3">
-                                <span className="text-sm">¿Cuántos viajan?</span>
+                                <span className="">¿Cuántos viajan?</span>
                                 <button type="button"
                                     onClick={()=>setTravelers(prev => Math.max(1, prev - 1))}
-                                    className="w-10 h-10 border rounded-lg flex items-center justify-center text-lg"
+                                    className="w-10 h-10 border rounded-lg flex items-center justify-center"
                                 >
                                     -
                                 </button>
                                 <span className="w-6 text-center">{travelers}</span>
                                 <button type="button"
                                     onClick={()=>setTravelers(prev => prev + 1)}
-                                    className="w-10 h-10 border rounded-lg flex items-center justify-center text-lg"
+                                    className="w-10 h-10 border rounded-lg flex items-center justify-center"
                                 >
                                     +
                                 </button>
                             </div>
 
                             <div className="flex items-center gap-3">
-                                <span className="text-sm">Incluir hotel al tour</span>
+                                <span className="">Incluir hotel al tour</span>
                                 <button type="button"
                                     onClick={()=>setIncludeHotel(!includeHotel)}
                                     className={`w-12 h-6 flex items-center rounded-full p-1 transition ${
@@ -503,12 +503,12 @@ export default function TravelPlannerForm({ language, hero }: { language: Langua
                             </div>
 
                             <div className="flex items-center gap-2">
-                                <span className="text-sm">Categoría del hotel:</span>
+                                <span className="">Categoría del hotel:</span>
                                 {[1,2,3,4,5].map(i => (
                                     <span
                                         key={i}
                                         onClick={()=>setStars(i)}
-                                        className={`cursor-pointer text-xl ${
+                                        className={`cursor-pointer ${
                                             i <= stars ? 'text-black' : 'text-gray-300'
                                         }`}
                                     >
@@ -548,7 +548,7 @@ function Section({ title, children, open, onClick, error }: any) {
     return (
         <div className="mb-6 pb-4">
             <div onClick={onClick} className="flex justify-between items-center cursor-pointer">
-                <h3 className={`tracking-widest text-sm ${error ? 'text-red-500' : ''}`}>
+                <h3 className={`${error ? 'text-red-500' : ''}`}>
                     {title}
                 </h3>
 

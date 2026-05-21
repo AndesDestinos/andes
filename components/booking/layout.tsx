@@ -14,15 +14,15 @@ export default function BookingLayout({ children, form }: any) {
         />
 
         <div className="absolute top-10 left-[-60px] bg-white w-[300px] p-6 shadow">
-          <h4 className="text-sm font-semibold mb-4">
+          <h4 className="mb-4">
             RESUMEN DEL TOUR
           </h4>
 
-          <p className="text-xs mb-4">
+          <p className="mb-4">
             {form.viajeros} viajeros
           </p>
 
-          <div className="text-sm font-semibold">
+          <div className="">
             S/ 700
           </div>
         </div>

@@ -1,13 +1,31 @@
 'use client'
 
 import { urlFor } from '@/lib/sanity.image'
+import { useEffect } from 'react'
 
 export default function AboutPage({ data, lang }: any) {
-  const texto = (field: any) => field?.[lang] || ''
+  const texto = (field: any) => field?.[lang] || '';
+
+  useEffect(() => {
+    const hash = window.location.hash.replace('#', '')
+
+    if (!hash) return
+
+    const el = document.getElementById(hash)
+
+    if (el) {
+        setTimeout(() => {
+        el.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        })
+        }, 100)
+    }
+  }, [])
 
   return (
     <div className="w-full flex flex-col gap-12">
-        <section className="relative w-full h-[300px] md:h-[400px]">
+        <section className="relative w-full h-[50vh] md:h-[60vh]">
             <img
                 src={urlFor(data.heroImage).url()}
                 alt="hero"
@@ -15,13 +33,13 @@ export default function AboutPage({ data, lang }: any) {
             />
             <div className="absolute inset-0 bg-black/50" />
             <div className="absolute inset-0 flex items-center justify-center">
-                <h1 className="text-white text-2xl md:text-4xl tracking-widest">
+                <h1 className="text-white">
                     {texto(data.heroTitle)}
                 </h1>
             </div>
         </section>
 
-        <section className="andes-contenido">
+        <section id="story" className="andes-contenido">
             <h2 className="w-full text-center">
                 {texto(data.ourStory.title)}
             </h2>
@@ -35,7 +53,7 @@ export default function AboutPage({ data, lang }: any) {
             </div>
         </section>
 
-        <section className='w-full bg-[#F6F4F0]'>
+        <section id="values" className='w-full bg-[#F6F4F0]'>
             <div className='andes-contenido grid grid-cols-1 md:grid-cols-2 gap-12'>
                 <div className='grid gap-12'>
                     <div>
@@ -53,10 +71,10 @@ export default function AboutPage({ data, lang }: any) {
                         <div key={index} className="flex items-start gap-3">
                             <div className="w-3 h-3 bg-black rotate-45 shrink-0 mt-2" />
                             <div>
-                                <span className="font-semibold">
+                                <span className="">
                                     {texto(item.title)}
                                 </span>
-                                <p className="text-sm text-gray-600">
+                                <p className="text-gray-600">
                                     {texto(item.description)}
                                 </p>
                             </div>
@@ -66,7 +84,7 @@ export default function AboutPage({ data, lang }: any) {
             </div>
         </section>
 
-        <section className='andes-contenido w-full flex flex-col gap-12'>
+        <section id="why" className='andes-contenido w-full flex flex-col gap-12'>
             <h2 className='w-full text-center'>{texto(data.strengthsSection.title)}</h2>
             <div className='w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-21'>
                 {data?.strengthsSection?.items?.map((item: any, index: number) => (
@@ -85,9 +103,9 @@ export default function AboutPage({ data, lang }: any) {
             </div>
         </section>
 
-        <section className="andes-contenido w-full">
+        <section id="sustainable" className="andes-contenido w-full">
             <div className="w-full flex flex-col gap-5 text-center">
-                <h2 className="text-3xl md:text-4xl font-serif text-gray-800 mb-12">
+                <h2 className="text-gray-800 mb-12">
                     {texto(data?.detalleSection?.title)}
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
@@ -98,7 +116,7 @@ export default function AboutPage({ data, lang }: any) {
                                 alt="Reforestación"
                                 className="w-full h-[300px] object-cover mb-6"
                             />
-                            <h3 className="tracking-widest text-gray-700 font-semibold mb-3">
+                            <h3 className="text-gray-700 mb-3">
                                 {texto(item?.title)}
                             </h3>
                             <p className="text-gray-600 leading-relaxed">

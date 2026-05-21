@@ -27,14 +27,14 @@ export default function StoreGrid({ hero, products, categories, lang }: any) {
       <div className="absolute inset-0 bg-black/50" />
 
       <div className="relative z-10 flex items-center justify-center h-full">
-        <h1 className="text-white text-3xl md:text-5xl text-center px-4">
+        <h1 className="text-white text-center px-4">
           {hero?.title?.[lang]}
         </h1>
       </div>
     </section>
     <section className="andes-contenido">
       <div className="mb-10">
-        <h1 className="font-light">
+        <h1 className="">
             {lang === 'es' ? 'The Verin Wardrobe' : 'The Verin Wardrobe'}
         </h1>
         <p className="text-gray-500 mt-2 max-w-xl">
@@ -75,7 +75,7 @@ export default function StoreGrid({ hero, products, categories, lang }: any) {
               <div className="absolute inset-0 flex items-end justify-center opacity-0 group-hover:opacity-100 transition">
                 <Link
                   href={`/${lang}/store/${product.slug.current}`}
-                  className="w-full text-center mb-2 border border-gray-300 bg-white px-6 py-2 text-xs tracking-wide hover:bg-black hover:text-white transition"
+                  className="w-full text-center mb-2 border border-gray-300 bg-white px-6 py-2 hover:bg-black hover:text-white transition"
                 >
                   {lang === 'es' ? 'VER DETALLE' : 'VIEW DETAILS'}
                 </Link>
@@ -83,7 +83,7 @@ export default function StoreGrid({ hero, products, categories, lang }: any) {
             </div>
 
             <div className="mt-3">
-              <h3 className="font-medium">
+              <h3 className="">
                 {product.name?.[lang]}
               </h3>
 

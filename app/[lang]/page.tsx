@@ -100,7 +100,7 @@ export default async function HomePage({params}: any) {
   `)
 
   return (
-    <main className="w-full flex flex-col gap-21">
+    <main className="w-full flex flex-col gap-30">
       <HeroSection data={homeData} lang={lang} />
 
       <div className="andes-contenido-pequenio">
@@ -123,7 +123,7 @@ export default async function HomePage({params}: any) {
         <FeaturedOtherssSection tours={featuredOthers} lang={lang} />
       </div>
 
-      <div className="andes-contenido">
+      <div className="andes-contenido andes-blog !pb-30">
         <BlogSection posts={blogs} lang={lang} />
       </div>
     </main>

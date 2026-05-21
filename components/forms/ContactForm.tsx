@@ -152,7 +152,7 @@ export default function ContactUsForm({ language, hero }: { language: Language, 
         <section className="w-full">
             {toast && (
                 <div
-                    className={`fixed top-5 right-5 z-[9999] px-5 py-3 rounded-lg shadow-lg text-sm
+                    className={`fixed top-5 right-5 z-[9999] px-5 py-3 rounded-lg shadow-lg
                     ${toast.type === 'success'
                         ? 'bg-green-50 border border-green-400 text-green-900'
                         : 'bg-red-50 border border-red-400 text-red-900'
@@ -173,14 +173,14 @@ export default function ContactUsForm({ language, hero }: { language: Language, 
                             />
                         </div>
                     </div>
-                    <h4 className="font-semibold">{texto.talk}</h4>
+                    <h4 className="">{texto.talk}</h4>
                     <p className="text-sm text-gray-600">{texto.talkDesc}</p>
                     <div className='w-full justify-center'>
                         <a
                             href={getCalendlyUrl()}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="cursor-pointer relative overflow-hidden border border-black px-6 py-3 text-sm text-black group transition-colors duration-300 hover:text-white inline-block"
+                            className="cursor-pointer relative overflow-hidden border border-black px-6 py-3 text-black group transition-colors duration-300 hover:text-white inline-block"
                         >
                             <span className="relative z-10">{texto.meet}</span>
                             <span className="absolute inset-0 bg-black scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100"></span>
@@ -198,11 +198,11 @@ export default function ContactUsForm({ language, hero }: { language: Language, 
                             />
                         </div>
                     </div>
-                    <h4 className="font-semibold">{texto.call}</h4>
-                    <p className="text-sm text-gray-600">{texto.callDesc}</p>
+                    <h4 className="">{texto.call}</h4>
+                    <p className="text-gray-600">{texto.callDesc}</p>
                     <div className='w-full justify-center'>
                         <a href="tel:+51900 111 114"
-                            className="cursor-pointer relative overflow-hidden border border-black px-6 py-2 text-sm text-black group 
+                            className="cursor-pointer relative overflow-hidden border border-black px-6 py-2 text-black group 
                             transition-colors duration-300 hover:text-white inline-block">
                             <span className="relative z-10">{texto.request}</span>
                             <span className="absolute inset-0 bg-black scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100"></span>
@@ -212,10 +212,10 @@ export default function ContactUsForm({ language, hero }: { language: Language, 
             </div>
 
             <div className="andes-contenido-pequenio flex flex-col gap-5">
-                <h2 className="text-xl md:text-2xl tracking-wide">
+                <h2 className="">
                     {texto.title}
                 </h2>
-                <p className="text-gray-600 mt-2 text-sm">{texto.subtitle}</p>
+                <p className="text-gray-600 mt-2">{texto.subtitle}</p>
             </div>
 
             <form onSubmit={handleSubmit} className="andes-contenido-pequenio">
@@ -259,7 +259,7 @@ export default function ContactUsForm({ language, hero }: { language: Language, 
                     className="w-full input mt-8 md:mt-10 h-[100px] border-none outline-none focus:border-none focus:ring-0"
                 />
 
-                <div className="mt-6 flex items-center gap-2 text-sm">
+                <div className="mt-6 flex items-center gap-2">
                     <input type="checkbox" name="accept" />
                     <span className={errors.accept ? 'text-red-500' : ''}>
                         {texto.accept}

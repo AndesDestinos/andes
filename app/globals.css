@@ -6,29 +6,39 @@
 
 /* estilos globales*/
 body {
+  letter-spacing: 3px;
   font-family: var(--font-metropolis);
 }
 
-h2, h3 {
-  font-family: var(--font-bodoni);
+.andes-blog {
+  h2, h3 {
+    font-family: var(--font-bodoni);
+  }
+}
+
+.andes-footer {
+  h3 {
+    letter-spacing: 3px;
+  }
 }
 
 h1 {
   font-size: 60px;
-  text-transform: uppercase;
 }
 h2 {
   font-size: 40px;
 }
 h3 {
-  font-size: 20px;
+  font-size: 30px;
 }
 h4 {
+  letter-spacing: 3px;
   font-size: 16px;
 }
 
-p, span {
-  font-size: 12px;
+p, div, span {
+  font-size: 14px;
+  letter-spacing: 0;
 }
 
 .andes-contenido {

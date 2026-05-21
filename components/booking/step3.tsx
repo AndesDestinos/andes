@@ -14,13 +14,13 @@ export default function PagoStep({ form, setForm, next, prev }: any) {
   return (
     <div className="flex min-h-screen bg-[#f7f7f5]">
       <div className="w-2/3 p-10">
-        <h2 className="text-sm tracking-widest text-gray-500 mb-2">TOUR SELECCIONADO</h2>
-        <h1 className="text-3xl font-semibold mb-2">Clásico camino inca a Machu Picchu</h1>
+        <h2 className="text-gray-500 mb-2">TOUR SELECCIONADO</h2>
+        <h1 className="mb-2">Clásico camino inca a Machu Picchu</h1>
         <p className="text-gray-500 mb-6">4 DÍAS / 3 NOCHES</p>
 
         <div className="bg-[#eae6df] p-6 mb-6 rounded">
-          <h3 className="font-semibold mb-2">PAGAR TU TOUR</h3>
-          <p className="text-sm text-gray-600">Verifique toda la información que proporcionó y a continuación pague.</p>
+          <h3 className="mb-2">PAGAR TU TOUR</h3>
+          <p className="text-gray-600">Verifique toda la información que proporcionó y a continuación pague.</p>
         </div>
 
         <div className="flex gap-4 mb-6">
@@ -29,8 +29,8 @@ export default function PagoStep({ form, setForm, next, prev }: any) {
         </div>
 
         <div className="bg-[#efe6d2] p-6 rounded mb-6">
-          <h4 className="font-semibold mb-2">Haz un viaje de impacto con una pequeña donación a la Fundación Andes</h4>
-          <p className="text-sm text-gray-600 mb-4">Retribuya a las comunidades que visitará donando $1 por viajero.</p>
+          <h4 className="mb-2">Haz un viaje de impacto con una pequeña donación a la Fundación Andes</h4>
+          <p className="text-gray-600 mb-4">Retribuya a las comunidades que visitará donando $1 por viajero.</p>
 
           <div className="flex items-center gap-4">
             <input
@@ -64,7 +64,7 @@ export default function PagoStep({ form, setForm, next, prev }: any) {
           <div className="fixed inset-0 bg-black/40 flex items-center justify-center">
             <div className="bg-white p-6 rounded w-[500px]">
               <div className="flex justify-between mb-4">
-                <h3 className="font-semibold">Adicionales</h3>
+                <h3 className="">Adicionales</h3>
                 <button onClick={() => setMostrarAdicionales(false)}>X</button>
               </div>
 
@@ -113,7 +113,7 @@ export default function PagoStep({ form, setForm, next, prev }: any) {
 
       <div className="w-1/3 bg-gray-200 p-6">
         <div className="bg-white p-6 rounded shadow">
-          <h3 className="font-semibold mb-4">RESUMEN DEL TOUR</h3>
+          <h3 className="mb-4">RESUMEN DEL TOUR</h3>
 
           <div className="mb-4">
             <p>2 viajeros - 10 de julio</p>
@@ -132,7 +132,7 @@ export default function PagoStep({ form, setForm, next, prev }: any) {
               <span>Total restante</span>
               <span>$ 350</span>
             </div>
-            <div className="flex justify-between font-semibold">
+            <div className="flex justify-between">
               <span>Precio total</span>
               <span>S/ 720</span>
             </div>

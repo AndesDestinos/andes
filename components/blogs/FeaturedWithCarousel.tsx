@@ -16,7 +16,7 @@ export default function FeaturedWithCarousel({ posts, lang }: any) {
         />
 
         <div>
-          <h2 className="text-3xl md:text-4xl mt-2">
+          <h2 className="mt-2">
             {featured.headline?.[lang]}
           </h2>
 

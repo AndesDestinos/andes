@@ -8,7 +8,7 @@ export default function BlogTabs({ categories, active, setActive, lang }: any) {
             key={cat._id}
             onClick={() => setActive(cat.slug.current)}
             className={`
-              pb-2 whitespace-nowrap text-sm
+              pb-2 whitespace-nowrap 
               ${active === cat.slug.current
                 ? 'border-b-2 border-black'
                 : 'text-gray-400'

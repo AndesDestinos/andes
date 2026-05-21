@@ -156,7 +156,7 @@ export default function ComplaintsBookForm({ language, hero }: { language: Langu
                 />
                 <div className="absolute inset-0 bg-black/50"></div>
                 <div className="absolute inset-0 flex items-center justify-center">
-                    <h1 className="text-white text-center tracking-widest">
+                    <h1 className="text-white text-center">
                         {hero?.title?.[language]}
                     </h1>
                 </div>
@@ -165,7 +165,7 @@ export default function ComplaintsBookForm({ language, hero }: { language: Langu
             <section className="w-full">
                 {toast && (
                     <div
-                        className={`fixed top-5 right-5 z-[9999] px-5 py-3 rounded-lg shadow-lg text-sm
+                        className={`fixed top-5 right-5 z-[9999] px-5 py-3 rounded-lg shadow-lg
                         ${toast.type === 'success'
                             ? 'bg-green-50 border border-green-400 text-green-900'
                             : 'bg-red-50 border border-red-400 text-red-900'
@@ -177,7 +177,7 @@ export default function ComplaintsBookForm({ language, hero }: { language: Langu
 
                 <div className="andes-contenido-pequenio">
                     <div className="text-center mb-12">
-                        <h2 className="font-serif">
+                        <h2>
                             {texto.title}
                         </h2>
                         <p className="text-gray-600 mt-3">
@@ -186,7 +186,7 @@ export default function ComplaintsBookForm({ language, hero }: { language: Langu
                     </div>
 
                     <form onSubmit={handleSubmit}>
-                        <h3 className="tracking-widest mb-8 text-sm">
+                        <h3 className="mb-8">
                             {texto.consumer}
                         </h3>
 
@@ -204,7 +204,7 @@ export default function ComplaintsBookForm({ language, hero }: { language: Langu
                             <input name="phone" placeholder={texto.phone} className={inputClass('phone')} />
                         </div>
 
-                        <h3 className="tracking-widest mt-16 mb-8">
+                        <h3 className="mt-16 mb-8">
                             {texto.details}
                         </h3>
 
@@ -224,7 +224,7 @@ export default function ComplaintsBookForm({ language, hero }: { language: Langu
                             className="w-full border-b border-gray-300 bg-transparent px-1 py-2 outline-none mt-10 h-[100px]"
                         />
 
-                        <div className="mt-6 flex items-center gap-2 text-sm">
+                        <div className="mt-6 flex items-center gap-2">
                             <input type="checkbox" name="accept" />
                             <span className={errors.accept ? 'text-red-500' : ''}>
                                 {texto.accept}
@@ -244,7 +244,7 @@ export default function ComplaintsBookForm({ language, hero }: { language: Langu
                         </div>
                     </form>
 
-                    <div className="mt-16 border border-gray-300 p-6 text-xs text-gray-600 space-y-4">
+                    <div className="mt-16 border border-gray-300 p-6 text-gray-600 space-y-4">
                         <p>
                             * La formulación del reclamo no impide acudir a otras vías de solución de controversias ni es requisito previo para interponer una denuncia ante el INDECOPI.
                         </p>

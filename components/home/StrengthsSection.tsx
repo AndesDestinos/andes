@@ -10,7 +10,7 @@ export default function StrengthsSection({ data, lang }: any) {
             <div className='w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-21'>
                 {data?.items?.map((item: any, index: number) => (
                     <div key={index} className='flex flex-col w-full gap-5 items-center text-center'>
-                        <div className="w-16 h-16 rounded-full bg-[#F5F2EB] flex items-center justify-center">
+                        <div className="bg-[#F5F2EB] rounded-full p-3 flex items-center justify-center">
                             <img 
                                 src={item?.icon ? urlFor(item.icon).url() : ''} 
                                 alt="icono"

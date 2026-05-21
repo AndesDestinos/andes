@@ -27,7 +27,7 @@ export default function HeroSection({ data, lang }: any) {
 
       <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
         <div className="text-center text-white max-w-[1500px] px-4">
-          <h1 className="text-4xl md:text-6xl font-light tracking-wide">
+          <h1 className="!tracking-[3px]">
             {data?.heroTitle?.[lang]}
           </h1>
           <button
@@ -42,7 +42,7 @@ export default function HeroSection({ data, lang }: any) {
                 before:z-0
                 hover:before:w-full
                 hover:border-black">
-            <span className="relative z-10">
+            <span className="relative z-10 !tracking-[3px]">
                 {lang === 'es' ? 'EMPEZAR A PLANIFICAR' : 'START PLANNING'}
             </span>
           </button>

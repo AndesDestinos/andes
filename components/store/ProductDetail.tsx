@@ -46,14 +46,14 @@ export default function ProductDetail({ product, lang }: any) {
                 <>
                   <button
                     onClick={prev}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 bg-white px-3 py-1 text-xl"
+                    className="absolute left-4 top-1/2 -translate-y-1/2 bg-white px-3 py-1"
                   >
                     ‹
                   </button>
 
                   <button
                     onClick={next}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 bg-white px-3 py-1 text-xl"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 bg-white px-3 py-1"
                   >
                     ›
                   </button>
@@ -66,11 +66,11 @@ export default function ProductDetail({ product, lang }: any) {
 
       <div className="w-full md:w-1/2">
         <div className="w-full">
-          <h1 className="text-2xl font-normal">
+          <h1 className="">
             {t(product?.name)}
           </h1>
 
-          <p className="mt-2 mb-6 text-lg">
+          <p className="mt-2 mb-6">
             ${product?.price?.usd} USD
           </p>
 
@@ -112,13 +112,13 @@ export default function ProductDetail({ product, lang }: any) {
                 >
                     {/* HEADER */}
                     <div className="flex justify-between items-center">
-                    <h3 className="text-sm font-medium">
+                    <h3 className="">
                         {t(item.title)}
                     </h3>
 
                     {/* ICONO ANIMADO */}
                     <span
-                        className={`text-xl transition-transform duration-300 ${
+                        className={`transition-transform duration-300 ${
                         isOpen ? "rotate-45" : "rotate-0"
                         }`}
                     >
@@ -132,7 +132,7 @@ export default function ProductDetail({ product, lang }: any) {
                         isOpen ? "max-h-40 mt-2" : "max-h-0"
                     }`}
                     >
-                    <p className="text-sm text-gray-600">
+                    <p className="text-gray-600">
                         {t(item.description)}
                     </p>
                     </div>

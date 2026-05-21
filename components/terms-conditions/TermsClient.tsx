@@ -18,13 +18,13 @@ export default function TermsClient({ data, lang }: any) {
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-black/50" />
-        <h1 className="absolute inset-0 flex items-center justify-center text-white text-3xl md:text-5xl font-light text-center px-4">
+        <h1 className="absolute inset-0 flex items-center justify-center text-white text-center px-4">
           {data.hero.title?.[lang]}
         </h1>
       </div>
 
       <div className="andes-contenido-pequenio text-center flex flex-col gap-6">
-        <h2 className="text-2xl md:text-3xl font-semibold">
+        <h2 className="">
           {data.title?.[lang]}
         </h2>
 
@@ -54,7 +54,6 @@ export default function TermsClient({ data, lang }: any) {
                             <span className="w-full h-[2px] bg-black block" />
                         </span>
 
-                        {/* línea vertical (se rota para desaparecer) */}
                         <span
                         className={`absolute inset-0 flex items-center justify-center transition-transform duration-300 ${
                             isOpen ? 'rotate-90 opacity-0' : ''

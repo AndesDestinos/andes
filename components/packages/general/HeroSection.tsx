@@ -15,7 +15,7 @@ export default function Hero({ lang, hero }: Props) {
       />
       <div className="absolute inset-0 bg-black/50" />
       <div className="relative z-10 flex items-center justify-center h-full">
-        <h1 className="text-white text-3xl md:text-5xl font-semibold tracking-wide">
+        <h1 className="text-white">
           {hero?.title?.[lang]}
         </h1>
       </div>

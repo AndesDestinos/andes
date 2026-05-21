@@ -10,7 +10,7 @@ type Item = {
 }
 
 type Props = {
-  type: 'tour' | 'package' | 'experience'
+  type: 'tour' | 'package' | 'experience' | 'about'
   data: Item[]
   lang: string
   activeCategory: number
@@ -39,17 +39,17 @@ export default function DropdownMenu({
 
   if (isMobile) {
     return (
-      <div className="flex flex-col gap-3 mt-2">
+      <div className="flex flex-col gap-3 mt-5">
         {Object.entries(grouped).map(([cat, items], i) => (
           <div key={i}>
-            <div className="font-bold">{cat}</div>
+            <div className="">{cat}</div>
 
             <div className="ml-3 mt-1">
               {items.map((item, j) => (
                 <div
                   key={j}
                   onClick={() => onNavigate(item.category?.slug + '/' + item.slug)}
-                  className="py-1 text-sm opacity-80"
+                  className="py-1 opacity-80"
                 >
                   {item.title?.[lang]}
                 </div>
@@ -63,15 +63,15 @@ export default function DropdownMenu({
 
   if (type === 'tour') {
     return (
-      <div className="absolute left-0 top-[25px] w-[500px] bg-white text-black p-5">
+      <div className="absolute left-0 top-[50px] w-[500px] border-t border-t-[#ABB8C3] bg-white text-black p-5">
         <div className="grid grid-cols-2 gap-10">
-          <div>
+          <div className="border-r border-r-[#DDDDDD">
             {categories.map((cat, i) => (
               <div
                 key={i}
                 onMouseEnter={() => setActiveCategory(i)}
                 className={`cursor-pointer py-2 ${
-                  activeCategory === i ? 'font-bold' : 'opacity-60'
+                  activeCategory === i ? '' : 'opacity-60'
                 }`}
               >
                 {cat}
@@ -95,10 +95,10 @@ export default function DropdownMenu({
   }
 
   return (
-    <div className="absolute left-0 top-[25px] w-[500px] bg-white text-black p-5">
+    <div className="absolute left-0 top-[50px] w-[500px] border-t border-t-[#ABB8C3] bg-white text-black p-5">
       {Object.entries(grouped).map(([cat, items], i) => (
         <div key={i}>
-          <div className="font-bold mb-2">{cat}</div>
+          <div className="mb-2">{cat}</div>
           {items.map((item, j) => (
             <div
               key={j}

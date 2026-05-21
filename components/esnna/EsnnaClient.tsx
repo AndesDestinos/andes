@@ -7,13 +7,13 @@ export default function EsnnaClient({ lang }: any) {
                 className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-black/50" />
-                <h1 className="absolute inset-0 flex items-center justify-center text-white text-3xl md:text-5xl font-light text-center px-4">
+                <h1 className="absolute inset-0 flex items-center justify-center text-white text-center px-4">
                     ESNNA
                 </h1>
             </div>
 
             <div className="andes-contenido-pequenio text-center flex flex-col gap-12">
-                <h2 className="text-2xl md:text-3xl font-semibold pt-12">
+                <h2 className="pt-12">
                     { lang === 'es' ? 'Compromiso con el programa ESNNA' : 'Commitment to the ESNNA program' }
                 </h2>
 

@@ -36,17 +36,17 @@ export default function FeaturedOtherssSection({ tours, lang }: any) {
     <section className="w-full">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-10">
         <div>
-          <p className="text-sm tracking-widest text-gray-500 uppercase">
+          <h4 className="text-gray-500">
             {lang === "es" ? "DESTINOS IMPERDIBLES" : "MUST-SEE DESTINATIONS"}
-          </p>
-          <h2 className="text-3xl md:text-4xl font-serif text-gray-900 mt-2">
+          </h4>
+          <h2 className="text-gray-900 mt-2">
             {lang === "es"
               ? "Los mejores destinos populares"
               : "The best popular destinations"}
           </h2>
         </div>
 
-        {/*<button className="mt-4 md:mt-0 border border-gray-400 px-6 py-2 text-sm tracking-wide hover:bg-black hover:text-white transition">
+        {/*<button className="mt-4 md:mt-0 border border-gray-400 px-6 py-2 hover:bg-black hover:text-white transition">
           {lang === "es" ? "EXPLORAR MÁS" : "EXPLORE MORE"}
         </button>*/}
       </div>
@@ -72,7 +72,7 @@ export default function FeaturedOtherssSection({ tours, lang }: any) {
                   href={`/${lang}/${tour.category.type}s/${tour.category.slug.current}/${tour.slug.current}`}
                   className="block"
                 >
-                <div className="relative h-[420px] overflow-hidden group">
+                <div className="relative aspect-[4/5] overflow-hidden group">
                   <img
                     src={
                       tour?.mainImage
@@ -85,26 +85,28 @@ export default function FeaturedOtherssSection({ tours, lang }: any) {
 
                   <div className="absolute inset-0 bg-black/40" />
 
-                  <div className="absolute bottom-0 p-6 text-white w-full">
-                    <p className="text-xs tracking-widest uppercase">
+                  <div className="absolute bottom-0 p-6 text-white w-full !tracking-[3px]">
+                    <p className="">
                       {tour.durationLabel?.[lang]}
                     </p>
 
-                    <h3 className="text-xl font-semibold mt-2">
+                    <h3 className="!tracking-[3px] mt-2">
                       {tour.title?.[lang]}
                     </h3>
 
                     <div className="mt-4 overflow-hidden max-h-0 group-hover:max-h-40 transition-all duration-500">
-                    
                       <div className="w-full h-[1px] bg-white mb-3 opacity-80" />
 
-                      <p className="text-sm opacity-80">
+                      <p className="opacity-80">
                         {tour.destinations?.join(", ")}
                       </p>
 
-                      <span className="inline-block mt-3 text-sm tracking-widest border-b border-white pb-1">
+                      <div className="flex justify-between">
+                      <span className="inline-block mt-3 border-b border-white pb-1 !tracking-[3px]">
                         {lang === "es" ? "VER ITINERARIO" : "VIEW ITINERARY"}
                       </span>
+                      <img src="/images/footer/directionWhite.svg" className="h-7 w-7" />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -116,6 +118,7 @@ export default function FeaturedOtherssSection({ tours, lang }: any) {
 
         {showControls && (
           <div className="flex items-center justify-between mt-6">
+            <div></div>
             <div className="flex gap-3">
               {Array.from({ length: maxIndex + 1 }).map((_, index) => (
                 <div
@@ -123,8 +126,8 @@ export default function FeaturedOtherssSection({ tours, lang }: any) {
                   onClick={() => setCurrent(index)}
                   className={`w-3 h-3 rotate-45 cursor-pointer transition ${
                     index === current
-                      ? "bg-black scale-125"
-                      : "bg-gray-300"
+                      ? "border border-2 border-black  bg-black"
+                      : "border border-2 border-[#CBCBCB]"
                   }`}
                 />
               ))}
@@ -133,13 +136,13 @@ export default function FeaturedOtherssSection({ tours, lang }: any) {
             <div className="flex gap-4">
               <button
                 onClick={prev}
-                className="w-10 h-10 border flex items-center justify-center hover:bg-black hover:text-white transition"
+                className="p-2 cursor-pointer border-b border-b-2 border-b-[#CBCBCB] flex items-center justify-center hover:border-b-black transition"
               >
                 ←
               </button>
               <button
                 onClick={next}
-                className="w-10 h-10 border flex items-center justify-center hover:bg-black hover:text-white transition"
+                className="p-2 cursor-pointer border-b border-b-2 border-b-[#CBCBCB] flex items-center justify-center hover:border-b-black transition"
               >
                 →
               </button>

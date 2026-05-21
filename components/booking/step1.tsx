@@ -40,11 +40,11 @@ export default function Step1({ form, setForm, next }: any) {
 
     return (
       <div>
-        <h4 className="text-center text-sm font-medium mb-4 uppercase">
+        <h4 className="text-center mb-4">
           {name}
         </h4>
 
-        <div className="grid grid-cols-7 text-xs text-gray-500 mb-2 text-center">
+        <div className="grid grid-cols-7 text-gray-500 mb-2 text-center">
           {['Lu','Ma','Mi','Ju','Vi','Sa','Do'].map(d=> <div key={d}>{d}</div>)}
         </div>
 
@@ -63,7 +63,7 @@ export default function Step1({ form, setForm, next }: any) {
               <button
                 key={day}
                 onClick={()=>handleDate(full)}
-                className={`w-10 h-10 text-sm rounded-full flex items-center justify-center
+                className={`w-10 h-10 rounded-full flex items-center justify-center
                 ${active ? 'bg-black text-white' : 'hover:bg-gray-200'}
                 `}
               >
@@ -82,7 +82,7 @@ export default function Step1({ form, setForm, next }: any) {
         <img src='/images/booking/logo.svg' />
         <div className="flex items-center gap-2">
           <div className="w-7 h-7 bg-black text-white rounded-full flex items-center justify-center">1</div>
-          <span className="font-medium">FECHA</span>
+          <span className="">FECHA</span>
         </div>
         <div className="w-10 h-[1px] bg-black"/>
         <div className="text-gray-400">2 INFORMACIÓN</div>
@@ -91,7 +91,7 @@ export default function Step1({ form, setForm, next }: any) {
       </div>
 
       <div className="border p-6 mb-6 bg-white">
-        <h3 className="text-xs tracking-widest mb-4">
+        <h3 className="mb-4">
           SELECCIONA TU TOUR
         </h3>
 
@@ -105,7 +105,7 @@ export default function Step1({ form, setForm, next }: any) {
 
         <div className="flex flex-wrap justify-between items-center gap-4">
           <div className="flex items-center gap-3">
-            <span className="text-sm">¿Cuántos Viajan?</span>
+            <span className="">¿Cuántos Viajan?</span>
             <div className="flex items-center gap-2">
               <button className="border w-8 h-8 rounded"
                 onClick={()=>setForm({...form,viajeros:Math.max(1,form.viajeros-1)})}>
@@ -124,7 +124,7 @@ export default function Step1({ form, setForm, next }: any) {
               <button
                 key={s}
                 onClick={()=>setForm({...form,servicio:s as any})}
-                className={`px-4 py-1 border rounded-full text-sm
+                className={`px-4 py-1 border rounded-full
                 ${form.servicio===s?'bg-black text-white':''}`}
               >
                 {s}
@@ -135,7 +135,7 @@ export default function Step1({ form, setForm, next }: any) {
       </div>
 
       <div className="border p-6 bg-white">
-        <h3 className="text-xs tracking-widest mb-4">
+        <h3 className="mb-4">
           SELECCIONE LA FECHA DE SU VIAJE
         </h3>
 
@@ -153,7 +153,7 @@ export default function Step1({ form, setForm, next }: any) {
       <div className="flex justify-end mt-8">
         <button
           onClick={next}
-          className="bg-black text-white px-10 py-3 text-sm"
+          className="bg-black text-white px-10 py-3"
         >
           CONTINUAR →
         </button>

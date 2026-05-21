@@ -3,6 +3,8 @@
 import { useRouter, usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import DropdownMenu from './DropdownMenu'
+import DropdownAboutMenu from './DropdownAboutMenu'
+import { useRef } from 'react'
 
 type Item = {
   title: string
@@ -28,6 +30,7 @@ export default function Header({
   packages,
   experiences
 }: Props) {
+  const closeTimeout = useRef<NodeJS.Timeout | null>(null)
 
   const router = useRouter()
   const pathname = usePathname()
@@ -39,6 +42,26 @@ export default function Header({
   const [mobileMenu, setMobileMenu] = useState<string | null>(null)
   const [showHeader, setShowHeader] = useState(true)
   const [isScrolled, setIsScrolled] = useState(false)
+
+  const aboutSections = [
+    {name: {es: 'Nuestra historia', en: 'Our history'}, link: 'story'},
+    {name: {es: 'Nuestros valores', en: 'Our values'}, link: 'values'},
+    {name: {es: 'Por que Andes', en: 'Why Andes'}, link: 'why'},
+    {name: {es: 'Turismo sostenible', en: 'Sustainable tourism'}, link: 'sustainable'},
+  ];
+
+  const openMenu = (menu: string) => {
+    if (closeTimeout.current) {
+      clearTimeout(closeTimeout.current)
+    }
+    setActiveMenu(menu)
+  }
+
+  const closeMenu = () => {
+    closeTimeout.current = setTimeout(() => {
+      setActiveMenu(null)
+    }, 250)
+  }
 
   const goTo = (path: string) => {
     router.push(`/${lang}/${path}`)
@@ -81,15 +104,16 @@ export default function Header({
 
     const handleScroll = () => {
       const currentScroll = window.scrollY
-
       setIsScrolled(currentScroll > 50)
-
-      if (currentScroll < lastScroll) {
+      if (currentScroll < 10) {
         setShowHeader(true)
       } else {
-        setShowHeader(false)
+        if (currentScroll < lastScroll) {
+          setShowHeader(true)
+        } else {
+          setShowHeader(false)
+        }
       }
-
       lastScroll = currentScroll
     }
 
@@ -143,7 +167,7 @@ export default function Header({
 
     <div
       onClick={() => goTo('booking')}
-      className="border border-white px-4 py-1 text-xs tracking-widest cursor-pointer"
+      className="border border-white px-3 py-1 cursor-pointer"
     >
       {lang === "es" ? "RESERVAR" : "BOOK"}
     </div>
@@ -160,23 +184,22 @@ export default function Header({
     />
   </div>
 
-        <div className="hidden md:flex items-center text-sm tracking-widest gap-7">
+        <div className="hidden md:flex items-center gap-7">
           <div
-            onMouseEnter={() => setActiveMenu('tours')}
-            onMouseLeave={() => setActiveMenu(null)}
+            onMouseEnter={() => openMenu('tours')}
+            onMouseLeave={closeMenu}
             className="relative"
           >
             <div className=" flex gap-3
                 relative cursor-pointer
                 after:content-[''] after:absolute after:bottom-[-4px] after:left-1/2
-                after:h-[2px] after:w-full after:bg-black
+                after:h-[1px] after:w-full after:bg-[#ABB8C3]
                 after:origin-center
                 after:scale-x-0
                 after:translate-x-[-50%]
                 after:transition-transform after:duration-300
                 hover:after:scale-x-100">
-              <span className="opacity-50">◆</span>
-              <span>TOURS</span>
+              <span className='!tracking-[3px]'>TOURS</span>
             </div>
             {activeMenu === 'tours' && (
               <DropdownMenu
@@ -190,22 +213,23 @@ export default function Header({
             )}
           </div>
 
+          <div className="text-[13px] opacity-50">◆</div>
+
           <div
-            onMouseEnter={() => setActiveMenu('packages')}
-            onMouseLeave={() => setActiveMenu(null)}
+            onMouseEnter={() => openMenu('packages')}
+            onMouseLeave={closeMenu}
             className="relative"
           >
             <div className=" flex gap-3
                 relative cursor-pointer
                 after:content-[''] after:absolute after:bottom-[-4px] after:left-1/2
-                after:h-[2px] after:w-full after:bg-black
+                after:h-[1px] after:w-full after:bg-[#ABB8C3]
                 after:origin-center
                 after:scale-x-0
                 after:translate-x-[-50%]
                 after:transition-transform after:duration-300
                 hover:after:scale-x-100">
-              <span className="opacity-50">◆</span>
-              <span>{lang === "es" ? "PAQUETES" : "PACKAGES"}</span>
+              <span className='!tracking-[3px]'>{lang === "es" ? "PAQUETES" : "PACKAGES"}</span>
             </div>
             {activeMenu === 'packages' && (
               <DropdownMenu
@@ -219,23 +243,24 @@ export default function Header({
             )}
           </div>
 
+          <div className="text-[13px] opacity-50">◆</div>
+
           <div
-            onMouseEnter={() => setActiveMenu('experiences')}
-            onMouseLeave={() => setActiveMenu(null)}
+            onMouseEnter={() => openMenu('experiences')}
+            onMouseLeave={closeMenu}
             className="relative"
           >
             <div
                 className=" flex gap-3
                 relative cursor-pointer
                 after:content-[''] after:absolute after:bottom-[-4px] after:left-1/2
-                after:h-[2px] after:w-full after:bg-black
+                after:h-[1px] after:w-full after:bg-[#ABB8C3]
                 after:origin-center
                 after:scale-x-0
                 after:translate-x-[-50%]
                 after:transition-transform after:duration-300
                 hover:after:scale-x-100">
-              <span className="opacity-50">◆</span>
-              <span>{lang === "es" ? "EXPERIENCIAS" : "EXPERIENCES"}</span>
+              <span className='!tracking-[3px]'>{lang === "es" ? "EXPERIENCIAS" : "EXPERIENCES"}</span>
             </div>
             {activeMenu === 'experiences' && (
               <DropdownMenu
@@ -249,37 +274,69 @@ export default function Header({
             )}
           </div>
 
-          <div className=" flex gap-3
+          <div className="text-[13px] opacity-50">◆</div>
+
+          <div 
+            onMouseEnter={() => openMenu('about')}
+            onMouseLeave={closeMenu}
+            className=" flex gap-3
             relative cursor-pointer
             after:content-[''] after:absolute after:bottom-[-4px] after:left-1/2
-            after:h-[2px] after:w-full after:bg-black
+            after:h-[1px] after:w-full after:bg-[#ABB8C3]
             after:origin-center
             after:scale-x-0
             after:translate-x-[-50%]
             after:transition-transform after:duration-300
             hover:after:scale-x-100">
-            <span className="opacity-50">◆</span>
-            <span onClick={() => goTo('blogs')} className="cursor-pointer">
+            <span onClick={() => goTo('about-us')}  className='!tracking-[3px]'>
+              {lang === 'es' ? 'NOSOTROS' : 'ABOUT US'}
+            </span>
+            {activeMenu === 'about' && (
+              <DropdownAboutMenu
+                lang={lang}
+                sections={aboutSections}
+                onNavigate={(link) => {
+                  router.push(`/${lang}/about-us#${link}`)
+                  setActiveMenu(null)
+                }}
+              />
+            )}
+          </div>
+
+          <div className="text-[13px] opacity-50">◆</div>
+
+          <div className=" flex gap-3
+            relative cursor-pointer
+            after:content-[''] after:absolute after:bottom-[-4px] after:left-1/2
+            after:h-[1px] after:w-full after:bg-[#ABB8C3]
+            after:origin-center
+            after:scale-x-0
+            after:translate-x-[-50%]
+            after:transition-transform after:duration-300
+            hover:after:scale-x-100">
+            <span onClick={() => goTo('blogs')} className='!tracking-[3px]'>
               BLOG
             </span>
           </div>
 
+          <div className="text-[13px] opacity-50">◆</div>
+
           <div
             onClick={() => goTo('store')}
-            className=" flex gap-3
+            className="flex gap-3 items-center
             relative cursor-pointer
             after:content-[''] after:absolute after:bottom-[-4px] after:left-1/2
-            after:h-[2px] after:w-full after:bg-black
+            after:h-[1px] after:w-full after:bg-[#ABB8C3]
             after:origin-center
             after:scale-x-0
             after:translate-x-[-50%]
             after:transition-transform after:duration-300
             hover:after:scale-x-100">
             <img
-  src={currentStoreLogo}
-  className="h-5"
-/>
-            <span>{lang === "es" ? "TIENDA" : "STORE"}</span>
+              src={currentStoreLogo}
+              className="h-5 mt-[-2px]"
+            />
+            <span className='!tracking-[3px]'>{lang === "es" ? "TIENDA" : "STORE"}</span>
           </div>
 
         </div>
@@ -293,7 +350,7 @@ export default function Header({
     ${isScrolled ? 'border-black text-black' : 'border-white text-white'}
     
     before:content-[''] before:absolute before:top-0 before:left-0
-    before:h-full before:w-0 before:bg-black
+    before:h-full before:w-0 before:bg-[#ABB8C3]
     before:transition-all before:duration-300
     hover:before:w-full hover:text-white before:-z-10
   `}
@@ -305,7 +362,7 @@ export default function Header({
     value={lang}
     onChange={(e) => changeLang(e.target.value)}
     className={`
-      px-3 py-1 text-sm cursor-pointer outline-none transition
+      px-2 py-1 cursor-pointer outline-none transition
       ${isScrolled || mobileOpen
         ? 'bg-white text-black border border-black/20'
         : 'bg-transparent text-white border border-white/30'}
@@ -323,7 +380,7 @@ export default function Header({
 
     <div className="flex-1 overflow-y-auto">
       <div className="flex justify-between items-center px-6 py-5 border-b border-black/10">
-        <button onClick={() => setMobileOpen(false)} className="text-xl">
+        <button onClick={() => setMobileOpen(false)} className="">
           <img src="/images/header/close.svg" className="w-7 h-auto cursor-pointer" />
         </button>
 
@@ -336,16 +393,16 @@ export default function Header({
       </div>
 
       <div className="px-6 py-5 border-b border-black/10 flex items-center justify-between">
-        <div className="flex items-center gap-3 text-sm tracking-widest">
+        <div className="flex items-center gap-3">
           <img src="/images/header/search.svg" className="w-7 h-auto cursor-pointer" />
-          <span className="uppercase opacity-70">
+          <span className="opacity-70">
             {lang === "es" ? "Buscar" : "Search"}
           </span>
         </div>
         <img src="/images/header/close.svg" className="w-7 h-auto cursor-pointer" />
       </div>
 
-      <div className="px-6 py-6 flex flex-col gap-6 text-sm tracking-widest">
+      <div className="px-6 py-6 flex flex-col gap-6">
 
   <div>
     <div
@@ -440,9 +497,38 @@ export default function Header({
     )}
   </div>
 
-  <div onClick={() => { goTo('about'); setMobileOpen(false) }}>
-    {lang === "es" ? "NOSOTROS" : "ABOUT"}
+  <div>
+  {/* MAIN ITEM */}
+  <div
+    className="flex justify-between items-center cursor-pointer"
+    onClick={() =>
+      setMobileMenu(mobileMenu === 'about' ? null : 'about')
+    }
+  >
+    <span>{lang === "es" ? "NOSOTROS" : "ABOUT"}</span>
+
+    <span className="text-lg">
+      {mobileMenu === 'about' ? '−' : '+'}
+    </span>
   </div>
+
+  {mobileMenu === 'about' && (
+    <div className="mt-4 pl-4 flex flex-col gap-3">
+      {aboutSections.map((section, i) => (
+        <div
+          key={i}
+          className="cursor-pointer opacity-80 hover:opacity-100"
+          onClick={() => {
+            router.push(`/${lang}/about-us#${section.link}`)
+            setMobileOpen(false)
+          }}
+        >
+          {section.name[lang as 'es' | 'en']}
+        </div>
+      ))}
+    </div>
+  )}
+</div>
 
   <div onClick={() => { goTo('blogs'); setMobileOpen(false) }}>
     BLOG
@@ -456,7 +542,7 @@ export default function Header({
     <span>{lang === "es" ? "TIENDA" : "STORE"}</span>
   </div>
 
-  <div className="flex gap-12 text-sm tracking-widest">
+  <div className="flex gap-12">
   <span
     onClick={() => changeLang('es')}
     className={`
@@ -505,7 +591,7 @@ export default function Header({
 
     <div className="px-6 pb-6">
 
-      <div className="flex justify-between text-xs tracking-widest mb-4">
+      <div className="flex justify-between mb-4">
         <a href="mailto:hola@andes.travel" className="flex items-center gap-2 opacity-70">
           <img src="/images/header/email.svg" className="w-7 h-auto cursor-pointer" />
           <span>{lang === "es" ? "CONTACTAR" : "CONTACT"}</span>
@@ -519,7 +605,7 @@ export default function Header({
 
       <div
         onClick={() => { goTo('booking'); setMobileOpen(false) }}
-        className="border border-black text-center py-3 tracking-widest"
+        className="border border-black text-center py-3"
       >
         {lang === "es" ? "RESERVAR AHORA" : "BOOK NOW"}
       </div>

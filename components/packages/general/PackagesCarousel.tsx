@@ -107,15 +107,15 @@ export default function PackagesCarousel({ packages, lang }: any) {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
               <div className="absolute bottom-8 left-8 text-white space-y-3">
-                <p className="text-[11px] tracking-[0.2em] uppercase opacity-80">
+                <p className="opacity-80">
                   {pkg.days} {lang === "es" ? "DÍAS | NOCHES" : "DAYS | NIGHTS"}
                 </p>
 
-                <h3 className="text-2xl lg:text-3xl font-light leading-tight max-w-[260px]">
+                <h3 className="leading-tight max-w-[260px]">
                   {pkg.title?.[lang]}
                 </h3>
 
-                <button className="mt-2 border border-white px-5 py-2 text-[11px] tracking-[0.2em] hover:bg-white hover:text-black transition-all duration-300">
+                <button className="mt-2 border border-white px-5 py-2 hover:bg-white hover:text-black transition-all duration-300">
                   {lang === "es" ? "VER ITINERARIO" : "VIEW ITINERARY"}
                 </button>
               </div>

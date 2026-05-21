@@ -7,7 +7,7 @@ export default function CategoryRow({ category, lang }: any) {
   return (
     <section className="max-w-[1100px] mx-auto px-4 py-20 grid md:grid-cols-3 gap-10">
       <div>
-        <h2 className="text-3xl md:text-4xl">
+        <h2 className="">
           {category.title?.[lang]}
         </h2>
       </div>

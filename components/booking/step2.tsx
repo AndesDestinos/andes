@@ -73,18 +73,18 @@ export default function Step2({ form, setForm, next, prev }: any) {
 
   return (
     <BookingLayout form={form}>
-      <div className="flex items-center justify-center gap-6 mb-10 text-sm">
+      <div className="flex items-center justify-center gap-6 mb-10">
         <div className="text-green-500">✓ FECHA</div>
         <div className="w-10 h-[1px] bg-gray-300"/>
         <div className="flex items-center gap-2">
-          <div className="w-6 h-6 bg-black text-white rounded-full flex items-center justify-center text-xs">2</div>
+          <div className="w-6 h-6 bg-black text-white rounded-full flex items-center justify-center">2</div>
           INFORMACIÓN
         </div>
         <div className="w-10 h-[1px] bg-gray-300"/>
         <div className="text-gray-400">3 PAGAR</div>
       </div>
 
-      <h2 className="text-lg font-semibold mb-6">
+      <h2 className="mb-6">
         ¿QUIÉNES VIAJARÁN?
       </h2>
 
@@ -95,7 +95,7 @@ export default function Step2({ form, setForm, next, prev }: any) {
 
             <div className="flex justify-between items-center p-4 border-b">
 
-              <div className="font-medium">
+              <div className="">
                 {v?.nombre || `Viajero ${i + 1}`}
               </div>
 
@@ -121,7 +121,7 @@ export default function Step2({ form, setForm, next, prev }: any) {
             {isOpen && (
               <div className="p-6">
 
-                <div className="grid grid-cols-12 gap-4 text-sm">
+                <div className="grid grid-cols-12 gap-4">
 
                   <div className="col-span-6">
                     <input
@@ -165,7 +165,7 @@ export default function Step2({ form, setForm, next, prev }: any) {
 
                   <button
                     onClick={() => setOpenExtras(openExtras === i ? null : i)}
-                    className="bg-orange-600 text-white px-6 py-2 text-sm"
+                    className="bg-orange-600 text-white px-6 py-2"
                   >
                     + Adicionales
                   </button>
@@ -177,16 +177,16 @@ export default function Step2({ form, setForm, next, prev }: any) {
 
       <button
         onClick={() => setOpenExtras(null)}
-        className="absolute top-3 right-3 text-gray-500 text-lg"
+        className="absolute top-3 right-3 text-gray-500"
       >
         ✕
       </button>
 
-      <h4 className="text-lg font-semibold mb-4">
+      <h4 className="mb-4">
         Elige tus complementos
       </h4>
 
-      <div className="flex flex-col gap-3 text-sm">
+      <div className="flex flex-col gap-3">
         {extrasList.map((extra) => {
           const selected = v?.extras?.includes(extra.id);
 
@@ -233,18 +233,18 @@ export default function Step2({ form, setForm, next, prev }: any) {
       <div className="flex justify-center my-6">
         <button
           onClick={addViajero}
-          className="border px-6 py-2 text-sm hover:bg-gray-100"
+          className="border px-6 py-2 hover:bg-gray-100"
         >
           + Agregar viajero
         </button>
       </div>
 
       <div className="flex justify-between mt-10">
-        <button onClick={prev} className="border px-10 py-3 text-sm">
+        <button onClick={prev} className="border px-10 py-3">
           ← VOLVER
         </button>
 
-        <button onClick={next} className="bg-black text-white px-10 py-3 text-sm">
+        <button onClick={next} className="bg-black text-white px-10 py-3">
           CONTINUAR →
         </button>
       </div>

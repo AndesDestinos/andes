@@ -74,7 +74,7 @@ export default function BlogSection({ posts, lang }: any) {
   return (
     <section className="andes-contenido">
       <div className="flex justify-between items-center mb-10">
-        <h2 className="text-2xl md:text-3xl font-semibold">
+        <h2 className="">
           {lang === "es"
             ? "Artículos clave para organizar tu viaje"
             : "Key articles to plan your trip"}
@@ -82,7 +82,7 @@ export default function BlogSection({ posts, lang }: any) {
 
         <Link
             href={`/${lang}/blogs`}
-            className="text-sm font-medium text-primary hover:underline"
+            className="text-primary hover:underline"
         >
             {lang === "es" ? "Leer más" : "Read more"}
         </Link>
@@ -119,30 +119,30 @@ export default function BlogSection({ posts, lang }: any) {
                   className="w-full h-full object-cover transition duration-700 group-hover:scale-110"
                 />
 
-                <div className="absolute top-4 left-4 bg-black text-white text-xs px-3 py-1 rounded-full">
+                <div className="absolute top-4 left-4 bg-black text-white px-3 py-1 rounded-full">
                   {post.category?.title?.[lang] || "Blog"}
                 </div>
 
-                <div className="absolute bottom-4 right-4 bg-black/60 text-white text-xs px-3 py-2 rounded-md">
+                <div className="absolute bottom-4 right-4 bg-black/60 text-white px-3 py-2 rounded-md">
                   {post.readingTime || "5 min"}
                 </div>
               </div>
 
-              <p className="text-sm text-gray-500">
+              <p className="text-gray-500">
                 {post.publishedAt}
               </p>
 
-              <h3 className="text-xl md:text-2xl font-semibold leading-snug">
+              <h3 className="leading-snug">
                 {post.headline?.[lang]}
               </h3>
 
-              <p className="text-sm text-gray-600 line-clamp-3">
+              <p className="text-gray-600 line-clamp-3">
                 {post.excerpt?.[lang]}
               </p>
 
               <Link
                 href={`/${lang}/blogs/${post.slug.current}`}
-                className="text-sm font-medium text-primary hover:underline"
+                className="text-primary hover:underline"
               >
                 {lang === "es" ? "Leer más" : "Read more"}
               </Link>

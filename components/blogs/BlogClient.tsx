@@ -68,7 +68,7 @@ export default function BlogClient({ data, lang }: any) {
                 <div className="absolute inset-0 bg-black/40" />
 
                 <div className="relative z-10 flex items-center justify-center h-full">
-                    <h1 className="text-white text-3xl md:text-5xl text-center px-4">
+                    <h1 className="text-white text-center px-4">
                     {data.headline?.[lang]}
                     </h1>
                 </div>
@@ -80,7 +80,7 @@ export default function BlogClient({ data, lang }: any) {
                     top: showLayoutHeader ? "82px" : "0px",
                 }}
             >
-                <div className="flex justify-between px-6 py-4 text-sm">
+                <div className="flex justify-between px-6 py-4">
                     <button
                         onClick={() => {
                         if (window.history.length > 1) {
@@ -112,7 +112,7 @@ export default function BlogClient({ data, lang }: any) {
             </div>
 
             <section className="andes-contenido-pequenio text-center">
-                <h1 className="font-serif leading-tight">
+                <h1 className="leading-tight">
                     {data.headline?.[lang]}
                 </h1>
                 <div className="flex justify-center items-center gap-7 pt-7">
@@ -140,7 +140,7 @@ export default function BlogClient({ data, lang }: any) {
             <section className="andes-contenido-pequenio">
                 <div className="border-t border-b border-gray-300 py-5">
                     <div className="flex justify-between items-center">
-                        <h3 className="font-semibold tracking-wide">
+                        <h3 className="">
                             { lang === 'es' ? 'INDICE DE CONTENIDOS' : 'TABLE OF CONTENTS' }
                         </h3>
                         <button
@@ -165,7 +165,7 @@ export default function BlogClient({ data, lang }: any) {
                         </button>
                     </div>
                     {showIndex && (
-                        <ul className="mt-4 space-y-2 text-sm">
+                        <ul className="mt-4 space-y-2">
                             {data.sections.map((sec: any, i: number) => (
                                 <li key={i}>
                                 <button
@@ -231,15 +231,15 @@ export default function BlogClient({ data, lang }: any) {
                         />
                     </div>
                     <div className="relative z-10 max-w-[500px] mx-auto bg-white px-8 py-10 text-center shadow-sm">
-                        <h2 className="text-2xl md:text-3xl font-serif leading-snug">
+                        <h2 className="leading-snug">
                             {data.cta?.title?.[lang]}
                         </h2>
-                        <p className="text-gray-600 mt-4 text-sm md:text-base">
+                        <p className="text-gray-600 mt-4">
                             {data.cta?.description?.[lang]}
                         </p>
                         <a
                             href={data.cta?.buttonLink || '#'}
-                            className="inline-block mt-6 px-6 py-3 bg-black text-white text-sm tracking-wide hover:bg-gray-800 transition"
+                            className="inline-block mt-6 px-6 py-3 bg-black text-white hover:bg-gray-800 transition"
                         >
                             {data.cta?.buttonLabel?.[lang]}
                         </a>

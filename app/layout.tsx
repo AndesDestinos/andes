@@ -64,7 +64,7 @@ export default function RootLayout({
       lang="es"
       className={`${metropolis.variable} ${bodoni.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col font-sans">
+      <body className="min-h-full flex flex-col">
         {children}
       </body>
     </html>

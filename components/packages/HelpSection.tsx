@@ -28,7 +28,7 @@ export default function HelpSection({ help, lang }: any) {
             </div>
 
             <div className="flex flex-col gap-6">
-                <h2 className="text-3xl md:text-4xl font-semibold leading-tight">
+                <h2 className="leading-tight">
                     { help?.title?.[lang] }
                 </h2>
 
@@ -36,7 +36,7 @@ export default function HelpSection({ help, lang }: any) {
                     { help?.description?.[lang] }
                 </p>
 
-                <button className="bg-black text-white px-6 py-3 w-fit text-sm tracking-wide">
+                <button className="bg-black text-white px-6 py-3 w-fit">
                     { help?.actionText?.[lang] }
                 </button>
             </div>

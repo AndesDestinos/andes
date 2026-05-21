@@ -8,13 +8,13 @@ export default function PackagesSection({ categories, lang }: any) {
           key={cat._id}
           className="andes-contenido"
         >
-          <p className="text-center text-sm uppercase text-gray-500">
+          <p className="text-center text-gray-500">
             {lang === "es"
               ? "La maravilla del mundo"
               : "Wonder of the world"}
           </p>
 
-          <h2 className="text-center text-3xl md:text-4xl font-semibold mb-6">
+          <h2 className="text-center mb-6">
             {cat.title?.[lang]}
           </h2>
 

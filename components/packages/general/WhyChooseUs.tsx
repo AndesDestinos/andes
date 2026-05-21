@@ -50,7 +50,7 @@ export default function WhyChooseUs({ lang }: Props) {
 
   return (
     <section className="andes-contenido-pequenio text-center">
-      <h2 className="text-2xl md:text-3xl font-semibold mb-12">
+      <h2 className="mb-12">
         {content.title}
       </h2>
 
@@ -60,8 +60,8 @@ export default function WhyChooseUs({ lang }: Props) {
             <div className="w-14 h-14 rounded-full bg-gray-100 flex items-center justify-center">
               <img src={item.image} className="w-6 h-6" />
             </div>
-            <h3 className="font-medium">{item.title}</h3>
-            <p className="text-sm text-gray-600 max-w-[250px]">
+            <h3 className="">{item.title}</h3>
+            <p className="text-gray-600 max-w-[250px]">
               {item.desc}
             </p>
           </div>
