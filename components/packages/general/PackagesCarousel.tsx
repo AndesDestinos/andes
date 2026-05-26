@@ -1,161 +1,151 @@
 "use client"
 
+import { useEffect, useState } from "react"
+import Link from "next/link"
 import { urlFor } from "@/lib/sanity.image"
-import { useRef, useState, useEffect } from "react"
 
-export default function PackagesCarousel({ packages, lang }: any) {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const itemRefs = useRef<(HTMLDivElement | null)[]>([])
-  const [activeIndex, setActiveIndex] = useState(0)
+export default function PackagesCarousel({ tours, lang }: any) {
+  const [current, setCurrent] = useState(0)
   const [itemsPerView, setItemsPerView] = useState(3)
 
-  const calculateItemsPerView = () => {
-    const width = window.innerWidth
-
-    if (width < 640) return 1
-    if (width < 1024) return 2
-    return 3
-  }
-
   useEffect(() => {
-    const update = () => {
-      setItemsPerView(calculateItemsPerView())
+    const handleResize = () => {
+      if (window.innerWidth < 640) setItemsPerView(1)
+      else if (window.innerWidth < 1024) setItemsPerView(2)
+      else setItemsPerView(3)
     }
 
-    update()
-    window.addEventListener("resize", update)
-    return () => window.removeEventListener("resize", update)
+    handleResize()
+    window.addEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
   }, [])
 
-  const shouldCenter = packages.length <= itemsPerView
-  const showControls = packages.length > itemsPerView
+  const showControls = tours.length > itemsPerView
 
-  const scroll = (dir: "left" | "right") => {
-    if (!containerRef.current) return
-    const width = containerRef.current.clientWidth
+  const maxIndex = Math.max(0, tours.length - itemsPerView)
 
-    containerRef.current.scrollBy({
-      left: dir === "left" ? -width : width,
-      behavior: "smooth",
-    })
+  const next = () => {
+    setCurrent((prev) => (prev < maxIndex ? prev + 1 : prev))
   }
 
-  const handleScroll = () => {
-    if (!containerRef.current) return
-
-    const container = containerRef.current
-    const center = container.scrollLeft + container.clientWidth / 2
-
-    let closest = 0
-    let min = Infinity
-
-    itemRefs.current.forEach((item, i) => {
-      if (!item) return
-
-      const itemCenter = item.offsetLeft + item.clientWidth / 2
-      const dist = Math.abs(center - itemCenter)
-
-      if (dist < min) {
-        min = dist
-        closest = i
-      }
-    })
-
-    setActiveIndex(closest)
+  const prev = () => {
+    setCurrent((prev) => (prev > 0 ? prev - 1 : prev))
   }
-
-  useEffect(() => {
-    const el = containerRef.current
-    if (!el) return
-
-    el.addEventListener("scroll", handleScroll)
-    handleScroll()
-
-    return () => el.removeEventListener("scroll", handleScroll)
-  }, [])
 
   return (
-    <div className="w-full">
-      <div
-        ref={containerRef}
-        className={`
-          flex scroll-smooth snap-x snap-mandatory
-          ${shouldCenter ? "justify-center" : "overflow-x-auto"}
-          
-          [-ms-overflow-style:none]
-          [scrollbar-width:none]
-          [&::-webkit-scrollbar]:hidden
-        `}
-      >
-        {packages.map((pkg: any, i: number) => (
-          <div
-            key={pkg._id}
-            ref={(el) => { itemRefs.current[i] = el }}
-            className="
-              flex-shrink-0
-              w-full
-              sm:w-1/2
-              lg:w-1/3
-              snap-start
-              px-3
-            "
-          >
-            <div className="group h-[420px] relative overflow-hidden rounded-lg cursor-pointer">
-              <img
-                src={pkg?.mainImage ? urlFor(pkg.mainImage).url() : '/images/share/noImage.jpg'}
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
-              <div className="absolute bottom-8 left-8 text-white space-y-3">
-                <p className="opacity-80">
-                  {pkg.days} {lang === "es" ? "DÍAS | NOCHES" : "DAYS | NIGHTS"}
-                </p>
-
-                <h3 className="leading-tight max-w-[260px]">
-                  {pkg.title?.[lang]}
-                </h3>
-
-                <button className="mt-2 border border-white px-5 py-2 hover:bg-white hover:text-black transition-all duration-300">
-                  {lang === "es" ? "VER ITINERARIO" : "VIEW ITINERARY"}
-                </button>
-              </div>
-            </div>
-          </div>
-        ))}
+    <section className="w-full">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-10">
+        <div>
+          <h4 className="text-gray-500">
+            {lang === "es" ? "DESTINOS IMPERDIBLES" : "MUST-SEE DESTINATIONS"}
+          </h4>
+          <h2 className="text-gray-900 mt-2">
+            {lang === "es"
+              ? "LOS MEJORES DESTINOS POPULARES"
+              : "THE BEST POPULAR DESTINATIONS"}
+          </h2>
+        </div>
       </div>
 
-      {showControls && (
-        <div className="flex justify-between items-center mt-6 px-4 lg:px-10">
-          
-          {/* ROMBOS */}
-          <div className="flex gap-3">
-            {packages.map((_: any, i: number) => (
+      <div className="relative">
+        <div className="overflow-hidden">
+          <div
+            className={`flex gap-6 transition-transform duration-500 ${
+              !showControls ? "justify-center" : ""
+            }`}
+            style={{
+              transform: showControls
+                ? `translateX(-${current * (100 / itemsPerView)}%)`
+                : "none",
+            }}
+          >
+            {tours.map((tour: any, index: number) => (
               <div
-                key={i}
-                className={`
-                  w-2.5 h-2.5 rotate-45 transition-all duration-300
-                  ${i === activeIndex ? "bg-black scale-125" : "bg-gray-300"}
-                `}
-              />
+                key={tour._id}
+                className="shrink-0 w-full sm:w-[48%] lg:w-[32%]"
+              >
+                <Link
+                  href={`/${lang}/${tour.category.type}s/${tour.category.slug.current}/${tour.slug.current}`}
+                  className="block"
+                >
+                <div className="relative aspect-[4/5] overflow-hidden group">
+                  <img
+                    src={
+                      tour?.mainImage
+                        ? urlFor(tour.mainImage).url()
+                        : "/images/share/noImage.jpg"
+                    }
+                    alt={tour.title?.[lang]}
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition duration-700"
+                  />
+
+                  <div className="absolute inset-0 bg-black/40" />
+
+                  <div className="absolute bottom-0 p-6 text-white w-full !tracking-[3px]">
+                    <p className="">
+                      {tour.durationLabel?.[lang]}
+                    </p>
+
+                    <h3 className="!tracking-[3px] mt-2">
+                      {tour.title?.[lang]}
+                    </h3>
+
+                    <div className="mt-4 overflow-hidden max-h-0 group-hover:max-h-40 transition-all duration-500">
+                      <div className="w-full h-[1px] bg-white mb-3 opacity-80" />
+
+                      <p className="opacity-80">
+                        {tour.destinations?.join(", ")}
+                      </p>
+
+                      <div className="flex justify-between">
+                      <span className="inline-block mt-3 border-b border-white pb-1 !tracking-[3px]">
+                        {lang === "es" ? "VER ITINERARIO" : "VIEW ITINERARY"}
+                      </span>
+                      <img src="/images/footer/directionWhite.svg" className="h-7 w-7" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                </Link>
+              </div>
             ))}
           </div>
-          <div className="flex gap-3">
-            <button
-              onClick={() => scroll("left")}
-              className="w-10 h-10 flex items-center justify-center border border-gray-300 hover:bg-black hover:text-white transition"
-            >
-              ‹
-            </button>
-
-            <button
-              onClick={() => scroll("right")}
-              className="w-10 h-10 flex items-center justify-center border border-gray-300 hover:bg-black hover:text-white transition"
-            >
-              ›
-            </button>
-          </div>
         </div>
-      )}
-    </div>
+
+        {showControls && (
+          <div className="flex items-center justify-between mt-6">
+            <div></div>
+            <div className="flex gap-3">
+              {Array.from({ length: maxIndex + 1 }).map((_, index) => (
+                <div
+                  key={index}
+                  onClick={() => setCurrent(index)}
+                  className={`w-3 h-3 rotate-45 cursor-pointer transition ${
+                    index === current
+                      ? "border border-2 border-black  bg-black"
+                      : "border border-2 border-[#CBCBCB]"
+                  }`}
+                />
+              ))}
+            </div>
+
+            <div className="flex gap-4">
+              <button
+                onClick={prev}
+                className="p-2 cursor-pointer border-b border-b-2 border-b-[#CBCBCB] flex items-center justify-center hover:border-b-black transition"
+              >
+                ←
+              </button>
+              <button
+                onClick={next}
+                className="p-2 cursor-pointer border-b border-b-2 border-b-[#CBCBCB] flex items-center justify-center hover:border-b-black transition"
+              >
+                →
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </section>
   )
 }

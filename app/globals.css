@@ -10,10 +10,20 @@ body {
   font-family: var(--font-metropolis);
 }
 
+.home-section {
+  h2 {
+    font-family: var(--font-bodoni);
+  }
+}
+
 .andes-blog {
   h2, h3 {
     font-family: var(--font-bodoni);
   }
+}
+
+.andes-blog-font {
+  font-family: var(--font-bodoni);
 }
 
 .andes-footer {
@@ -52,4 +62,11 @@ p, div, span {
   max-width: 1000px;
   padding: 21px;
   margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  h1 { font-size: 36px; }
+  h2 { font-size: 28px; }
+  h3 { font-size: 22px; }
+  h4 { font-size: 14px; }
 }

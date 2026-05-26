@@ -541,6 +541,8 @@ export default function Header({
     <span>{lang === "es" ? "TIENDA" : "STORE"}</span>
   </div>
 
+<div className="w-full h-[1px] bg-gray-300 mb-3 opacity-80" />
+
   <div className="flex gap-12">
   <span
     onClick={() => changeLang('es')}

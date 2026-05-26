@@ -4,13 +4,12 @@ import { useState } from 'react'
 import BlogHero from './BlogHero'
 import BlogTabs from './BlogTabs'
 import FeaturedWithCarousel from './FeaturedWithCarousel'
-import CategoryRow from './CategoryRow'
+import CategoryCarousel from './CategoryCarousel'
 
 export default function BlogClient({ categories, lang, hero }: any) {
   const [active, setActive] = useState(
     categories?.[0]?.slug?.current
   )
-
   const activeCategory = categories.find(
     (c: any) => c.slug.current === active
   )
@@ -34,14 +33,21 @@ export default function BlogClient({ categories, lang, hero }: any) {
       )}
 
       {categories
-        .filter((c: any) => c.slug.current !== active)
-        .map((cat: any) => (
-          <CategoryRow
-            key={cat._id}
-            category={cat}
-            lang={lang}
-          />
-        ))}
+  .filter((c: any) => c.slug.current !== active)
+  .map((cat: any) => (
+    <div key={cat._id} className="andes-contenido">
+      
+      <h2 className="andes-blog-font mb-6">
+        {cat.title?.[lang]}
+      </h2>
+
+      <CategoryCarousel
+        posts={cat.posts}
+        lang={lang}
+      />
+
+    </div>
+))}
     </main>
   )
 }

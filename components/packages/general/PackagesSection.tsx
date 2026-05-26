@@ -8,23 +8,19 @@ export default function PackagesSection({ categories, lang }: any) {
           key={cat._id}
           className="andes-contenido"
         >
-          <p className="text-center text-gray-500">
-            {lang === "es"
-              ? "La maravilla del mundo"
-              : "Wonder of the world"}
-          </p>
+          <h4 className="text-center text-gray-500">
+            {cat.title?.[lang]}
+          </h4>
 
           <h2 className="text-center mb-6">
-            {cat.title?.[lang]}
+            {cat.subtitle?.[lang]}
           </h2>
 
           <p className="text-center text-gray-600 max-w-[700px] mx-auto mb-12">
-            {lang === "es"
-              ? "Mejor época para visitar..."
-              : "Best time to visit..."}
+            {cat.description?.[lang]}
           </p>
 
-          <PackagesCarousel packages={cat.packages} lang={lang} />
+          <PackagesCarousel tours={cat.packages} lang={lang} />
         </section>
       ))}
     </>

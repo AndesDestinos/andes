@@ -31,9 +31,9 @@ export default function ItinerarySection({itinerary, lang}: any) {
 
   return (
     <section id="itinerario" className="relative">
-      <div className="andes-contenido grid md:grid-cols-2 grid-cols-1 gap-12">
-        <div className="md:sticky md:top-0 md:h-screen h-[300px] relative overflow-hidden">
-          {itinerary?.map((item: any, i: number) => (
+      <div className="andes-contenido grid md:grid-cols-2 grid-cols-1 gap-12 relative">
+        <div className="hidden md:block md:sticky md:top-0 md:h-screen relative overflow-hidden md:-ml-8 md:pl-8">
+          {itinerary?.map((item: any, i: number) => ( 
             <img
               key={i}
               src={item.image ? urlFor(item.image).width(1000).url() : '/images/share/noImage.jpg'}
@@ -43,6 +43,16 @@ export default function ItinerarySection({itinerary, lang}: any) {
               }`}
             />
           ))}
+          {itinerary?.[activeIndex] && (
+            <div className="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/70 to-transparent text-white">
+              <span className="p-3 opacity-80 bg-[#000000]">
+                {lang === 'es' ? 'DÍA ' : 'DAY '} {activeIndex + 1}
+              </span>
+              <h3 className="mt-6 font-semibold">
+                {itinerary[activeIndex].title?.[lang]}
+              </h3>
+            </div>
+          )}
         </div>
 
         <div className="grid w-full mx-auto gap-12">
@@ -87,6 +97,18 @@ export default function ItinerarySection({itinerary, lang}: any) {
                 <h3>
                   {day.title?.[lang]}
                 </h3>
+                {/* Imagen solo mobile */}
+                <div className="md:hidden mt-4">
+                  <img
+                    src={
+                      day.image
+                        ? urlFor(day.image).width(800).url()
+                        : '/images/share/noImage.jpg'
+                    }
+                    alt=""
+                    className="w-full h-[220px] object-cover rounded-xl"
+                  />
+                </div>
                 <p className='whitespace-pre-line'>{day.description?.[lang]}</p>
                 <ul className="list-disc pl-5 pb-7">
                   {day.additionalInfo?.map((item: any, i: number) => (

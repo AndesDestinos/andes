@@ -103,23 +103,23 @@ export default async function HomePage({params}: any) {
     <main className="w-full flex flex-col gap-30">
       <HeroSection data={homeData} lang={lang} />
 
-      <div className="andes-contenido-pequenio">
+      <div className="andes-contenido-pequenio home-section">
         <CompanySection data={homeData.companySection} lang={lang} />
       </div>
 
-      <div className="andes-contenido">
+      <div className="andes-contenido home-section">
         <StrengthsSection data={aboutData.strengthsSection} lang={lang} />
       </div>
 
-      <div className="andes-contenido">
+      <div className="andes-contenido home-section">
         <FeaturedToursSection tours={featuredTours} lang={lang} />
       </div>
 
-      <div className="andes-contenido-pequenio">
+      <div className="andes-contenido-pequenio home-section">
         <TripSection data={homeData.yourTripSection} lang={lang} />
       </div>
 
-      <div className="andes-contenido">
+      <div className="andes-contenido home-section">
         <FeaturedOtherssSection tours={featuredOthers} lang={lang} />
       </div>
 

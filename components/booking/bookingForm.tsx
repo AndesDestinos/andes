@@ -2,30 +2,62 @@
 
 import Step1 from '@/components/booking/step1';
 import Step2 from '@/components/booking/step2';
-import PagoStep from '@/components/booking/step3';
+import Step3 from '@/components/booking/step3';
 import { urlFor } from '@/lib/sanity.image';
 import { useState } from 'react';
+import Step4 from './step4';
 
 export type FormData = {
-  tour: string;
+  tourId: string;
+  tourData: {
+    title: string;
+    price: number;
+    image: any;
+    category: {
+      title: string;
+      type: string;
+    };
+    type: string;
+  } | null;
   viajeros: number;
   servicio: 'privado' | 'lujo';
   fechaInicio: Date | null;
   fechaFin: Date | null;
   viajerosData: any[];
+  paymentType: 'half' | 'full' | null;
+  donationActive: boolean;
+  donationAmount: number;
+  cardName: string;
+  cardNumber: string;
+  cardExpiry: string;
+  cardCvc: string;
 };
 
-export default function BookingForm({lang, hero}: any) {
+export default function BookingForm({lang, hero, data}: any) {
   const [step, setStep] = useState(1);
-
-  const [form, setForm] = useState<FormData>({
-    tour: '',
+  const inititalStateForm: FormData = {
+    tourId: '',
+    tourData: null,
     viajeros: 2,
     servicio: 'privado',
     fechaInicio: null,
     fechaFin: null,
-    viajerosData: []
-  });
+    viajerosData: [],
+    paymentType: null,
+    donationActive: false,
+    donationAmount: 0,
+    cardName: '',
+    cardNumber: '',
+    cardExpiry: '',
+    cardCvc: '',
+  }
+
+  const [form, setForm] = useState<FormData>(inititalStateForm);
+
+  const reset = () => {
+    setForm(inititalStateForm);
+    setStep(1);
+  };
 
   return (
     <>
@@ -39,29 +71,42 @@ export default function BookingForm({lang, hero}: any) {
                 </h1>
             </div>
         </section>
+
         {step === 1 && (
             <Step1
-            form={form}
-            setForm={setForm}
-            next={() => setStep(2)}
+                lang={lang}
+                form={form}
+                setForm={setForm}
+                data={data}
+                next={() => setStep(2)}
             />
         )}
 
         {step === 2 && (
             <Step2
-            form={form}
-            setForm={setForm}
-            next={() => setStep(3)}
-            prev={() => setStep(1)}
+                lang={lang}
+                form={form}
+                setForm={setForm}
+                next={() => setStep(3)}
+                prev={() => setStep(1)}
             />
         )}
 
         {step === 3 && (
-            <PagoStep
-            form={form}
-            setForm={setForm}
-            next={() => setStep(4)}
-            prev={() => setStep(2)}
+            <Step3
+                lang={lang}
+                form={form}
+                setForm={setForm}
+                next={() => setStep(4)}
+                prev={() => setStep(2)}
+            />
+        )}
+
+        {step === 4 && (
+            <Step4
+                lang={lang}
+                form={form}
+                reset={() => reset()}
             />
         )}
     </>

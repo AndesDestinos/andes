@@ -11,6 +11,7 @@ const QUERY = `
   "posts": *[_type == "blogPost"] | order(publishedAt desc){
     _id,
     headline,
+    excerpt,
     slug,
     mainImage,
     publishedAt,
@@ -30,7 +31,6 @@ export default async function BlogPage({ params }: any) {
 
   const heroData = await client.fetch(hero);
   const data = await client.fetch(QUERY);
-
   const categories = data.categories.map((cat: any) => ({
     ...cat,
     posts: data.posts.filter(

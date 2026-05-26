@@ -41,8 +41,8 @@ export default function FeaturedOtherssSection({ tours, lang }: any) {
           </h4>
           <h2 className="text-gray-900 mt-2">
             {lang === "es"
-              ? "Los mejores destinos populares"
-              : "The best popular destinations"}
+              ? "LOS MEJORES DESTINOS POPULARES"
+              : "THE BEST POPULAR DESTINATIONS"}
           </h2>
         </div>
 

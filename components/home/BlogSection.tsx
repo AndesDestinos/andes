@@ -40,10 +40,10 @@ export default function BlogSection({ posts, lang }: any) {
       <div className="flex justify-between items-start mb-10">
         <div>
           <h4 className="text-gray-500 mb-2">
-            {lang === 'es' ? 'Historias de viajes' : 'travel stories'}
+            {lang === 'es' ? 'HISTORIAS DE VIAJES' : 'TRAVEL STORIES'}
           </h4>
           <h2>
-            {lang === 'es' ? 'Artículos clave para organizar tu viaje' : 'Key articles to help you plan your trip'}
+            {lang === 'es' ? 'ARTÍCULOS CLAVE PARA ORGANIZAR TU VIAJE' : 'KEY ARTICLES TO HELP YOU PLAN YOUR TRIP'}
           </h2>
         </div>
 

@@ -4,7 +4,7 @@ export default function StrengthsSection({ data, lang }: any) {
     return (
         <section className='w-full flex flex-col gap-12'>
             <div className='w-full text-center flex flex-col gap-2'>
-                <h4>{ lang === 'es' ? 'Lo que nos diferencia' : 'What sets us apart' }</h4>
+                <h4>{ lang === 'es' ? 'LO QUE NOS DIFERENCIA' : 'WHAT SETS US APART' }</h4>
                 <h2>{data.title?.[lang]}</h2>
             </div>
             <div className='w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-21'>

@@ -4,7 +4,7 @@ import { client } from '@/lib/sanity.client'
 export default async function TiendaPage({ params }: any) {
   const { lang } = await params
 
-  const [products, categories, hero] = await Promise.all([
+  const [products, categories, storePage] = await Promise.all([
     client.fetch(`
       *[_type == "storeProduct"]{
         _id,
@@ -24,13 +24,41 @@ export default async function TiendaPage({ params }: any) {
     `),
     client.fetch(`*[_type == "storePage"][0]{
       title,
-      image,
+      description,
+      images[]{
+        asset->{
+          _id,
+          url
+        }
+      },
+      faq{
+        title,
+        subtitle,
+        items[]{
+          title,
+          description
+        }
+      },
+      strengths{
+        title,
+        subtitle,
+        items[]{
+          title,
+          description,
+          image{
+            asset->{
+              _id,
+              url
+            }
+          }
+        }
+      }
     }`)
   ])
 
   return (
     <StoreGrid
-      hero={hero}
+      storePage={storePage}
       products={products}
       categories={categories}
       lang={lang}

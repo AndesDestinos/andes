@@ -13,7 +13,6 @@ export default function CompanySection({ data, lang }: any) {
 
         <div className="
           bg-white
-          shadow-lg
           order-1 md:order-2
           md:absolute md:right-0 md:top-1/2 md:-translate-y-1/2
           md:w-[60%]

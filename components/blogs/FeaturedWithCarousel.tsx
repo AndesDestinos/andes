@@ -9,14 +9,14 @@ export default function FeaturedWithCarousel({ posts, lang }: any) {
 
   return (
     <>
-      <section className="max-w-[1100px] mx-auto px-4 py-16 grid md:grid-cols-2 gap-10">
+      <section className="andes-contenido-pequenio grid md:grid-cols-2 gap-10">
         <img
           src={urlFor(featured.mainImage).url()}
-          className="w-full h-[300px] object-cover"
+          className="w-full aspect-square object-cover"
         />
 
         <div>
-          <h2 className="mt-2">
+          <h2 className="mt-2 andes-blog-font">
             {featured.headline?.[lang]}
           </h2>
 
@@ -34,7 +34,7 @@ export default function FeaturedWithCarousel({ posts, lang }: any) {
 
       </section>
 
-      <div className="max-w-[1100px] mx-auto px-4 pb-16 overflow-x-auto">
+      <div className="andes-contenido-pequenio mx-auto px-4 pb-16 overflow-x-auto">
         <div className="flex gap-6">
           {rest.map((post: any) => (
             <Link

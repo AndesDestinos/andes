@@ -15,7 +15,7 @@ export default function TabsNav({lang}: any) {
           <a href="#recomendations" className="shrink-0">
             { lang === 'es' ? 'Que llevar' : 'What to wear' }
           </a>
-          <a href="#ayuda" className="shrink-0">
+          <a href="#help" className="shrink-0">
             { lang === 'es' ? 'Ayuda' : 'Help' }
           </a>
           <a href="#moreDestinations" className="shrink-0">

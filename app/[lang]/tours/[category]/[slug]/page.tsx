@@ -1,3 +1,4 @@
+import AlsoLikeSection from '@/components/packages/AlsoLikeSection';
 import HelpSection from '@/components/packages/HelpSection';
 import HeroSection from '@/components/packages/HeroSection';
 import IncludeSection from '@/components/packages/IncludeSection';
@@ -33,6 +34,26 @@ const getTourBySlugQuery = `
 }
 `
 
+const getRelatedPackagesQuery = `
+*[_type == "tours" 
+  && category->slug.current == $category
+  && slug.current != $slug
+  && defined(slug.current)
+]{
+  _id,
+  title,
+  slug,
+  mainImage,
+  price,
+  rating,
+  days,
+  destinations,
+  "category": category->{
+    slug
+  }
+}
+`
+
 export default async function TourPage({
     params,
 }: {
@@ -40,6 +61,7 @@ export default async function TourPage({
 }) {
     const { lang, slug, category } = await params
     const paquete = await client.fetch(getTourBySlugQuery, { slug })
+    const otrosPaquetes = await client.fetch(getRelatedPackagesQuery, { slug, category })
     if (!paquete) {
         notFound()
     }
@@ -62,6 +84,7 @@ export default async function TourPage({
 
             <TabsNav lang={lang} />
 
+            <div className='flex flex-col w-full gap-36 pt-12 pb-36'>
             <SummarySection 
                 summary={paquete.summary} 
                 title={paquete.title}
@@ -77,6 +100,9 @@ export default async function TourPage({
             <RecomendationSection recommendations={paquete.recommendations} lang={lang} />
 
             <HelpSection help={paquete.helpSection} lang={lang} />
+            
+            <AlsoLikeSection tours={otrosPaquetes} lang={lang} path={"tours"} />
+            </div>
         </>
     )
 }
