@@ -18,7 +18,7 @@ export default function ItinerarySection({itinerary, lang}: any) {
         })
       },
       {
-        rootMargin: '-40% 0px -40% 0px',
+        rootMargin: '-30% 0px -50% 0px'
       }
     )
 
@@ -30,7 +30,7 @@ export default function ItinerarySection({itinerary, lang}: any) {
   }, [])
 
   return (
-    <section id="itinerario" className="relative">
+    <section id="itinerary" className="relative">
       <div className="andes-contenido grid md:grid-cols-2 grid-cols-1 gap-12 relative">
         <div className="hidden md:block md:sticky md:top-0 md:h-screen relative overflow-hidden md:-ml-8 md:pl-8">
           {itinerary?.map((item: any, i: number) => ( 
@@ -38,7 +38,7 @@ export default function ItinerarySection({itinerary, lang}: any) {
               key={i}
               src={item.image ? urlFor(item.image).width(1000).url() : '/images/share/noImage.jpg'}
               alt=""
-              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-2000 ${
+              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
                 activeIndex === i ? 'opacity-100' : 'opacity-0'
               }`}
             />
@@ -62,12 +62,7 @@ export default function ItinerarySection({itinerary, lang}: any) {
           </div>
           <div className='relative grid gap-20 pl-10'>
             <div className="absolute left-0 top-0 w-[2px] h-full bg-gray-300" />
-            <div
-              className="absolute left-0 top-0 w-[2px] bg-[#A18F63] transition-all duration-500"
-              style={{
-                height: `${((activeIndex + 1) / itinerary.length) * 100}%`,
-              }}
-            />
+            
             {itinerary?.map((day: any, index: number) => (
               <div
                 key={index}
@@ -77,10 +72,12 @@ export default function ItinerarySection({itinerary, lang}: any) {
               >
                 <div
                   className={`absolute -left-[45px] top-[12px] -translate-y-1/2 w-3 h-3 rotate-45 ${
-                    index <= activeIndex ? 'bg-[#A18F63]' : 'bg-gray-300'
+                    index == activeIndex ? 'bg-[#A18F63]' : 'bg-gray-300'
                   }`}
                 />
-                <div className='flex gap-5 text-gray-300'>
+                <div className={`flex gap-5 ${
+                  index === activeIndex ? 'text-[#A18F63]' : 'text-gray-300'
+                }`}>
                   <span>
                     { lang === 'es' ? 'DÍA ' : 'DAY '} {index + 1}
                   </span>

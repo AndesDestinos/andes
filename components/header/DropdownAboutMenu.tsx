@@ -25,7 +25,7 @@ export default function DropdownAboutMenu({
             onClick={() => onNavigate(section.link)}
             className="
               cursor-pointer py-2 px-2 rounded
-              hover:bg-black/5 transition
+              hover:bg-black/5 transition andes-spacing
             "
           >
             {section.name[lang]}

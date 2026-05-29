@@ -103,7 +103,7 @@ export default async function HomePage({params}: any) {
     <main className="w-full flex flex-col gap-30">
       <HeroSection data={homeData} lang={lang} />
 
-      <div className="andes-contenido-pequenio home-section">
+      <div id="company-section" className="andes-contenido-pequenio home-section">
         <CompanySection data={homeData.companySection} lang={lang} />
       </div>
 

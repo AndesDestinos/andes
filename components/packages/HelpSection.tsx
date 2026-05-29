@@ -1,6 +1,12 @@
+"use client"
+
 import {urlFor} from '@/lib/sanity.image'
+import ContactModal from './ContactModal'
+import { useState } from 'react'
 
 export default function HelpSection({ help, lang }: any) {
+  const [open, setOpen] = useState(false)
+  
   return (
     <section id="help">
         <div className="andes-contenido-pequenio grid md:grid-cols-2 grid-cols-1 gap-16 items-center">
@@ -8,21 +14,21 @@ export default function HelpSection({ help, lang }: any) {
                 <div className="grid gap-4">
                     <img
                         src={help?.images?.length > 0 ? urlFor(help.images[0]).width(2000).url() : '/images/share/noImage.jpg'}
-                        className="w-full h-[220px] object-cover"
+                        className="w-full h-[220px] object-cover rounded-[20px]"
                     />
                     <img
                         src={help?.images?.length > 1 ? urlFor(help.images[1]).width(2000).url() : '/images/share/noImage.jpg'}
-                        className="w-full h-[180px] object-cover"
+                        className="w-full h-[180px] object-cover rounded-[20px]"
                     />
                 </div>
                 <div className="grid gap-4">
                     <img
                         src={help?.images?.length > 2 ? urlFor(help.images[2]).width(2000).url() : '/images/share/noImage.jpg'}
-                        className="w-full h-[180px] object-cover"
+                        className="w-full h-[180px] object-cover rounded-[20px]"
                     />
                     <img
                         src={help?.images?.length > 3 ? urlFor(help.images[3]).width(2000).url() : '/images/share/noImage.jpg'}
-                        className="w-full h-[220px] object-cover"
+                        className="w-full h-[220px] object-cover rounded-[20px]"
                     />
                 </div>
             </div>
@@ -36,11 +42,15 @@ export default function HelpSection({ help, lang }: any) {
                     { help?.description?.[lang] }
                 </p>
 
-                <button className="bg-black text-white px-6 py-3 w-fit">
+                <button className="bg-black cursor-pointer text-white px-6 py-3 w-fit" onClick={() => setOpen(true)}>
                     { help?.actionText?.[lang] }
                 </button>
             </div>
         </div>
+        <ContactModal
+            isOpen={open}
+            onClose={() => setOpen(false)}
+        />
     </section>
   )
 }

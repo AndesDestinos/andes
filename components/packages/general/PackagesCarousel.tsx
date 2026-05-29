@@ -34,19 +34,6 @@ export default function PackagesCarousel({ tours, lang }: any) {
 
   return (
     <section className="w-full">
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-10">
-        <div>
-          <h4 className="text-gray-500">
-            {lang === "es" ? "DESTINOS IMPERDIBLES" : "MUST-SEE DESTINATIONS"}
-          </h4>
-          <h2 className="text-gray-900 mt-2">
-            {lang === "es"
-              ? "LOS MEJORES DESTINOS POPULARES"
-              : "THE BEST POPULAR DESTINATIONS"}
-          </h2>
-        </div>
-      </div>
-
       <div className="relative">
         <div className="overflow-hidden">
           <div

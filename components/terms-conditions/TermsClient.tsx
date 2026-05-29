@@ -34,7 +34,7 @@ export default function TermsClient({ data, lang }: any) {
       </div>
 
       <div className="andes-contenido-pequenio">
-        <div className="flex flex-col divide-y">
+        <div className="flex flex-col pb-25">
           {data.sections?.map((section: any, index: number) => {
             const isOpen = activeIndex === index
             return (
@@ -43,15 +43,20 @@ export default function TermsClient({ data, lang }: any) {
                   onClick={() => toggle(index)}
                   className="w-full flex items-center justify-between text-left"
                 >
-                  <h3>
+                  <h3 className={`${isOpen ? 'text-black' : 'text-[#D6D6D6]'}`}>
                     {section.heading?.[lang]}
                   </h3>
 
-                  <div className="w-8 h-8 flex items-center justify-center border rounded-full">
+                  <div
+                    className={`w-8 h-8 flex items-center justify-center rounded-full border transition-colors duration-300 ${
+                      isOpen ? 'border-black' : 'border-[#D6D6D6]'
+                    }`}
+                  >
                     <div className="relative w-4 h-4">
-                        {/* línea horizontal */}
                         <span className="absolute inset-0 flex items-center justify-center">
-                            <span className="w-full h-[2px] bg-black block" />
+                            <span className={`w-full h-[2px] block ${
+                              isOpen ? 'bg-black' : 'bg-[#D6D6D6]'
+                            }`} />
                         </span>
 
                         <span
@@ -59,7 +64,9 @@ export default function TermsClient({ data, lang }: any) {
                             isOpen ? 'rotate-90 opacity-0' : ''
                         }`}
                         >
-                            <span className="w-[2px] h-full bg-black block" />
+                            <span className={`w-[2px] h-full block ${
+                              isOpen ? 'bg-black' : 'bg-[#D6D6D6]'
+                            }`} />
                         </span>
 
                     </div>

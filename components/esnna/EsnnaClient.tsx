@@ -1,14 +1,16 @@
-export default function EsnnaClient({ lang }: any) {
+import { urlFor } from "@/lib/sanity.image";
+
+export default function EsnnaClient({ lang, hero }: any) {
     return (
         <section>
             <div className="relative w-full h-[60vh]">
                 <img
-                src="/images/esnna/esnna.webp"
-                className="w-full h-full object-cover"
+                    src={hero?.image ? urlFor(hero.image).url() : '/images/share/noImage.jpg'}
+                    className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-black/50" />
                 <h1 className="absolute inset-0 flex items-center justify-center text-white text-center px-4">
-                    ESNNA
+                    {hero?.title?.[lang]}
                 </h1>
             </div>
 
@@ -17,12 +19,15 @@ export default function EsnnaClient({ lang }: any) {
                     { lang === 'es' ? 'Compromiso con el programa ESNNA' : 'Commitment to the ESNNA program' }
                 </h2>
 
-                <div className="grid md:grid-cols-2 grid-cols-1 gap-12">
+                <div className="grid md:grid-cols-2 grid-cols-1 gap-12 pb-36">
                     <div className="grid">
-                        <img
-                            src="/images/esnna/protegeme.jpg"
-                            className="w-full h-full object-cover"
-                        />
+                        <div className="relative w-full h-full">
+                            <div className="absolute -bottom-12 -left-12 w-full h-full bg-[#F5F2EB] z-0"></div>
+                            <img
+                                src="/images/esnna/protegeme.jpg"
+                                className="relative z-10 w-full h-full object-cover"
+                            />
+                        </div>
                     </div>
                     <div className="grid items-center text-left">
                         <div className="grid gap-7">

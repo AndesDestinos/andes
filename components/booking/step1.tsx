@@ -4,6 +4,7 @@ import { useState } from 'react';
 import BookingLayout from './layout';
 
 export default function Step1({ lang, form, setForm, data, next }: any) {
+  console.log(form);
   const services = [
     { label: { es: 'Privado', en: 'Private'}, value: 'privado', icon: '/images/booking/crown.svg' },
     { label: { es: 'Lujo', en: 'Luxury'}, value: 'lujo', icon: '/images/booking/diamond.svg' }
@@ -18,13 +19,15 @@ export default function Step1({ lang, form, setForm, data, next }: any) {
   const isSame = (a: Date, b: Date) =>
     a.toDateString() === b.toDateString();
   const handleDate = (d: Date) => {
-    if (!form.fechaInicio || form.fechaFin) {
-      setForm({ ...form, fechaInicio: d, fechaFin: null });
-    } else if (d < form.fechaInicio) {
-      setForm({ ...form, fechaInicio: d });
-    } else {
-      setForm({ ...form, fechaFin: d });
-    }
+    if (!form.tourData?.days) return;
+    const start = new Date(d);
+    const end = new Date(d);
+    end.setDate(start.getDate() + form.tourData.days - 1);
+    setForm({
+      ...form,
+      fechaInicio: start,
+      fechaFin: end,
+    });
   };
 
   const [toast, setToast] = useState<{

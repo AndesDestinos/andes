@@ -20,7 +20,8 @@ type Props = {
   settings: any
   tours: Item[]
   packages: Item[]
-  experiences: Item[]
+  experiences: Item[],
+  blogs: any[],
 }
 
 export default function Header({
@@ -28,12 +29,28 @@ export default function Header({
   settings,
   tours,
   packages,
-  experiences
+  experiences,
+  blogs,
 }: Props) {
   const closeTimeout = useRef<NodeJS.Timeout | null>(null)
-
   const router = useRouter()
   const pathname = usePathname()
+  const isHome = !(pathname === `/${lang}` || pathname === '/')
+  const [search, setSearch] = useState('')
+  const [results, setResults] = useState<any[]>([])
+  const [showResults, setShowResults] = useState(false)
+  const allItems = [
+    ...tours.map((i) => ({ ...i, type: 'tour' })),
+    ...packages.map((i) => ({ ...i, type: 'package' })),
+    ...experiences.map((i) => ({ ...i, type: 'experience' })),
+    ...blogs.map((i) => ({
+      slug: i.slug,
+      type: 'blog',
+      category: i.category,
+      title: i.headline,
+    })),
+  ]
+  console.log(allItems);
 
   const [activeMenu, setActiveMenu] = useState<string | null>(null)
   const [activeCategory, setActiveCategory] = useState<number>(0)
@@ -42,12 +59,13 @@ export default function Header({
   const [mobileMenu, setMobileMenu] = useState<string | null>(null)
   const [showHeader, setShowHeader] = useState(true)
   const [isScrolled, setIsScrolled] = useState(false)
+  const [isHovered, setIsHovered] = useState(false)
 
   const aboutSections = [
-    {name: {es: 'Nuestra historia', en: 'Our history'}, link: 'story'},
-    {name: {es: 'Nuestros valores', en: 'Our values'}, link: 'values'},
-    {name: {es: 'Por que Andes', en: 'Why Andes'}, link: 'why'},
-    {name: {es: 'Turismo sostenible', en: 'Sustainable tourism'}, link: 'sustainable'},
+    {name: {es: 'NUESTRA HISTORIA', en: 'OUR HISTORY'}, link: 'story'},
+    {name: {es: 'NUESTROS VALORES', en: 'OUR VALUES'}, link: 'values'},
+    {name: {es: 'POR QUE ANDES', en: 'WHY ANDES'}, link: 'why'},
+    {name: {es: 'TURISMO SOSTENIBLE', en: 'SUSTAINABLE TOURISM'}, link: 'sustainable'},
   ];
 
   const openMenu = (menu: string) => {
@@ -92,16 +110,12 @@ export default function Header({
   const logoDark = settings?.logoDark?.asset?.url
   const storeLogoLight = settings?.storeLogoLight?.asset?.url
   const storeLogoDark = settings?.storeLogoDark?.asset?.url
-  const currentLogo = (isScrolled || mobileOpen)
-    ? logoDark
-    : logoLight
-  const currentStoreLogo = (isScrolled || mobileOpen)
-    ? storeLogoDark
-    : storeLogoLight
+  const isActiveHeader = isHome || isScrolled || isHovered || mobileOpen
+  const currentLogo = isActiveHeader ? logoDark : logoLight
+  const currentStoreLogo = isActiveHeader ? storeLogoDark : storeLogoLight
 
   useEffect(() => {
     let lastScroll = window.scrollY
-
     const handleScroll = () => {
       const currentScroll = window.scrollY
       setIsScrolled(currentScroll > 50)
@@ -122,26 +136,43 @@ export default function Header({
   }, [])
 
   useEffect(() => {
-  if (mobileOpen) {
-    document.body.style.overflow = 'hidden'
-  } else {
-    document.body.style.overflow = 'auto'
-  }
+    if (mobileOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'auto'
+    }
 
-  return () => {
-    document.body.style.overflow = 'auto'
-  }
-}, [mobileOpen])
+    return () => {
+      document.body.style.overflow = 'auto'
+    }
+  }, [mobileOpen])
+
+  useEffect(() => {
+    if (!search) {
+      setResults([])
+      return
+    }
+    console.log(allItems);
+    const filtered = allItems.filter((item: any) =>
+      item.title?.[lang]?.toLowerCase().includes(search.toLowerCase())
+    )
+    setResults(filtered)
+  }, [search])
 
   return (
     <header
-  className={`
-    fixed top-0 left-0 w-full z-50 transition-all duration-300
-    ${showHeader ? 'translate-y-0' : '-translate-y-full'}
-    ${isScrolled ? 'bg-white text-black shadow-md' : 'bg-transparent text-white'}
-    ${mobileOpen ? 'bg-white text-black' : ''}
-  `}
->
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className={`
+        fixed top-0 left-0 w-full z-50 transition-all duration-300
+        ${showHeader ? 'translate-y-0' : '-translate-y-full'}
+        ${(isHome || isScrolled || isHovered)
+          ? 'bg-white text-black shadow-md'
+          : 'bg-transparent text-white'
+        }
+        ${mobileOpen ? 'bg-white text-black' : ''}
+      `}
+    >
       <nav className="andes-contenido flex items-center justify-between relative">
         <div className="flex items-center justify-between w-full md:hidden">
 
@@ -150,7 +181,8 @@ export default function Header({
       className="cursor-pointer"
       onClick={() => setMobileOpen(!mobileOpen)}
     >
-      <img src="/images/header/menu.svg" className="w-7 h-auto cursor-pointer" />
+      <img src={(isHome || isScrolled || isHovered) ? '/images/header/menuOscuro.svg' : '/images/header/menu.svg'} 
+        className="w-7 h-auto cursor-pointer" />
     </div>
 
     <div
@@ -347,7 +379,7 @@ export default function Header({
   className={`!tracking-[3px]
     relative cursor-pointer px-6 py-2 overflow-hidden border
     transition-colors duration-300
-    ${isScrolled ? 'border-black text-black' : 'border-white text-white'}
+    ${(isHome || isScrolled || isHovered) ? 'border-black text-black' : 'border-white text-white'}
     
     before:content-[''] before:absolute before:top-0 before:left-0
     before:h-full before:w-0 before:bg-[#ABB8C3]
@@ -363,7 +395,7 @@ export default function Header({
     onChange={(e) => changeLang(e.target.value)}
     className={`!tracking-[3px]
       px-2 py-1 cursor-pointer outline-none transition
-      ${isScrolled || mobileOpen
+      ${(isHome || isScrolled || isHovered || mobileOpen)
         ? 'bg-white text-black'
         : 'bg-transparent text-white'}
     `}
@@ -392,18 +424,77 @@ export default function Header({
         <div className="w-5" />
       </div>
 
-      <div className="px-6 py-5 border-b border-black/10 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <img src="/images/header/search.svg" className="w-7 h-auto cursor-pointer" />
-          <span className="opacity-70">
-            {lang === "es" ? "Buscar" : "Search"}
-          </span>
+      <div className="px-6 py-5 border-b border-black/10 flex items-center gap-3">
+        <div className="relative w-full">
+          <div className="flex items-center gap-3 w-full border-b border-black/10 pb-2">
+            <img
+              src="/images/header/search.svg"
+              className="w-6 h-auto"
+            />
+
+            <input
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value)
+                setShowResults(true)
+              }}
+              placeholder={lang === 'es' ? 'Buscar' : 'Search'}
+              className="w-full outline-none"
+            />
+
+            {search && (
+              <button
+                onClick={() => {
+                  setSearch('')
+                  setResults([])
+                  setShowResults(false)
+                }}
+                className="text-xl px-2"
+              >
+                ✕
+              </button>
+            )}
+          </div>
+
+          {showResults && search && (
+            <div className="absolute left-0 top-full mt-2 w-full bg-white border border-black/10 shadow-lg z-50">
+              
+              {results.length === 0 && (
+                <div className="p-3 opacity-50">
+                  {lang === 'es' ? 'Sin resultados' : 'No results'}
+                </div>
+              )}
+
+              {results.map((item, i) => (
+                <div
+                  key={i}
+                  onClick={() => {
+                    const base =
+                      item.type === 'tour'
+                        ? 'tours'
+                        : item.type === 'package'
+                        ? 'packages'
+                        : 'experiences'
+
+                    router.push(`/${lang}/${base}/${item.slug}`)
+                    setMobileOpen(false)
+                  }}
+                  className="p-3 border-b border-black/5 hover:bg-black/5 cursor-pointer"
+                >
+                  <div className="font-medium">
+                    {item.title?.[lang]}
+                  </div>
+
+                  <div className="text-xs opacity-60">
+                    {item.type} • {item.category?.title?.[lang]}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
-        <img src="/images/header/close.svg" className="w-7 h-auto cursor-pointer" />
       </div>
-
       <div className="px-6 py-6 flex flex-col gap-6">
-
   <div>
     <div
       className="flex justify-between items-center cursor-pointer"

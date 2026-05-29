@@ -3,15 +3,12 @@
 import { useState } from 'react'
 import BlogHero from './BlogHero'
 import BlogTabs from './BlogTabs'
-import FeaturedWithCarousel from './FeaturedWithCarousel'
-import CategoryCarousel from './CategoryCarousel'
+import BlogFeaturedCarousel from './BlogFeaturedCarousel'
+import BlogCategorySection from './BlogCategorySection'
 
-export default function BlogClient({ categories, lang, hero }: any) {
+export default function BlogClient({ categories, posts, featuredPosts, lang, hero }: any) {
   const [active, setActive] = useState(
     categories?.[0]?.slug?.current
-  )
-  const activeCategory = categories.find(
-    (c: any) => c.slug.current === active
   )
 
   return (
@@ -20,34 +17,27 @@ export default function BlogClient({ categories, lang, hero }: any) {
 
       <BlogTabs
         categories={categories}
+        posts={posts}
         active={active}
         setActive={setActive}
         lang={lang}
       />
 
-      {activeCategory && (
-        <FeaturedWithCarousel
-          posts={activeCategory.posts}
+      <section id="alls" className="andes-contenido">
+        <BlogFeaturedCarousel
+          posts={featuredPosts}
           lang={lang}
         />
-      )}
+      </section>
 
-      {categories
-  .filter((c: any) => c.slug.current !== active)
-  .map((cat: any) => (
-    <div key={cat._id} className="andes-contenido">
-      
-      <h2 className="andes-blog-font mb-6">
-        {cat.title?.[lang]}
-      </h2>
-
-      <CategoryCarousel
-        posts={cat.posts}
-        lang={lang}
-      />
-
-    </div>
-))}
+      {categories.map((cat: any) => (
+        <BlogCategorySection
+          key={cat._id}
+          category={cat}
+          posts={cat.posts}
+          lang={lang}
+        />
+      ))}
     </main>
   )
 }

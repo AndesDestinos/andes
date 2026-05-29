@@ -16,6 +16,7 @@ export default async function Booking({ params }: any) {
     "title": title[$lang],
     "image": mainImage.asset->url,
     "price": price,
+    days,
     "durationLabel": durationLabel[$lang],
     "category": category->{
       "title": title[$lang],

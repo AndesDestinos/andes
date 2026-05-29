@@ -42,14 +42,14 @@ export default function DropdownMenu({
       <div className="flex flex-col gap-3 mt-5">
         {Object.entries(grouped).map(([cat, items], i) => (
           <div key={i}>
-            <div className="">{cat}</div>
+            <div className="andes-spacing">{cat}</div>
 
             <div className="ml-3 mt-1">
               {items.map((item, j) => (
                 <div
                   key={j}
                   onClick={() => onNavigate(item.category?.slug + '/' + item.slug)}
-                  className="py-1 opacity-80"
+                  className="py-1 opacity-80 andes-spacing"
                 >
                   {item.title?.[lang]}
                 </div>
@@ -70,7 +70,7 @@ export default function DropdownMenu({
               <div
                 key={i}
                 onMouseEnter={() => setActiveCategory(i)}
-                className={`cursor-pointer py-2 ${
+                className={`cursor-pointer andes-spacing py-2 ${
                   activeCategory === i ? '' : 'opacity-60'
                 }`}
               >
@@ -83,7 +83,7 @@ export default function DropdownMenu({
               <div
                 key={i}
                 onClick={() => onNavigate(item.category?.slug + '/' + item.slug)}
-                className="cursor-pointer py-2 hover:opacity-60"
+                className="cursor-pointer py-2 hover:opacity-60 andes-spacing"
               >
                 {item.title?.[lang]}
               </div>
@@ -98,12 +98,12 @@ export default function DropdownMenu({
     <div className="absolute left-0 top-[50px] w-[500px] border-t border-t-[#ABB8C3] bg-white text-black p-5">
       {Object.entries(grouped).map(([cat, items], i) => (
         <div key={i}>
-          <div className="mb-2">{cat}</div>
+          <div className={'mb-2 andes-spacing ' + (i != 0 ? 'mt-3' : '') }>{cat}</div>
           {items.map((item, j) => (
             <div
               key={j}
               onClick={() => onNavigate(item.category?.slug + '/' + item.slug)}
-              className="cursor-pointer py-1 hover:opacity-60"
+              className="cursor-pointer py-1 hover:opacity-60 andes-spacing"
             >
               {item.title?.[lang]}
             </div>

@@ -23,8 +23,8 @@ export default function Footer({ lang, home }: Props) {
   return (
     <footer className="border-t border-[#BFBFBF] w-full justify-center items-center andes-footer">
       <div className="andes-contenido">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-          <div className="space-y-4 border-b md:border-none pb-4 md:pb-0">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-10">
+          <div className="space-y-4 border-b border-b-[#DBD9D9] md:border-none pb-3 md:pm-0">
             <div
               className="flex justify-between items-center cursor-pointer"
               onClick={() => toggleSection('contact')}
@@ -32,7 +32,7 @@ export default function Footer({ lang, home }: Props) {
               <h4 className="opacity-70">
                 {lang === 'es' ? 'CONTACTOS' : 'CONTACT'}
               </h4>
-              <span className="md:hidden">
+              <span className="md:hidden !text-[30px]">
                 {openSection === 'contact' ? '-' : '+'}
               </span>
             </div>
@@ -84,7 +84,7 @@ export default function Footer({ lang, home }: Props) {
             </div>
           </div>
 
-          <div className="space-y-4 border-b md:border-none pb-4 md:pb-0">
+          <div className="space-y-4 border-b border-b-[#DBD9D9] md:border-none pb-3 md:pm-0">
             <div
               className="flex justify-between items-center cursor-pointer"
               onClick={() => toggleSection('help')}
@@ -92,8 +92,8 @@ export default function Footer({ lang, home }: Props) {
               <h4 className="opacity-70">
                 {lang === 'es' ? 'AYUDA' : 'HELP'}
               </h4>
-              <span className="md:hidden">
-                {openSection === 'help' ? '−' : '+'}
+              <span className="md:hidden !text-[30px]">
+                {openSection === 'help' ? '-' : '+'}
               </span>
             </div>
 
@@ -113,7 +113,7 @@ export default function Footer({ lang, home }: Props) {
             </ul>
           </div>
 
-          <div className="space-y-4 border-b md:border-none pb-4 md:pb-0">
+          <div className="space-y-4 border-b border-b-[#DBD9D9] md:border-none pb-3 md:pm-0">
             <div
               className="flex justify-between items-center cursor-pointer"
               onClick={() => toggleSection('company')}
@@ -121,8 +121,8 @@ export default function Footer({ lang, home }: Props) {
               <h4 className="opacity-70">
                 {lang === 'es' ? 'COMPAÑÍA' : 'COMPANY'}
               </h4>
-              <span className="md:hidden">
-                {openSection === 'company' ? '−' : '+'}
+              <span className="md:hidden !text-[30px]">
+                {openSection === 'company' ? '-' : '+'}
               </span>
             </div>
 
@@ -149,7 +149,7 @@ export default function Footer({ lang, home }: Props) {
             </ul>
           </div>
 
-          <div className="space-y-4 border-b md:border-none pb-4 md:pb-0">
+          <div className="space-y-4 border-b border-b-[#DBD9D9] md:border-none pb-3 md:pm-0">
             <div
               className="flex justify-between items-center cursor-pointer"
               onClick={() => toggleSection('legal')}
@@ -157,8 +157,8 @@ export default function Footer({ lang, home }: Props) {
               <h4 className="opacity-70">
                 {lang === 'es' ? 'LEGAL' : 'LEGAL'}
               </h4>
-              <span className="md:hidden">
-                {openSection === 'legal' ? '−' : '+'}
+              <span className="md:hidden !text-[30px]">
+                {openSection === 'legal' ? '-' : '+'}
               </span>
             </div>
 
@@ -187,7 +187,7 @@ export default function Footer({ lang, home }: Props) {
             </p>
             <div className="flex gap-4">
               {home?.socials?.map((social: any, i: number) => (
-                <a key={i} href={social.url} target="_blank">
+                <a key={i} href={social.url} target="_blank" className='border border-[#CDCDCD] hover:border-black p-3 rounded-full'>
                   <img src={social.icon} className="h-5 w-5" />
                 </a>
               ))}
@@ -203,7 +203,7 @@ export default function Footer({ lang, home }: Props) {
                 <img
                   key={i}
                   src={method.icon}
-                  className="h-10 object-contain"
+                  className="h-8 object-contain"
                 />
               ))}
             </div>

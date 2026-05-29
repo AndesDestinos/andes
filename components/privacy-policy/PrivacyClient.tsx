@@ -34,7 +34,7 @@ export default function PrivacyClient({ data, lang }: any) {
       </div>
 
       <div className="andes-contenido-pequenio">
-        <div className="flex flex-col text-center">
+        <div className="flex flex-col text-center pb-25">
           {data.sections?.map((section: any, index: number) => {
             return (
               <div key={index} className="py-6">

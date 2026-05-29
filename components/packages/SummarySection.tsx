@@ -13,7 +13,7 @@ export default function SummarySection({summary, title, price, category, rating,
             <div className='flex justify-between gap-7'>
               <div className='flex flex-col'>
                 <span>{ lang === 'es' ? 'Desde' : 'From' }</span>
-                <span className='text-[36px] font-medium'>{ `$${price}` }</span>
+                <span className='!text-[36px] font-medium'>{ `$${price}` }</span>
                 <span>{ lang === 'es' ? 'por persona' : 'per person' }</span>
               </div>
               <div className='flex items-center w-[170px]'>
@@ -30,7 +30,7 @@ export default function SummarySection({summary, title, price, category, rating,
                 />
               </div>
               <div className='flex flex-col items-center'>
-                <span className='flex justify-center text-[32px]'>{ rating + '.0'}</span>
+                <span className='flex justify-center !text-[32px]'>{ rating }</span>
                 <div className='flex gap-1'>
                   {Array.from({ length: rating }).map((_, i) => (
                     <img key={i} src="/images/packages/estrella.svg" alt="" className="h-[1em] w-auto" />

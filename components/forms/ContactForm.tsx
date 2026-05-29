@@ -2,10 +2,12 @@
 
 import { urlFor } from '@/lib/sanity.image'
 import { useState, useEffect } from 'react'
+import ContactModal from '../packages/ContactModal'
 
 type Language = 'en' | 'es'
 
 export default function ContactUsForm({ language, hero }: { language: Language, hero: any }) {
+  const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState<Record<string, boolean>>({})
     const [toast, setToast] = useState<{
@@ -180,7 +182,7 @@ export default function ContactUsForm({ language, hero }: { language: Language, 
                             href={getCalendlyUrl()}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="cursor-pointer relative overflow-hidden border border-black px-6 py-3 text-black group transition-colors duration-300 hover:text-white inline-block"
+                            className="cursor-pointer relative overflow-hidden border border-black px-6 py-2 text-black group transition-colors duration-300 hover:text-white inline-block"
                         >
                             <span className="relative z-10">{texto.meet}</span>
                             <span className="absolute inset-0 bg-black scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100"></span>
@@ -201,12 +203,15 @@ export default function ContactUsForm({ language, hero }: { language: Language, 
                     <h4 className="">{texto.call}</h4>
                     <p className="text-gray-600">{texto.callDesc}</p>
                     <div className='w-full justify-center'>
-                        <a href="tel:+51900 111 114"
+                        <button
+                            type="button"
+                            onClick={() => setOpen(true)}
                             className="cursor-pointer relative overflow-hidden border border-black px-6 py-2 text-black group 
-                            transition-colors duration-300 hover:text-white inline-block">
+                            transition-colors duration-300 hover:text-white inline-block"
+                        >
                             <span className="relative z-10">{texto.request}</span>
                             <span className="absolute inset-0 bg-black scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100"></span>
-                        </a>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -256,7 +261,7 @@ export default function ContactUsForm({ language, hero }: { language: Language, 
                 <textarea
                     name="message"
                     placeholder={texto.message}
-                    className="w-full input mt-8 md:mt-10 h-[100px] border-none outline-none focus:border-none focus:ring-0"
+                    className="w-full input mt-8 md:mt-10 h-[100px] outline-none focus:ring-0 border-b border-b-[#CDCDCD]"
                 />
 
                 <div className="mt-6 flex items-center gap-2">
@@ -266,7 +271,7 @@ export default function ContactUsForm({ language, hero }: { language: Language, 
                     </span>
                 </div>
 
-                <div className="flex justify-center mt-8 md:mt-10">
+                <div className="flex justify-center mt-8 md:mt-10 pb-25">
                     <button
                         disabled={loading}
                         className="w-full sm:w-auto cursor-pointer relative overflow-hidden border border-black px-6 sm:px-10 py-3 text-black group transition-colors duration-300 hover:text-white"
@@ -279,6 +284,11 @@ export default function ContactUsForm({ language, hero }: { language: Language, 
                     </button>
                 </div>
             </form>
+
+            <ContactModal
+                isOpen={open}
+                onClose={() => setOpen(false)}
+            />
         </section>
     </>
   )

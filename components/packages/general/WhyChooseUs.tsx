@@ -57,10 +57,10 @@ export default function WhyChooseUs({ lang }: Props) {
       <div className="grid md:grid-cols-3 gap-10">
         {content.items.map((item, i) => (
           <div key={i} className="flex flex-col items-center gap-4">
-            <div className="w-14 h-14 rounded-full bg-gray-100 flex items-center justify-center">
+            <div className="w-14 h-14 rounded-full border border-[#CDCDCD] flex items-center justify-center">
               <img src={item.image} className="w-6 h-6" />
             </div>
-            <h3 className="">{item.title}</h3>
+            <h4 className="">{item.title}</h4>
             <p className="text-gray-600 max-w-[250px]">
               {item.desc}
             </p>

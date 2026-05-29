@@ -6,7 +6,7 @@
 
 /* estilos globales*/
 body {
-  letter-spacing: 3px;
+  letter-spacing: 2px;
   font-family: var(--font-metropolis);
 }
 
@@ -26,9 +26,13 @@ body {
   font-family: var(--font-bodoni);
 }
 
+.andes-spacing {
+  letter-spacing: 2px;
+}
+
 .andes-footer {
   h3 {
-    letter-spacing: 3px;
+    letter-spacing: 2px;
   }
 }
 
@@ -42,7 +46,7 @@ h3 {
   font-size: 30px;
 }
 h4 {
-  letter-spacing: 3px;
+  letter-spacing: 2px;
   font-size: 16px;
 }
 

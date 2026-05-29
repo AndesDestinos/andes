@@ -54,7 +54,7 @@ export default function ComplaintsBookForm({ language, hero }: { language: Langu
             details: 'DETALLES DEL RECLAMO / QUEJA',
             name: 'Nombre*',
             lastname: 'Apellidos*',
-            document: 'DNI',
+            document: 'Documento',
             documentNumber: 'Número de DNI*',
             address: 'Dirección*',
             email: 'Correo*',
@@ -195,6 +195,7 @@ export default function ComplaintsBookForm({ language, hero }: { language: Langu
                             <input name="lastname" placeholder={texto.lastname} className={inputClass('lastname')} />
                             <select name="typeDocument" className={inputClass('typeDocument')}>
                                 <option value="">{texto.document}</option>
+                                <option>Licencia de conducir</option>
                                 <option>DNI</option>
                                 <option>Pasaporte</option>
                             </select>
@@ -244,7 +245,7 @@ export default function ComplaintsBookForm({ language, hero }: { language: Langu
                         </div>
                     </form>
 
-                    <div className="mt-16 border border-gray-300 p-6 text-gray-600 space-y-4">
+                    <div className="mt-16 border border-gray-300 p-6 text-gray-600 space-y-4 mb-25">
                         <p>
                             * La formulación del reclamo no impide acudir a otras vías de solución de controversias ni es requisito previo para interponer una denuncia ante el INDECOPI.
                         </p>

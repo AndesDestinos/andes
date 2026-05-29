@@ -11,7 +11,6 @@ export default function TravelPlannerForm({ language, hero }: { language: Langua
     const [destinations, setDestinations] = useState<string[]>([])
     const [service, setService] = useState<string | null>(null)
     const [month, setMonth] = useState<string | null>(null)
-    const [year, setYear] = useState<string | null>(null)
     const [contact, setContact] = useState<string | null>(null)
 
     const [name, setName] = useState('')
@@ -30,6 +29,16 @@ export default function TravelPlannerForm({ language, hero }: { language: Langua
     message: string
     type: 'success' | 'error'
     } | null>(null)
+
+    const serviceOptions = [
+        { label: 'Privado', icon: '/images/forms/privado.svg' },
+        { label: 'Lujo', icon: '/images/forms/lujo.svg' },
+    ]
+    const contactOptions = [
+        { label: 'Correo', icon: '/images/forms/correo.svg' },
+        { label: 'Llamada', icon: '/images/forms/llamada.svg' },
+        { label: 'WhatsApp', icon: '/images/forms/whatsapp.svg' },
+    ]
 
     const messages = {
         es: {
@@ -89,11 +98,18 @@ export default function TravelPlannerForm({ language, hero }: { language: Langua
     }
 
     const toggleMulti = (value: string) => {
-        setDestinations(prev =>
-            prev.includes(value)
-                ? prev.filter(v => v !== value)
-                : [...prev, value]
-        )
+        setDestinations(prev => {
+            let updated
+            if (prev.includes(value)) {
+                updated = prev.filter(v => v !== value)
+            } else {
+                updated = [...prev, value]
+            }
+            if (updated.length === 1) {
+                setActiveSection(1)
+            }
+            return updated
+        })
     }
 
     const validate = () => {
@@ -146,11 +162,12 @@ export default function TravelPlannerForm({ language, hero }: { language: Langua
 
     const currentYear = new Date().getFullYear();
     const years = [currentYear, currentYear + 1];
+    const [year, setYear] = useState<string | null>(years[0].toString())
     const currentDate = new Date();
     const currentMonth = currentDate.getMonth();
 
     const chip = (active: boolean) =>
-        `p-2 rounded-[15px] border transition ${
+        `p-2 rounded-[15px] border cursor-pointer transition ${
             active
                 ? 'border-black bg-[#F5F2EB]'
                 : 'border-gray-300 bg-white hover:border-black'
@@ -168,9 +185,7 @@ export default function TravelPlannerForm({ language, hero }: { language: Langua
             })
             return
         }
-
         setLoading(true)
-
         const data = {
             destinations,
             service,
@@ -187,15 +202,12 @@ export default function TravelPlannerForm({ language, hero }: { language: Langua
             message,
             lang: language,
         }
-
         try {
             const res = await fetch('/api/planning', {
                 method: 'POST',
                 body: JSON.stringify(data),
             })
-
             const result = await res.json()
-
             if (result.success) {
                 setToast({
                     message: messages[language].success,
@@ -209,24 +221,38 @@ export default function TravelPlannerForm({ language, hero }: { language: Langua
                     type: 'error'
                 })
             }
-
         } catch (err) {
             setToast({
             message: messages[language].error,
             type: 'error'
             })
         }
-
         setLoading(false)
     }
 
     useEffect(() => {
-        if (!toast) return
+        if (service) setActiveSection(2)
+    }, [service])
 
+    useEffect(() => {
+        if (month && year) setActiveSection(3)
+    }, [month, year])
+
+    useEffect(() => {
+        if (contact) setActiveSection(4)
+    }, [contact])
+
+    useEffect(() => {
+        if (!includeHotel) {
+            setStars(0)
+        }
+    }, [includeHotel])
+
+    useEffect(() => {
+        if (!toast) return
         const timer = setTimeout(() => {
             setToast(null)
         }, 2000)
-
         return () => clearTimeout(timer)
     }, [toast])
 
@@ -297,13 +323,12 @@ export default function TravelPlannerForm({ language, hero }: { language: Langua
                 )}
                 <form onSubmit={handleSubmit} className="andes-contenido-pequenio">
                     <div className="text-center mb-10">
-                        <h2 className="">{texto.title}</h2>
-                        <p className="text-gray-600 mt-3">{texto.subtitle}</p>
+                        <h2 className=" mb-8">{texto.title}</h2>
 
                         <div className="mb-12">
                             <div className="flex justify-between max-w-3xl mx-auto">
                                 <div className="flex flex-col items-center text-center flex-1">
-                                    <div className="w-10 h-10 flex items-center justify-center border bg-[#F5F2EB] border-black rounded-full">
+                                    <div className="w-10 h-10 flex items-center justify-center border border-gray-300 rounded-full">
                                         1
                                     </div>
                                     <span className="mt-2">
@@ -313,26 +338,26 @@ export default function TravelPlannerForm({ language, hero }: { language: Langua
                                         {language === 'es' ? 'Tu destino o tour y tipo de servicio que prefieres' : 'Your destination or tour and type of service you prefer'}
                                     </span>
                                 </div>
-                                <div className="flex-1 h-px bg-gray-300 mx-2"></div>
+                                <div className="flex-1 h-px bg-gray-300 mx-3 mt-5"></div>
 
                                 <div className="flex flex-col items-center text-center flex-1">
-                                    <div className="w-10 h-10 flex items-center justify-center border bg-[#F5F2EB] border-gray-300 rounded-full">
+                                    <div className="w-10 h-10 flex items-center justify-center border border-gray-300 rounded-full">
                                         2
                                     </div>
-                                    <span className="mt-2 text-gray-400">
+                                    <span className="mt-2">
                                         {language === 'es' ? 'PLANIFICA' : 'PLAN'}
                                     </span>
                                     <span className="mt-2">
                                         {language === 'es' ? 'Fecha de viaje, numero de viajeros y hotel' : 'Travel date, number of travelers and hotel'}
                                     </span>
                                 </div>
-                                <div className="flex-1 h-px bg-gray-300 mx-2"></div>
+                                <div className="flex-1 h-px bg-gray-300 mx-2 mt-5"></div>
 
                                 <div className="flex flex-col items-center text-center flex-1">
-                                    <div className="w-10 h-10 flex items-center justify-center border bg-[#F5F2EB] border-gray-300 rounded-full">
+                                    <div className="w-10 h-10 flex items-center justify-center border border-gray-300 rounded-full">
                                         3
                                     </div>
-                                    <span className="mt-2 text-gray-400">
+                                    <span className="mt-2">
                                         {language === 'es' ? 'FINALIZA' : 'FINISH'}
                                     </span>
                                     <span className="mt-2">
@@ -374,9 +399,20 @@ export default function TravelPlannerForm({ language, hero }: { language: Langua
 
                     <Section title={texto.service} error={errors.step2} open={activeSection===1} onClick={()=>toggleSection(1)}>
                         <div className="flex gap-3 flex-wrap">
-                            {['Privado','Lujo'].map(item => (
-                                <button type="button" key={item} onClick={()=>setService(item)} className={chip(service===item)}>
-                                    {item}
+                            {serviceOptions.map(item => (
+                                <button
+                                    key={item.label}
+                                    type="button"
+                                    onClick={() => setService(item.label)}
+                                    className={`${chip(service === item.label)} flex items-center gap-2`}
+                                >
+                                    <img
+                                    src={item.icon}
+                                    className={`w-4 h-4 transition ${
+                                        service === item.label ? 'opacity-100' : 'opacity-50'
+                                    }`}
+                                    />
+                                    {item.label}
                                 </button>
                             ))}
                         </div>
@@ -424,9 +460,20 @@ export default function TravelPlannerForm({ language, hero }: { language: Langua
 
                     <Section title={texto.contact} error={errors.step2} open={activeSection===3} onClick={()=>toggleSection(3)}>
                         <div className="flex gap-3 flex-wrap">
-                            {['Correo','Llamada','WhatsApp'].map(item => (
-                                <button type="button" key={item} onClick={()=>setContact(item)} className={chip(contact===item)}>
-                                    {item}
+                            {contactOptions.map(item => (
+                                <button
+                                    key={item.label}
+                                    type="button"
+                                    onClick={() => setContact(item.label)}
+                                    className={`${chip(service === item.label)} flex items-center gap-2`}
+                                >
+                                    <img
+                                    src={item.icon}
+                                    className={`w-4 h-4 transition ${
+                                        service === item.label ? 'opacity-100' : 'opacity-50'
+                                    }`}
+                                    />
+                                    {item.label}
                                 </button>
                             ))}
                         </div>
@@ -473,14 +520,16 @@ export default function TravelPlannerForm({ language, hero }: { language: Langua
                                 <span className="">¿Cuántos viajan?</span>
                                 <button type="button"
                                     onClick={()=>setTravelers(prev => Math.max(1, prev - 1))}
-                                    className="w-10 h-10 border rounded-lg flex items-center justify-center"
+                                    className="w-10 h-10 border border-[#D6D6D6] hover:border-black rounded-lg 
+                                    text-[20px] text-[#D6D6D6] text:border-black flex items-center justify-center"
                                 >
                                     -
                                 </button>
                                 <span className="w-6 text-center">{travelers}</span>
                                 <button type="button"
                                     onClick={()=>setTravelers(prev => prev + 1)}
-                                    className="w-10 h-10 border rounded-lg flex items-center justify-center"
+                                    className="w-10 h-10 border border-[#D6D6D6] hover:border-black rounded-lg 
+                                    text-[20px] text-[#D6D6D6] text:border-black flex items-center justify-center"
                                 >
                                     +
                                 </button>
@@ -490,42 +539,44 @@ export default function TravelPlannerForm({ language, hero }: { language: Langua
                                 <span className="">Incluir hotel al tour</span>
                                 <button type="button"
                                     onClick={()=>setIncludeHotel(!includeHotel)}
-                                    className={`w-12 h-6 flex items-center rounded-full p-1 transition ${
+                                    className={`w-9 h-6 flex items-center rounded-full p-1 transition ${
                                         includeHotel ? 'bg-black' : 'bg-gray-300'
                                     }`}
                                 >
                                     <div
                                         className={`bg-white w-4 h-4 rounded-full shadow transform transition ${
-                                            includeHotel ? 'translate-x-6' : ''
+                                            includeHotel ? 'translate-x-3' : ''
                                         }`}
                                     />
                                 </button>
                             </div>
 
-                            <div className="flex items-center gap-2">
-                                <span className="">Categoría del hotel:</span>
-                                {[1,2,3,4,5].map(i => (
-                                    <span
-                                        key={i}
-                                        onClick={()=>setStars(i)}
-                                        className={`cursor-pointer ${
-                                            i <= stars ? 'text-black' : 'text-gray-300'
-                                        }`}
-                                    >
-                                        ★
-                                    </span>
-                                ))}
-                            </div>
+                            {includeHotel && (
+                                <div className="flex items-center gap-2">
+                                    <span>Categoría del hotel:</span>
+                                    {[1,2,3,4,5].map(i => (
+                                        <span
+                                            key={i}
+                                            onClick={()=>setStars(i)}
+                                            className={`cursor-pointer !text-[25px] ${
+                                                i <= stars ? 'text-black' : 'text-gray-300'
+                                            }`}
+                                        >
+                                            ★
+                                        </span>
+                                    ))}
+                                </div>
+                            )}
                         </div>
 
                         <textarea
                             value={message}
                             onChange={(e) => setMessage(e.target.value)}
                             placeholder="Mensaje"
-                            className="w-full border-b mt-8 py-3 outline-none"
+                            className="w-full border-b border-b-[#CDCDCD] mt-8 py-3 outline-none"
                         />
 
-                        <div className="flex justify-center mt-8">
+                        <div className="flex justify-center mt-8 pb-25">
                             <button 
                                 disabled={loading}
                                 className="w-full sm:w-auto cursor-pointer relative overflow-hidden border border-black px-6 sm:px-10 py-3 text-black group transition-colors duration-300 hover:text-white"
@@ -548,16 +599,28 @@ function Section({ title, children, open, onClick, error }: any) {
     return (
         <div className="mb-6 pb-4">
             <div onClick={onClick} className="flex justify-between items-center cursor-pointer">
-                <h3 className={`${error ? 'text-red-500' : ''}`}>
+                <h3 className={`${error ? 'text-red-500' : ''} ${open ? 'text-black' : 'text-[#D6D6D6]'}`}>
                     {title}
                 </h3>
-
-                <div className="relative w-5 h-5">
-                    <span className="absolute top-1/2 left-0 w-full h-[2px] bg-black -translate-y-1/2"></span>
-                    <span className={`absolute left-1/2 top-0 h-full w-[2px] bg-black -translate-x-1/2 transition-all duration-300 ${open ? 'opacity-0 scale-y-0' : ''}`}></span>
+                <div
+                    className={`relative w-10 h-10 rounded-full border flex items-center justify-center transition-colors duration-300 ${
+                        open ? 'border-black' : 'border-[#D6D6D6]'
+                    }`}
+                >
+                    <span
+                        className={`absolute w-5 h-[5px] ${
+                            open ? 'bg-black' : 'bg-[#D6D6D6]'
+                        }`}
+                    />
+                    <span
+                        className={`absolute h-5 w-[5px] transition-all duration-300 ${
+                            open
+                                ? 'opacity-0 scale-y-0 bg-black'
+                                : 'bg-[#D6D6D6]'
+                        }`}
+                    />
                 </div>
             </div>
-
             <div className={`overflow-hidden transition-all duration-300 ${open ? 'max-h-[500px] mt-6' : 'max-h-0'}`}>
                 {children}
             </div>

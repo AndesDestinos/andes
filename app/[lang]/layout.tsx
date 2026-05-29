@@ -49,6 +49,17 @@ export default async function Layout({
     }
   `)
 
+  const blogs = await client.fetch(`
+    *[_type == "blogPost"]{
+      headline,
+      "slug": slug.current,
+      "category": category->{
+        title,
+        "slug": slug.current
+      }
+    }
+  `)
+
   const home = await client.fetch(`
 *[_type == "siteSettings"][0]{
   logoLight{
@@ -94,6 +105,7 @@ export default async function Layout({
         tours={tours}
         packages={packages}
         experiences={experiences}
+        blogs={blogs}
       />
       {children}
       <Footer lang={lang} home={home} />

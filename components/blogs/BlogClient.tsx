@@ -3,13 +3,15 @@
 import { useEffect, useRef, useState } from 'react'
 import { urlFor } from '@/lib/sanity.image'
 import { useRouter } from 'next/navigation'
+import ContactModal from '../packages/ContactModal'
 
 export default function BlogClient({ data, lang }: any) {
+    const [open, setOpen] = useState(false)
     const router = useRouter()
-    const lastScroll = useRef(0)
     const [progress, setProgress] = useState(0)
     const [showIndex, setShowIndex] = useState(false)
-    const [showLayoutHeader, setShowLayoutHeader] = useState(false)
+    const [topOffset, setTopOffset] = useState(80)
+    const lastScroll = useRef(0)
 
     const handleShare = async () => {
         if (navigator.share) {
@@ -26,33 +28,25 @@ export default function BlogClient({ data, lang }: any) {
 
     useEffect(() => {
         const handleScroll = () => {
-        const total =
-            document.documentElement.scrollHeight -
-            document.documentElement.clientHeight
-
-        const current = window.scrollY
-        setProgress((current / total) * 100)
-        }
-
-        window.addEventListener('scroll', handleScroll)
-        return () => window.removeEventListener('scroll', handleScroll)
-    }, [])
-
-    useEffect(() => {
-        const handleScroll = () => {
             const current = window.scrollY
+            const total =
+                document.documentElement.scrollHeight -
+                document.documentElement.clientHeight
 
-            if (current < lastScroll.current) {
-                setShowLayoutHeader(true)
-            } else {
-                setShowLayoutHeader(false)
+            const progressValue = (current / total) * 100
+            setProgress(progressValue)
+            const goingUp = current < lastScroll.current
+            const goingDown = current > lastScroll.current
+            if (goingDown) {
+                setTopOffset(0)
             }
-
+            if (goingUp || current < 10) {
+                setTopOffset(80)
+            }
             lastScroll.current = current
         }
-
-        window.addEventListener("scroll", handleScroll)
-        return () => window.removeEventListener("scroll", handleScroll)
+        window.addEventListener('scroll', handleScroll)
+        return () => window.removeEventListener('scroll', handleScroll)
     }, [])
 
     if (!data) return null
@@ -60,25 +54,9 @@ export default function BlogClient({ data, lang }: any) {
     return (
         <div className='w-full'>
             <div className='w-full'>
-                <section className="relative w-full h-[60vh]">
-                    <img
-                        src={data?.mainImage ? urlFor(data.mainImage).url() : '/images/share/noImage.jpg'}
-                        className="absolute inset-0 w-full h-full object-cover"
-                    />
-
-                    <div className="absolute inset-0 bg-black/40" />
-
-                    <div className="relative z-10 flex items-center justify-center h-full">
-                        <h1 className="text-white text-center px-4">
-                        {data.headline?.[lang]}
-                        </h1>
-                    </div>
-                </section>
-                <div
-                    className="sticky z-40 bg-white transition-all duration-300"
-                    style={{
-                        top: showLayoutHeader ? "82px" : "0px",
-                    }}
+               <div
+                    className={`fixed left-0 right-0 z-50 bg-white transition-transform duration-300`}
+                    style={{top: `${topOffset}px`,}}
                 >
                     <div className="flex justify-between px-6 py-4">
                         <button
@@ -96,12 +74,21 @@ export default function BlogClient({ data, lang }: any) {
                         <span className="hidden md:block truncate max-w-[400px] andes-blog-font">
                             {data.headline?.[lang]}
                         </span>
-                        <button
-                            onClick={handleShare}
-                            className="hover:opacity-60 transition cursor-pointer"
-                        >
-                            { lang === 'es' ? 'COMPARTIR' : 'SHARE' }
-                        </button>
+                        <div className="flex items-center gap-6">
+                            <button
+                                onClick={() => router.push(`/${lang}/blogs`)}
+                                className="hover:opacity-60 transition cursor-pointer"
+                            >
+                                {lang === 'es' ? 'VER TODOS' : 'ALL BLOGS'}
+                            </button>
+
+                            <button
+                                onClick={handleShare}
+                                className="hover:opacity-60 transition cursor-pointer"
+                            >
+                                {lang === 'es' ? 'COMPARTIR' : 'SHARE'}
+                            </button>
+                        </div>
                     </div>
                     <div className="h-[2px] bg-gray-200">
                         <div
@@ -111,7 +98,7 @@ export default function BlogClient({ data, lang }: any) {
                     </div>
                 </div>
             </div>
-            <div className="bg-white scroll-smooth flex flex-col gap-36 pb-36">
+            <div className="bg-white scroll-smooth flex flex-col gap-20 pb-36">
                 <section className="andes-contenido-pequenio text-center">
                     <h1 className="leading-tight andes-blog-font">
                         {data.headline?.[lang]}
@@ -238,12 +225,12 @@ export default function BlogClient({ data, lang }: any) {
                             <p className="text-gray-600 mt-4">
                                 {data.cta?.description?.[lang]}
                             </p>
-                            <a
-                                href={data.cta?.buttonLink || '#'}
-                                className="inline-block mt-6 px-6 py-3 bg-black text-white hover:bg-gray-800 transition"
+                            <button
+                                onClick={() => setOpen(true)}
+                                className="cursor-pointer inline-block mt-6 px-6 py-3 bg-black text-white hover:bg-gray-800 transition"
                             >
                                 {data.cta?.buttonLabel?.[lang]}
-                            </a>
+                            </button>
                         </div>
                         <div className="md:hidden mt-10 flex flex-col gap-6">
                             <img
@@ -257,6 +244,11 @@ export default function BlogClient({ data, lang }: any) {
                         </div>
                     </div>
                 </section>
+
+                <ContactModal
+                    isOpen={open}
+                    onClose={() => setOpen(false)}
+                />
             </div>
         </div>
     )

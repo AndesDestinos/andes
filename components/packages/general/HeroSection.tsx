@@ -13,7 +13,7 @@ export default function Hero({ lang, hero }: Props) {
         src={hero?.image ? urlFor(hero.image).url() : '/images/share/noImage.jpg'}
         className="absolute inset-0 w-full h-full object-cover"
       />
-      <div className="absolute inset-0 bg-black/50" />
+      <div className="absolute inset-0 bg-black/10" />
       <div className="relative z-10 flex items-center justify-center h-full">
         <h1 className="text-white">
           {hero?.title?.[lang]}

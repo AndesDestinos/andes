@@ -4,8 +4,9 @@ import Step1 from '@/components/booking/step1';
 import Step2 from '@/components/booking/step2';
 import Step3 from '@/components/booking/step3';
 import { urlFor } from '@/lib/sanity.image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Step4 from './step4';
+import { useSearchParams } from 'next/navigation';
 
 export type FormData = {
   tourId: string;
@@ -13,6 +14,7 @@ export type FormData = {
     title: string;
     price: number;
     image: any;
+    days: number;
     category: {
       title: string;
       type: string;
@@ -34,6 +36,8 @@ export type FormData = {
 };
 
 export default function BookingForm({lang, hero, data}: any) {
+  const searchParams = useSearchParams()
+  const tourIdFromUrl = searchParams.get('tourId')
   const [step, setStep] = useState(1);
   const inititalStateForm: FormData = {
     tourId: '',
@@ -58,6 +62,20 @@ export default function BookingForm({lang, hero, data}: any) {
     setForm(inititalStateForm);
     setStep(1);
   };
+
+  useEffect(() => {
+    if (!tourIdFromUrl || !data?.length) return
+
+    const selected = data.find((item: any) => item._id === tourIdFromUrl)
+
+    if (selected) {
+        setForm((prev) => ({
+        ...prev,
+        tourId: selected._id,
+        tourData: selected,
+        }))
+    }
+  }, [tourIdFromUrl, data])
 
   return (
     <>

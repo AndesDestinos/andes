@@ -1,25 +1,41 @@
 import { client } from '@/lib/sanity.client'
 import BlogClientGeneral from '@/components/blogs/BlogClientGeneral'
 
-const QUERY = `
+const query = `
 {
   "categories": *[_type == "category" && type == "blog"]{
     _id,
     title,
-    slug
+    slug,
+    icon,
   },
+
   "posts": *[_type == "blogPost"] | order(publishedAt desc){
     _id,
     headline,
     excerpt,
     slug,
     mainImage,
+    readingTime,
     publishedAt,
-    excerpt,
     "categoryId": category._ref
+  },
+
+  "featuredPosts": *[_type == "blogPost" && featured == true] | order(publishedAt desc){
+    _id,
+    headline,
+    excerpt,
+    slug,
+    mainImage,
+    publishedAt,
+    readingTime,
+    "category": category->{
+      title,
+      icon,
+    }
   }
 }
-`
+`;
 
 export default async function BlogPage({ params }: any) {
   const { lang } = await params;
@@ -30,13 +46,14 @@ export default async function BlogPage({ params }: any) {
   }`;
 
   const heroData = await client.fetch(hero);
-  const data = await client.fetch(QUERY);
+  const data = await client.fetch(query);
   const categories = data.categories.map((cat: any) => ({
     ...cat,
     posts: data.posts.filter(
       (post: any) => post.categoryId === cat._id
     )
   }));
+  const featuredPosts = data.featuredPosts;
 
-  return <BlogClientGeneral categories={categories} lang={lang} hero={heroData} />
+  return <BlogClientGeneral categories={categories} posts={data.posts} featuredPosts={featuredPosts} lang={lang} hero={heroData} />
 }
