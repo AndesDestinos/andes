@@ -29,16 +29,11 @@ export type FormData = {
   paymentType: 'half' | 'full' | null;
   donationActive: boolean;
   donationAmount: number;
-  cardName: string;
-  cardNumber: string;
-  cardExpiry: string;
-  cardCvc: string;
 };
 
 export default function BookingForm({lang, hero, data}: any) {
   const searchParams = useSearchParams()
   const tourIdFromUrl = searchParams.get('tourId')
-  const [step, setStep] = useState(1);
   const inititalStateForm: FormData = {
     tourId: '',
     tourData: null,
@@ -50,12 +45,9 @@ export default function BookingForm({lang, hero, data}: any) {
     paymentType: null,
     donationActive: false,
     donationAmount: 0,
-    cardName: '',
-    cardNumber: '',
-    cardExpiry: '',
-    cardCvc: '',
   }
 
+  const [step, setStep] = useState(1);
   const [form, setForm] = useState<FormData>(inititalStateForm);
 
   const reset = () => {
@@ -64,10 +56,24 @@ export default function BookingForm({lang, hero, data}: any) {
   };
 
   useEffect(() => {
+    const savedStep = localStorage.getItem('bookingStep');
+    if (savedStep) {
+      setStep(Number(savedStep));
+    }
+    const saved = localStorage.getItem('bookingForm');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      setForm({
+        ...parsed,
+        fechaInicio: parsed.fechaInicio ? new Date(parsed.fechaInicio) : null,
+        fechaFin: parsed.fechaFin ? new Date(parsed.fechaFin) : null,
+      });
+    }
+  }, []);
+
+  useEffect(() => {
     if (!tourIdFromUrl || !data?.length) return
-
     const selected = data.find((item: any) => item._id === tourIdFromUrl)
-
     if (selected) {
         setForm((prev) => ({
         ...prev,
@@ -76,6 +82,17 @@ export default function BookingForm({lang, hero, data}: any) {
         }))
     }
   }, [tourIdFromUrl, data])
+
+  useEffect(() => {
+    const safeForm = {
+        ...form,
+    };
+    localStorage.setItem('bookingForm', JSON.stringify(safeForm));
+  }, [form]);
+
+  useEffect(() => {
+    localStorage.setItem('bookingStep', step.toString());
+  }, [step]);
 
   return (
     <>
@@ -115,7 +132,11 @@ export default function BookingForm({lang, hero, data}: any) {
                 lang={lang}
                 form={form}
                 setForm={setForm}
-                next={() => setStep(4)}
+                next={() => {
+                    //localStorage.removeItem('bookingForm');
+                    //localStorage.removeItem('bookingStep');
+                    setStep(4);
+                }}
                 prev={() => setStep(2)}
             />
         )}

@@ -3,6 +3,9 @@
 import { urlFor } from '@/lib/sanity.image'
 import { useState, useEffect } from 'react'
 import ContactModal from '../packages/ContactModal'
+import PhoneInput, { getCountries } from "react-phone-number-input";
+import esCountries from "react-phone-number-input/locale/es.json";
+import "react-phone-number-input/style.css";
 
 type Language = 'en' | 'es'
 
@@ -82,6 +85,12 @@ export default function ContactUsForm({ language, hero }: { language: Language, 
     return e
   }
 
+  const [formState, setFormState] = useState({
+    countryCode: '',
+    countryName: '',
+    phone: ''
+  });
+
   const handleSubmit = async (e: any) => {
     e.preventDefault()
 
@@ -90,8 +99,9 @@ export default function ContactUsForm({ language, hero }: { language: Language, 
     const data = {
       name: form.get('name'),
       email: form.get('email'),
-      phone: form.get('phone'),
-      country: form.get('country'),
+      phone: formState.phone,
+      country: formState.countryName,
+      countryCode: formState.countryCode,
       message: form.get('message'),
       accept: form.get('accept'),
       lang: language,
@@ -241,21 +251,51 @@ export default function ContactUsForm({ language, hero }: { language: Language, 
                         }`}
                     />
 
-                    <input
-                        name="phone"
-                        placeholder={texto.phone}
-                        className={`w-full border-b bg-transparent px-1 py-2 outline-none ${
-                            errors.phone ? 'border-red-500 border-b-2' : 'border-gray-300'
-                        }`}
-                    />
-
-                    <input
-                        name="country"
-                        placeholder={texto.country}
-                        className={`w-full border-b bg-transparent px-1 py-2 outline-none ${
+                        <select
+                            value={formState.countryCode}
+                            onChange={(e) => {
+                            const code = e.target.value;
+                            setFormState({
+                                ...formState,
+                                countryCode: code,
+                                countryName: esCountries[code as keyof typeof esCountries],
+                                phone: ''
+                            });
+                            }}
+                            className={`w-full border-b bg-transparent px-1 py-2 outline-none ${
                             errors.country ? 'border-red-500 border-b-2' : 'border-gray-300'
-                        }`}
-                    />
+                            }`}
+                        >
+                            <option value="">
+                            {language === 'es' ? 'País*' : 'Country*'}
+                            </option>
+
+                            {getCountries().map((c) => (
+                            <option key={c} value={c}>
+                                {esCountries[c]} ({c})
+                            </option>
+                            ))}
+                        </select>
+
+                        <PhoneInput
+                            international
+                            defaultCountry={formState.countryCode || undefined as any}
+                            value={formState.phone}
+                            onChange={(value) => {
+                            setFormState({ ...formState, phone: value || '' });
+                            }}
+                            onCountryChange={(country) => {
+                            if (!country) return;
+                            setFormState({
+                                ...formState,
+                                countryCode: country,
+                                countryName: esCountries[country as keyof typeof esCountries]
+                            });
+                            }}
+                            className={`w-full border-b py-2 outline-none ${
+                            errors.phone ? 'border-red-500 border-b-2' : 'border-gray-300'
+                            }`}
+                        />
                 </div>
 
                 <textarea

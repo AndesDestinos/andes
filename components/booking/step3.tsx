@@ -1,8 +1,12 @@
 import { useState } from "react";
 import BookingLayout from "./layout";
+import PaypalButton from "../paypal/Paypal";
 
 export default function Step3({ lang, form, setForm, next, prev }: any) {
   const totalDonacion = form.donationActive ? form.donationAmount * form.viajeros : 0;
+  const totalTour = form.tourData.price * form.viajeros;
+  const total = totalTour + totalDonacion;
+  const amountToPay = form.paymentType === "half" ? total / 2 : total;
   const [toast, setToast] = useState<{
     message: string;
     type: 'success' | 'warn' | 'error';
@@ -150,7 +154,6 @@ export default function Step3({ lang, form, setForm, next, prev }: any) {
             }
           />
 
-          {/* TOTAL */}
           <span>
             {lang === 'es' ? 'Total: $' : 'Total: $'} {totalDonacion}
           </span>
@@ -171,62 +174,21 @@ export default function Step3({ lang, form, setForm, next, prev }: any) {
             </h4>
           </div>
 
-          <div className="grid grid-cols-2 gap-6">
-            <div className="flex flex-col gap-2">
-              <label>
-                { lang === 'es' ? 'Nombre en la tarjeta' : 'Name on card' }
-              </label>
-              <input value={form.cardName}
-                onChange={(e) =>
-                  setForm({ ...form, cardName: e.target.value })
-                }
-                type="text"
-                placeholder="Ejemplo: John Smith"
-                className="border border-[#DDDDDD] rounded-xl px-4 py-3 outline-none focus:border-black placeholder-[#DDDDDD]"
-              />
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <label>
-                { lang === 'es' ? 'Numero de la tarjeta de crédito' : 'Credit card number' }
-              </label>
-              <input value={form.cardNumber}
-                onChange={(e) =>
-                  setForm({ ...form, cardNumber: e.target.value })
-                }
-                type="text"
-                placeholder="1223 1334 3456 2356"
-                className="border border-[#DDDDDD] rounded-xl px-4 py-3 outline-none focus:border-black placeholder-[#DDDDDD]"
-              />
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <label>
-                { lang === 'es' ? 'Fecha de caducidad' : 'Expiration date' }
-              </label>
-              <input value={form.cardExpiry}
-                onChange={(e) =>
-                  setForm({ ...form, cardExpiry: e.target.value })
-                }
-                type="text"
-                placeholder="MM/AA"
-                className="border border-[#DDDDDD] rounded-xl px-4 py-3 outline-none focus:border-black placeholder-[#DDDDDD]"
-              />
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <label>
-                CVC
-              </label>
-              <input value={form.cardCvc}
-                onChange={(e) =>
-                  setForm({ ...form, cardCvc: e.target.value })
-                }
-                type="text"
-                placeholder="CVC"
-                className="border border-[#DDDDDD] rounded-xl px-4 py-3 outline-none focus:border-black placeholder-[#DDDDDD]"
-              />
-            </div>
+          <div className="grid">
+            <PaypalButton 
+              lang={lang}
+              amount={amountToPay} 
+              showToast={showToast}
+              onSuccess={(paymentData: any) => {
+                console.log("DATOS DEL PAGO EN STEP3:", paymentData);
+                setForm({
+                  ...form,
+                  paymentData,
+                });
+                console.log("DATOS DEL FORM:", form);
+                next();
+              }} 
+            />
           </div>
         </div>
 
@@ -247,27 +209,6 @@ export default function Step3({ lang, form, setForm, next, prev }: any) {
               <span>
                 { lang === 'es' ? 'VOLVER' : 'BACK' }
               </span>
-            </div>
-          </button>
-          <button
-            onClick={() => {
-              if (!validateStep3()) return;
-              next();
-            }}
-            className="relative overflow-hidden border border-black pl-5 pr-3 text-black cursor-pointer group"
-          >
-            <div className="absolute inset-0 bg-black transform scale-x-0 origin-left transition-transform duration-300 ease-out group-hover:scale-x-100"></div>
-            <div className="flex items-center relative z-10 transition-colors duration-300 group-hover:text-white">
-              <span>
-                { lang === 'es' ? 'PAGAR AHORA' : 'PAY NOW' }
-              </span>
-              <svg
-                className="w-9 h-9 transition-transform duration-300 group-hover:translate-x-1"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-              >
-                <text x="6" y="17" fontSize="16">{'>'}</text>
-              </svg>
             </div>
           </button>
         </div>

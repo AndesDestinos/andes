@@ -49,7 +49,7 @@ export default function HeroSection({ data, lang }: any) {
           <div className='w-full flex justify-center'>
             <img src="/images/share/separator.svg" />
           </div>
-          <h1 className="!tracking-[3px]">
+          <h1 className="!tracking-[2px]">
             {data?.heroTitle?.[lang]}
           </h1>
           <button
@@ -64,7 +64,7 @@ export default function HeroSection({ data, lang }: any) {
                 before:z-0
                 hover:before:w-full
                 hover:border-black">
-            <span className="relative z-10 !tracking-[3px]">
+            <span className="relative z-10 !tracking-[2px]">
                 {lang === 'es' ? 'EMPEZAR A PLANIFICAR' : 'START PLANNING'}
             </span>
           </button>

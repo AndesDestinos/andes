@@ -68,12 +68,12 @@ export default function PackagesCarousel({ tours, lang }: any) {
 
                   <div className="absolute inset-0 bg-black/40" />
 
-                  <div className="absolute bottom-0 p-6 text-white w-full !tracking-[3px]">
+                  <div className="absolute bottom-0 p-6 text-white w-full !tracking-[2px]">
                     <p className="">
                       {tour.durationLabel?.[lang]}
                     </p>
 
-                    <h3 className="!tracking-[3px] mt-2">
+                    <h3 className="!tracking-[2px] mt-2">
                       {tour.title?.[lang]}
                     </h3>
 
@@ -85,7 +85,7 @@ export default function PackagesCarousel({ tours, lang }: any) {
                       </p>
 
                       <div className="flex justify-between">
-                      <span className="inline-block mt-3 border-b border-white pb-1 !tracking-[3px]">
+                      <span className="inline-block mt-3 border-b border-white pb-1 !tracking-[2px]">
                         {lang === "es" ? "VER ITINERARIO" : "VIEW ITINERARY"}
                       </span>
                       <img src="/images/footer/directionWhite.svg" className="h-7 w-7" />

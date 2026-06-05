@@ -12,7 +12,7 @@ const sections = [
   { id: "moreDestinations", label: { es: "Más destinos", en: "More destinations" } },
 ]
 
-export default function TabsNav({ lang, currentTourId }: any) {
+export default function TabsNav({ lang, currentTourId, price }: any) {
   const [active, setActive] = useState("resumen")
   const [offset, setOffset] = useState(80)
   const router = useRouter()
@@ -63,6 +63,7 @@ export default function TabsNav({ lang, currentTourId }: any) {
   }
 
   return (
+    <>
     <section
       className="sticky z-50 bg-white border-b border-b-[#E6E6E6]"
       style={{ top: `${offset}px` }}
@@ -87,7 +88,7 @@ export default function TabsNav({ lang, currentTourId }: any) {
           onClick={() => {
             router.push(`/${lang}/booking?tourId=${currentTourId}`)
           }}
-          className="relative cursor-pointer px-6 py-2 overflow-hidden border
+          className="hidden md:block relative cursor-pointer px-6 py-2 overflow-hidden border
           transition-colors duration-300
           before:content-[''] before:absolute before:top-0 before:left-0
           before:h-full before:w-0 before:bg-[#ABB8C3]
@@ -98,5 +99,21 @@ export default function TabsNav({ lang, currentTourId }: any) {
         </button>
       </div>
     </section>
+
+    <div className="md:hidden flex gap-3 fixed bottom-0 left-0 w-full z-50 bg-white border-t p-4">
+      <div className='flex flex-col'>
+        <span>{ lang === 'es' ? 'Desde' : 'From' }</span>
+        <span className='!text-[36px] font-medium'>{ `$${price}` }</span>
+      </div>
+      <button
+        onClick={() => {
+          router.push(`/${lang}/booking?tourId=${currentTourId}`)
+        }}
+        className="w-full bg-black text-white py-3 text-center font-medium tracking-[2px]"
+      >
+        {lang === 'es' ? 'Reservar' : 'Book now'}
+      </button>
+    </div>
+    </>
   )
 }

@@ -67,7 +67,7 @@ export default function AlsoLikeSection({ tours, lang, path }: any) {
         </div>
 
         <Link href={`/${lang}/${path}`} 
-            className="mt-4 md:mt-0 border border-gray-400 px-6 py-2 hover:bg-black hover:text-white transition !tracking-[3px]">
+            className="mt-4 md:mt-0 border border-gray-400 px-6 py-2 hover:bg-black hover:text-white transition !tracking-[2px]">
           {lang === "es" ? "EXPLORAR MÁS" : "EXPLORE MORE"}
         </Link>
       </div>
@@ -85,9 +85,10 @@ export default function AlsoLikeSection({ tours, lang, path }: any) {
             }}
           >
             {tours.map((tour: any) => (
-              <div
+              <Link
                 key={tour._id}
-                className="snap-start shrink-0 w-full sm:w-[48%] lg:w-[32%]"
+                href={`/${lang}/${path}/${tour.category.slug.current}/${tour.slug.current}`}
+                className="snap-start shrink-0 w-full sm:w-[48%] lg:w-[32%] block group"
               >
                 <div className="group">
                   <div className="relative w-full aspect-square overflow-hidden">
@@ -103,11 +104,11 @@ export default function AlsoLikeSection({ tours, lang, path }: any) {
                   </div>
 
                   <div className="text-center mt-4">
-                    <p className="text-gray-500 !tracking-[3px]">
+                    <p className="text-gray-500 !tracking-[2px]">
                       {tour.durationLabel?.[lang]}
                     </p>
 
-                    <h3 className="!tracking-[3px] mt-2">
+                    <h3 className="!tracking-[2px] mt-2">
                       {tour.title?.[lang]}
                     </h3>
 
@@ -115,17 +116,14 @@ export default function AlsoLikeSection({ tours, lang, path }: any) {
                       {tour.destinations?.join(", ")}
                     </p>
 
-                    <Link
-                      href={`/${lang}/${path}/${tour.category.slug.current}/${tour.slug.current}`}
-                      className="!tracking-[3px] inline-block mt-4 border-b border-gray-400 pb-1 hover:border-black"
-                    >
+                    <span className="!tracking-[2px] inline-block mt-4 border-b border-gray-400 pb-1 hover:border-black">
                       {lang === "es"
                         ? "VER ITINERARIO"
                         : "VIEW ITINERARY"}
-                    </Link>
+                    </span>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

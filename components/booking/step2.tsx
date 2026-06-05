@@ -1,5 +1,9 @@
 'use client';
 
+import PhoneInput, { getCountries } from "react-phone-number-input";
+import es from "react-phone-number-input/locale/es.json";
+import "react-phone-number-input/style.css";
+
 import { useState, useEffect } from "react";
 import BookingLayout from "./layout";
 
@@ -44,9 +48,12 @@ export default function Step2({ lang, form, setForm, next, prev }: any) {
           denominacion: 'Sr.',
           nombre: '',
           apellido: '',
-          pais: 'Perú',
           tipoDoc: 'DNI',
           numeroDoc: '',
+          email: '',
+          phone: '',
+          countryCode: '',
+          countryName: '',
           fechaNacimiento: '',
           lider: nuevos.length === 0 && !nuevos.some(v => v.lider),
           extras: []
@@ -88,9 +95,12 @@ export default function Step2({ lang, form, setForm, next, prev }: any) {
     denominacion: '',
     nombre: '',
     apellido: '',
-    pais: '',
     tipoDoc: '',
     numeroDoc: '',
+    email: '',
+    phone: '',
+    countryCode: '',
+    countryName: '',
     fechaNacimiento: '',
     lider: false,
     extras: []
@@ -131,9 +141,12 @@ export default function Step2({ lang, form, setForm, next, prev }: any) {
         !v.denominacion ||
         !v.nombre ||
         !v.apellido ||
-        !v.pais ||
         !v.tipoDoc ||
         !v.numeroDoc ||
+        !v.email ||
+        !v.phone ||
+        !v.countryCode ||
+        !v.countryName ||
         !v.fechaNacimiento
       ) {
         showToast(texto[lang as 'es' | 'en'].missing(i), 'warn');
@@ -309,14 +322,34 @@ export default function Step2({ lang, form, setForm, next, prev }: any) {
                         <span className="text-[#BCBCBC]">
                           {lang === 'es' ? 'País *' : 'Country *'}
                         </span>
-                        <select value={v?.pais  || 'Perú'}
-                          onChange={(e) => update(i, 'pais', e.target.value)}
+
+                        <select
+                          value={v?.countryCode || ''}
+                          onChange={(e) => {
+                            const code = e.target.value;
+                            const arr = [...form.viajerosData];
+                            arr[i] = {
+                              ...arr[i],
+                              countryCode: code,
+                              countryName: es[code as keyof typeof es],
+                              phone: '',
+                            };
+                            setForm({ ...form, viajerosData: arr });
+                          }}
                           className="border-b border-b-[#BCBCBC] py-2 outline-none
                           text-[#BCBCBC]
                           focus:border-black focus:text-black
-                          valid:text-black">
-                          <option value="Perú">Perú</option>
-                          <option value="USA">USA</option>
+                          valid:text-black"
+                        >
+                          <option value="">
+                            {lang === 'es' ? 'Seleccione un país' : 'Select a country'}
+                          </option>
+
+                          {getCountries().map((c) => (
+                            <option key={c} value={c}>
+                              {es[c]} ({c})
+                            </option>
+                          ))}
                         </select>
                       </div>
 
@@ -377,6 +410,36 @@ export default function Step2({ lang, form, setForm, next, prev }: any) {
                             `}
                           />
                         </button>
+                      </div>
+
+                      <div className="col-span-4 flex flex-col gap-2">
+                        <span className="text-[#BCBCBC]">
+                          {lang === 'es' ? 'Correo electrónico. *' : 'Email *'}
+                        </span>
+                        <input
+                          className="border-b border-b-[#BCBCBC] py-2 outline-none
+                          text-[#BCBCBC]
+                          focus:border-black focus:text-black
+                          valid:text-black"
+                          value={v?.email || ""}
+                          onChange={(e) => update(i, 'email', e.target.value)}
+                        />
+                      </div>
+
+                      <div className="col-span-4 flex flex-col gap-2">
+                        <span className="text-[#BCBCBC]">
+                          {lang === 'es' ? 'Número celular *' : 'Phone *'}
+                        </span>
+
+                        <PhoneInput
+                          international
+                          defaultCountry={v?.countryCode || 'PE'}
+                          value={v?.phone || ''}
+                          onChange={(value) => update(i, 'phone', value)}
+                          className="border-b border-b-[#BCBCBC] py-2 outline-none
+                          text-[#BCBCBC]
+                          focus:border-black focus:text-black"
+                        />
                       </div>
                     </div>
                     <div className="mt-6 flex justify-end relative">

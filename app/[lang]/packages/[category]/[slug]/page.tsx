@@ -82,7 +82,7 @@ export default async function PackagePage({
                 lang={lang}
             />
 
-            <TabsNav lang={lang} currentTourId={paquete._id} />
+            <TabsNav lang={lang} currentTourId={paquete._id} price={paquete.price}/>
 
             <div className='flex flex-col w-full gap-36 pt-12 pb-36'>
             <SummarySection 

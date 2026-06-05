@@ -83,7 +83,7 @@ export default function BlogFeaturedCarousel({ posts, lang }: any) {
 
           <div>
             <Link href={`/${lang}/blogs/${mainPost.slug.current}`}
-                className="border-b pb-1 inline-block !tracking-[3px]">
+                className="border-b pb-1 inline-block !tracking-[2px]">
                 {lang === 'es' ? 'LEER MÁS' : 'VIEW MORE'}
             </Link>
           </div>
@@ -105,9 +105,10 @@ export default function BlogFeaturedCarousel({ posts, lang }: any) {
                     }}
                 >
                     {secondaryPosts.map((post: any) => (
-                    <div
-                        key={post.slug.current}
-                        className="shrink-0 w-full sm:w-[48%] lg:w-[32%]"
+                    <Link
+                      key={post.slug.current}
+                      href={`/${lang}/blogs/${post.slug.current}`}
+                      className="shrink-0 w-full sm:w-[48%] lg:w-[32%] block group"
                     >
                         <div className="relative w-full aspect-[16/9] overflow-hidden">
                         <img
@@ -132,7 +133,7 @@ export default function BlogFeaturedCarousel({ posts, lang }: any) {
                         </div>
                         </div>
 
-                        <p className="!tracking-[3px] text-gray-500 my-3">
+                        <p className="!tracking-[2px] text-gray-500 my-3">
                         {post.publishedAt}
                         </p>
 
@@ -144,13 +145,10 @@ export default function BlogFeaturedCarousel({ posts, lang }: any) {
                         {post.excerpt?.[lang]}
                         </p>
 
-                        <Link
-                        href={`/${lang}/blogs/${post.slug.current}`}
-                        className="border-b pb-1 inline-block !tracking-[3px]"
-                        >
+                        <span className="border-b pb-1 inline-block !tracking-[2px]">
                         {lang === 'es' ? 'LEER MÁS' : 'VIEW MORE'}
-                        </Link>
-                    </div>
+                        </span>
+                    </Link>
                     ))}
                 </div>
                 </div>

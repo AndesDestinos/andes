@@ -4,7 +4,6 @@ import { useState } from 'react';
 import BookingLayout from './layout';
 
 export default function Step1({ lang, form, setForm, data, next }: any) {
-  console.log(form);
   const services = [
     { label: { es: 'Privado', en: 'Private'}, value: 'privado', icon: '/images/booking/crown.svg' },
     { label: { es: 'Lujo', en: 'Luxury'}, value: 'lujo', icon: '/images/booking/diamond.svg' }

@@ -2,6 +2,10 @@
 
 import { urlFor } from '@/lib/sanity.image'
 import { useEffect, useState } from 'react'
+import PhoneInput, { getCountries } from "react-phone-number-input";
+import esCountries from "react-phone-number-input/locale/es.json";
+import enCountries from "react-phone-number-input/locale/en.json";
+import "react-phone-number-input/style.css";
 
 type Language = 'en' | 'es'
 
@@ -15,8 +19,12 @@ export default function TravelPlannerForm({ language, hero }: { language: Langua
 
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
-    const [phone, setPhone] = useState('')
-    const [country, setCountry] = useState('')
+    const countries = language === 'es' ? esCountries : enCountries;
+    const [formContact, setFormContact] = useState({
+    countryCode: '',
+    countryName: '',
+    phone: ''
+    });
     const [travelers, setTravelers] = useState(1)
     const [includeHotel, setIncludeHotel] = useState(false)
     const [stars, setStars] = useState(1)
@@ -60,8 +68,11 @@ export default function TravelPlannerForm({ language, hero }: { language: Langua
 
         setName('')
         setEmail('')
-        setPhone('')
-        setCountry('')
+        setFormContact({
+            countryCode: '',
+            countryName: '',
+            phone: ''
+        });
 
         setTravelers(1)
         setIncludeHotel(false)
@@ -120,8 +131,8 @@ export default function TravelPlannerForm({ language, hero }: { language: Langua
             fields: {
                 name: !name,
                 email: !email,
-                phone: !phone,
-                country: !country,
+                phone: !formContact.phone,
+                country: !formContact.countryName,
             }
         }
         newErrors.step3 =
@@ -194,8 +205,9 @@ export default function TravelPlannerForm({ language, hero }: { language: Langua
             contact,
             name,
             email,
-            phone,
-            country,
+            phone: formContact.phone,
+            country: formContact.countryName,
+            countryCode: formContact.countryCode,
             travelers,
             includeHotel,
             stars,
@@ -326,7 +338,7 @@ export default function TravelPlannerForm({ language, hero }: { language: Langua
                         <h2 className=" mb-8">{texto.title}</h2>
 
                         <div className="mb-12">
-                            <div className="flex justify-between max-w-3xl mx-auto">
+                            <div className="flex justify-between mx-auto">
                                 <div className="flex flex-col items-center text-center flex-1">
                                     <div className="w-10 h-10 flex items-center justify-center border border-gray-300 rounded-full">
                                         1
@@ -424,7 +436,7 @@ export default function TravelPlannerForm({ language, hero }: { language: Langua
                                 <button
                                     type="button"
                                     key={y}
-                                    onClick={() => setYear(y.toString())}
+                                    onClick={() => {setYear(y.toString()); setMonth("")}}
                                     className={chip(year === y.toString())}
                                 >
                                     {y}
@@ -497,20 +509,49 @@ export default function TravelPlannerForm({ language, hero }: { language: Langua
                                     errors.fields.email ? 'border-red-500' : 'border-gray-300'
                                 }`}
                             />
-                            <input
-                                value={phone}
-                                onChange={(e)=>setPhone(e.target.value)}
-                                placeholder="Teléfono / WhatsApp *"
+                            <select
+                                value={formContact.countryCode}
+                                onChange={(e) => {
+                                const code = e.target.value;
+                                setFormContact({
+                                    ...formContact,
+                                    countryCode: code,
+                                    countryName: countries[code as keyof typeof countries],
+                                    phone: ''
+                                });
+                                }}
                                 className={`border-b py-3 outline-none ${
-                                    errors.fields.phone ? 'border-red-500' : 'border-gray-300'
+                                errors.fields.country ? 'border-red-500' : 'border-gray-300'
                                 }`}
-                            />
-                            <input
-                                value={country}
-                                onChange={(e)=>setCountry(e.target.value)}
-                                placeholder="País *"
+                            >
+                                <option value="">
+                                {language === 'es' ? 'País *' : 'Country *'}
+                                </option>
+
+                                {getCountries().map((c) => (
+                                <option key={c} value={c}>
+                                    {countries[c]} ({c})
+                                </option>
+                                ))}
+                            </select>
+
+                            <PhoneInput
+                                international
+                                defaultCountry={formContact.countryCode || undefined as any}
+                                value={formContact.phone}
+                                onChange={(value) => {
+                                setFormContact({ ...formContact, phone: value || '' });
+                                }}
+                                onCountryChange={(country) => {
+                                if (!country) return;
+                                setFormContact({
+                                    ...formContact,
+                                    countryCode: country,
+                                    countryName: countries[country as keyof typeof countries]
+                                });
+                                }}
                                 className={`border-b py-3 outline-none ${
-                                    errors.fields.country ? 'border-red-500' : 'border-gray-300'
+                                errors.fields.phone ? 'border-red-500' : 'border-gray-300'
                                 }`}
                             />
                         </div>
@@ -608,12 +649,12 @@ function Section({ title, children, open, onClick, error }: any) {
                     }`}
                 >
                     <span
-                        className={`absolute w-5 h-[5px] ${
+                        className={`absolute w-5 h-[1px] ${
                             open ? 'bg-black' : 'bg-[#D6D6D6]'
                         }`}
                     />
                     <span
-                        className={`absolute h-5 w-[5px] transition-all duration-300 ${
+                        className={`absolute h-5 w-[1px] transition-all duration-300 ${
                             open
                                 ? 'opacity-0 scale-y-0 bg-black'
                                 : 'bg-[#D6D6D6]'
@@ -621,7 +662,7 @@ function Section({ title, children, open, onClick, error }: any) {
                     />
                 </div>
             </div>
-            <div className={`overflow-hidden transition-all duration-300 ${open ? 'max-h-[500px] mt-6' : 'max-h-0'}`}>
+            <div className={`overflow-hidden transition-all duration-300 ${open ? 'max-h-auto mt-6' : 'max-h-0'}`}>
                 {children}
             </div>
         </div>

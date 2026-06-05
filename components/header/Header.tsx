@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import DropdownMenu from './DropdownMenu'
 import DropdownAboutMenu from './DropdownAboutMenu'
 import { useRef } from 'react'
+import { useCart } from '../cart/CartContext'
 
 type Item = {
   title: string
@@ -50,7 +51,8 @@ export default function Header({
       title: i.headline,
     })),
   ]
-  console.log(allItems);
+  const { setIsOpen, cart } = useCart();
+  const totalItems = cart.reduce((acc: any, item: any) => acc + item.quantity, 0);
 
   const [activeMenu, setActiveMenu] = useState<string | null>(null)
   const [activeCategory, setActiveCategory] = useState<number>(0)
@@ -199,9 +201,18 @@ export default function Header({
 
     <div
       onClick={() => goTo('booking')}
-      className="border border-white px-3 py-1 cursor-pointer"
+      className={`!tracking-[2px]
+        relative cursor-pointer px-6 py-2 overflow-hidden border
+        transition-colors duration-300
+        ${(isHome || isScrolled || isHovered) ? 'border-black text-black' : 'border-white text-white'}
+        
+        before:content-[''] before:absolute before:top-0 before:left-0
+        before:h-full before:w-0 before:bg-[#ABB8C3]
+        before:transition-all before:duration-300
+        hover:before:w-full hover:text-white before:-z-10
+      `}
     >
-      {lang === "es" ? "RESERVAR" : "BOOK"}
+      {lang === "es" ? "RESERVAR" : " NOW"}
     </div>
     </div>
 
@@ -231,7 +242,7 @@ export default function Header({
                 after:translate-x-[-50%]
                 after:transition-transform after:duration-300 
                 hover:after:scale-x-100">
-              <span className='!tracking-[3px]' onClick={() => goTo('tours')}>TOURS</span>
+              <span className='!tracking-[2px]' onClick={() => goTo('tours')}>TOURS</span>
             </div>
             {activeMenu === 'tours' && (
               <DropdownMenu
@@ -261,7 +272,7 @@ export default function Header({
                 after:translate-x-[-50%]
                 after:transition-transform after:duration-300
                 hover:after:scale-x-100">
-              <span className='!tracking-[3px]' onClick={() => goTo('packages')}>{lang === "es" ? "PAQUETES" : "PACKAGES"}</span>
+              <span className='!tracking-[2px]' onClick={() => goTo('packages')}>{lang === "es" ? "PAQUETES" : "PACKAGES"}</span>
             </div>
             {activeMenu === 'packages' && (
               <DropdownMenu
@@ -292,7 +303,7 @@ export default function Header({
                 after:translate-x-[-50%]
                 after:transition-transform after:duration-300
                 hover:after:scale-x-100">
-              <span className='!tracking-[3px]' onClick={() => goTo('experiences')}>{lang === "es" ? "EXPERIENCIAS" : "EXPERIENCES"}</span>
+              <span className='!tracking-[2px]' onClick={() => goTo('experiences')}>{lang === "es" ? "EXPERIENCIAS" : "EXPERIENCES"}</span>
             </div>
             {activeMenu === 'experiences' && (
               <DropdownMenu
@@ -320,7 +331,7 @@ export default function Header({
             after:translate-x-[-50%]
             after:transition-transform after:duration-300
             hover:after:scale-x-100">
-            <span onClick={() => goTo('about-us')}  className='!tracking-[3px]'>
+            <span onClick={() => goTo('about-us')}  className='!tracking-[2px]'>
               {lang === 'es' ? 'NOSOTROS' : 'ABOUT US'}
             </span>
             {activeMenu === 'about' && (
@@ -346,7 +357,7 @@ export default function Header({
             after:translate-x-[-50%]
             after:transition-transform after:duration-300
             hover:after:scale-x-100">
-            <span onClick={() => goTo('blogs')} className='!tracking-[3px]'>
+            <span onClick={() => goTo('blogs')} className='!tracking-[2px]'>
               BLOG
             </span>
           </div>
@@ -368,7 +379,7 @@ export default function Header({
               src={currentStoreLogo}
               className="h-5 mt-[-2px]"
             />
-            <span className='!tracking-[3px]'>{lang === "es" ? "TIENDA" : "STORE"}</span>
+            <span className='!tracking-[2px]'>{lang === "es" ? "TIENDA" : "STORE"}</span>
           </div>
 
         </div>
@@ -376,7 +387,7 @@ export default function Header({
         <div className="hidden md:flex items-center gap-6">
           <div
   onClick={() => goTo('booking')}
-  className={`!tracking-[3px]
+  className={`!tracking-[2px]
     relative cursor-pointer px-6 py-2 overflow-hidden border
     transition-colors duration-300
     ${(isHome || isScrolled || isHovered) ? 'border-black text-black' : 'border-white text-white'}
@@ -389,11 +400,27 @@ export default function Header({
 >
             {lang === "es" ? "RESERVAR" : "BOOK NOW"}
           </div>
+          <div
+            className="relative cursor-pointer"
+            onClick={() => setIsOpen(true)}
+          >
+            <img
+              src="/images/header/cart.svg"
+              className="h-5 w-auto"
+            />
+
+            {totalItems > 0 && (
+              <span className="absolute -top-2 -right-2 bg-black text-white text-[10px] w-5 h-5 flex items-center 
+              justify-center rounded-full">
+                {totalItems}
+              </span>
+            )}
+          </div>
           <div className="flex items-center">
   <select
     value={lang}
     onChange={(e) => changeLang(e.target.value)}
-    className={`!tracking-[3px]
+    className={`!tracking-[2px]
       px-2 py-1 cursor-pointer outline-none transition
       ${(isHome || isScrolled || isHovered || mobileOpen)
         ? 'bg-white text-black'

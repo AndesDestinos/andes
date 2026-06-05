@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { CartProvider } from "@/components/cart/CartContext";
 
 const metropolis = localFont({
   src: [
@@ -64,9 +65,11 @@ export default function RootLayout({
       lang="es"
       className={`${metropolis.variable} ${bodoni.variable} h-full antialiased`}
     >
+      <CartProvider>
       <body className="min-h-full flex flex-col">
         {children}
       </body>
+      </CartProvider>
     </html>
   );
 }

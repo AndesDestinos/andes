@@ -2,10 +2,13 @@
 
 import { urlFor } from "@/lib/sanity.image";
 import { useState } from "react";
+import { useCart } from "../cart/CartContext";
 
 export default function ProductDetail({ product, lang }: any) {
   const [current, setCurrent] = useState(0);
   const [openItems, setOpenItems] = useState<number[]>([]);
+  const { addToCart } = useCart();
+  const [qty, setQty] = useState(1);
 
   const images = product?.images || [];
 
@@ -14,8 +17,8 @@ export default function ProductDetail({ product, lang }: any) {
   const toggle = (index: number) => {
     setOpenItems((prev) =>
         prev.includes(index)
-        ? prev.filter((i) => i !== index) // cerrar
-        : [...prev, index] // abrir
+        ? prev.filter((i) => i !== index)
+        : [...prev, index]
     );
   };
 
@@ -80,18 +83,19 @@ export default function ProductDetail({ product, lang }: any) {
             </label>
             <input
               type="number"
-              defaultValue={1}
+              value={qty}
               min={1}
+              onChange={(e) => setQty(Number(e.target.value))}
               className="w-full border p-2"
             />
           </div>
 
-          {/* BOTONES */}
           <div className="flex gap-3 mb-8">
-            <button className="bg-black text-white py-3 w-full">
-              {lang === "es"
-                ? "AGREGAR AL CARRITO"
-                : "ADD TO CART"}
+            <button
+              onClick={() => addToCart(product, qty)}
+              className="bg-black text-white py-3 w-full"
+            >
+              {lang === "es" ? "AGREGAR AL CARRITO" : "ADD TO CART"}
             </button>
 
             <button className="border border-black py-3 w-full">
@@ -99,24 +103,20 @@ export default function ProductDetail({ product, lang }: any) {
             </button>
           </div>
 
-          {/* 🔥 ACCORDION */}
           <div className="border-t">
             {product?.details?.map((item: any, i: number) => {
                 const isOpen = openItems.includes(i);
-
                 return (
                 <div
                     key={i}
                     className="border-b py-4 cursor-pointer"
                     onClick={() => toggle(i)}
                 >
-                    {/* HEADER */}
                     <div className="flex justify-between items-center">
                     <h3 className="">
                         {t(item.title)}
                     </h3>
 
-                    {/* ICONO ANIMADO */}
                     <span
                         className={`transition-transform duration-300 ${
                         isOpen ? "rotate-45" : "rotate-0"
@@ -126,7 +126,6 @@ export default function ProductDetail({ product, lang }: any) {
                     </span>
                     </div>
 
-                    {/* CONTENIDO */}
                     <div
                     className={`overflow-hidden transition-all duration-300 ${
                         isOpen ? "max-h-40 mt-2" : "max-h-0"

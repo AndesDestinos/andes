@@ -1,10 +1,11 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { urlFor } from '@/lib/sanity.image'
 
 export default function StoreGrid({ storePage, products, categories, lang }: any) {
+  const scrollRef = useRef<HTMLDivElement | null>(null);
   const [currentHero, setCurrentHero] = useState(0);
   const heroImages = storePage?.images?.length
     ? storePage.images.map((img: any) => urlFor(img).url())
@@ -30,6 +31,21 @@ export default function StoreGrid({ storePage, products, categories, lang }: any
         (p: any) => p.category?._ref === activeCategory
       )
     : products
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const interval = setInterval(() => {
+      el.scrollBy({
+        left: 280,
+        behavior: "smooth",
+      });
+      if (el.scrollLeft + el.clientWidth >= el.scrollWidth - 10) {
+        el.scrollTo({ left: 0, behavior: "smooth" });
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className='w-full flex flex-col gap-25 pb-25'>
@@ -57,7 +73,7 @@ export default function StoreGrid({ storePage, products, categories, lang }: any
 
           <Link
             href={`/${lang}/about-us`}
-            className={`!tracking-[3px]
+            className={`!tracking-[2px]
             relative cursor-pointer px-6 py-2 overflow-hidden border
             transition-colors duration-300
             border-white text-white
@@ -128,7 +144,10 @@ export default function StoreGrid({ storePage, products, categories, lang }: any
         {/* CAROUSEL */}
         <div className="relative w-full">
 
-          <div className="flex gap-10 overflow-x-auto scrollbar-none snap-x snap-mandatory px-4">
+          <div
+  ref={scrollRef}
+  className="flex gap-10 overflow-x-auto scrollbar-none px-4 scroll-smooth"
+>
 
             {categoryProducts.map((product: any) => (
               <div

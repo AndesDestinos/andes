@@ -2,6 +2,8 @@
 
 import { urlFor } from '@/lib/sanity.image'
 import { useState, useEffect } from 'react'
+import PhoneInput from "react-phone-number-input";
+import "react-phone-number-input/style.css";
 
 type Language = 'en' | 'es'
 
@@ -12,6 +14,7 @@ export default function ComplaintsBookForm({ language, hero }: { language: Langu
         message: string
         type: 'success' | 'error'
     } | null>(null)
+    const [phone, setPhone] = useState('');
 
     const messages = {
         es: {
@@ -97,7 +100,7 @@ export default function ComplaintsBookForm({ language, hero }: { language: Langu
             documentNumber: form.get('documentNumber'),
             address: form.get('address'),
             email: form.get('email'),
-            phone: form.get('phone'),
+            phone: phone,
             typeDocument: form.get('typeDocument'),
             typeService: form.get('typeService'),
             service: form.get('service'),
@@ -202,7 +205,15 @@ export default function ComplaintsBookForm({ language, hero }: { language: Langu
                             <input name="documentNumber" placeholder={texto.documentNumber} className={inputClass('documentNumber')} />
                             <input name="address" placeholder={texto.address} className={inputClass('address')} />
                             <input name="email" placeholder={texto.email} className={inputClass('email')} />
-                            <input name="phone" placeholder={texto.phone} className={inputClass('phone')} />
+                            <PhoneInput
+                                international
+                                defaultCountry={language === 'es' ? 'PE' : 'US'}
+                                value={phone}
+                                onChange={(value) => setPhone(value || '')}
+                                className={`w-full border-b bg-transparent px-1 py-2 outline-none ${
+                                    errors.phone ? 'border-red-500 border-b-2' : 'border-gray-300'
+                                }`}
+                            />
                         </div>
 
                         <h3 className="mt-16 mb-8">

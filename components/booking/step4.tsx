@@ -31,9 +31,9 @@ export default function Step4({ lang, form, reset }: any) {
             <div className="flex flex-col gap-2 mt-4">
               <h3 className="tracking-widest">{ lang === 'es' ? 'CLIENTE' : 'CLIENT' }</h3>
               <p>{ lang === 'es' ? 'Nombre' : 'Name' }: {cliente?.nombre} {cliente?.apellido}</p>
-              <p>Teléfono: -</p>
-              <p>Correo: -</p>
-              <p>{ lang === 'es' ? 'País' : 'Country' }: {cliente?.pais}</p>
+              <p>{ lang === 'es' ? 'Correo' : 'Email' }: {cliente?.email}</p>
+              <p>{ lang === 'es' ? 'Teléfono' : 'Phone' }: {cliente?.phone}</p>
+              <p>{ lang === 'es' ? 'País' : 'Country' }: {cliente?.countryName}</p>
             </div>
           </div>
 
@@ -155,7 +155,7 @@ export default function Step4({ lang, form, reset }: any) {
             onClick={() => {
               reset();
             }}
-            className="bg-black text-white px-8 py-3"
+            className="bg-black text-white px-8 py-3 cursor-pointer"
           >
             { lang === 'es' ? 'FINALIZAR RESERVA' : 'COMPLETE RESERVATION' }
           </button>

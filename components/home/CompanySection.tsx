@@ -21,7 +21,7 @@ export default function CompanySection({ data, lang }: any) {
           z-1
         ">
           <div className="bg-[#f5f3ef] py-3 md:py-5 text-center">
-            <h4 className="text-gray-500 !tracking-[3px]">
+            <h4 className="text-gray-500 !tracking-[2px]">
             {data?.subtitle?.[lang]}
           </h4>
           </div>
@@ -37,7 +37,7 @@ export default function CompanySection({ data, lang }: any) {
           
           <Link
             href={`/${lang}/about-us`}
-            className="border-b border-black pb-1 hover:opacity-70 transition !tracking-[3px]"
+            className="border-b border-black pb-1 hover:opacity-70 transition !tracking-[2px]"
           >
             {lang==='es' ? 'DESCUBRA NUESTRA FILOSOFÍA' : 'DISCOVER OUR PHILOSOPLHY'}
           </Link>

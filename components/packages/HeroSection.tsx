@@ -10,6 +10,7 @@ export default function HeroSection({
   lang,
 }: any) {
   return (
+    <>
     <section className="relative h-[60vh] w-full overflow-hidden">
       <div className="absolute inset-0">
         <img
@@ -54,15 +55,15 @@ export default function HeroSection({
               </div>
             </div>
 
-            <div className="flex flex-col max-w-[400px]">
+            <div className="hidden md:flex flex-col max-w-[400px]">
               <div className='flex gap-7 justify-end'>
                 <div className='flex flex-col'>
                   <span className='!text-[75px]'>{days}</span>
-                  <p>DÍAS</p>
+                  <p>{lang === 'es' ? 'DÍAS' : 'DAYS'}</p>
                 </div>
                 <div className='flex flex-col'>
                   <span className='!text-[75px]'>{destinations?.length}</span>
-                  <p>DESTINOS</p>
+                  <p>{lang === 'es' ? 'DESTINOS' : 'DESTINATIONS'}</p>
                 </div>
               </div>
               <div className='flex w-full mb-7'>
@@ -87,5 +88,39 @@ export default function HeroSection({
         </div>
       </div>
     </section>
+
+    <div className="md:hidden andes-contenido py-6">
+      <div className="flex flex-col gap-5">
+        <div className='flex w-full gap-7 justify-center'>
+          <div className='flex flex-col text-center'>
+            <span className='!text-[50px]'>{days}</span>
+            <p>{lang === 'es' ? 'DÍAS' : 'DAYS'}</p>
+          </div>
+          <div className='flex flex-col text-center'>
+            <span className='!text-[50px]'>{destinations?.length}</span>
+            <p>{lang === 'es' ? 'DESTINOS' : 'DESTINATIONS'}</p>
+          </div>
+        </div>
+
+        <div className='flex w-full'>
+          <img 
+            src="/images/packages/separatorDark.svg" 
+            alt="" 
+            className="h-[2em] w-full"
+          />
+        </div>
+
+        <div className='flex gap-5 items-center'>
+          <img 
+            src="/images/packages/andesExperiencesDark.svg" 
+            alt="" 
+            className="h-[2.5em] w-auto"
+          />
+          <p>{recommended?.[lang]}</p>
+        </div>
+
+      </div>
+    </div>
+    </>
   )
 }

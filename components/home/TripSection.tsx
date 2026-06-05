@@ -55,7 +55,7 @@ export default function TripSection({ data, lang }: any) {
           <div className="mt-10 text-center">
             <Link
               href={`/${lang}/booking`}
-              className="cursor-pointer border-b border-black pb-1 hover:opacity-70 transition !tracking-[3px]"
+              className="cursor-pointer border-b border-black pb-1 hover:opacity-70 transition !tracking-[2px]"
             >
               {lang === "es" ? "RESERVAR AHORA" : "BOOK NOW"}
             </Link>
@@ -116,7 +116,7 @@ export default function TripSection({ data, lang }: any) {
           <div className="mt-6 text-center">
             <Link
               href={`/${lang}/booking`}
-              className="cursor-pointer border-b border-black pb-1 hover:opacity-70 transition !tracking-[3px]"
+              className="cursor-pointer border-b border-black pb-1 hover:opacity-70 transition !tracking-[2px]"
             >
               {lang === "es" ? "RESERVAR AHORA" : "BOOK NOW"}
             </Link>

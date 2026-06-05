@@ -99,7 +99,7 @@ export default function BlogClient({ data, lang }: any) {
                 </div>
             </div>
             <div className="bg-white scroll-smooth flex flex-col gap-20 pb-36">
-                <section className="andes-contenido-pequenio text-center">
+                <section className="andes-contenido-pequenio text-center !mt-[130px]">
                     <h1 className="leading-tight andes-blog-font">
                         {data.headline?.[lang]}
                     </h1>

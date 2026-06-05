@@ -49,7 +49,7 @@ export default function BlogSection({ posts, lang }: any) {
 
         <Link
           href={`/${lang}/blogs`}
-          className="hidden md:block border px-6 py-3 hover:bg-black hover:text-white transition !tracking-[3px]"
+          className="hidden md:block border px-6 py-3 hover:bg-black hover:text-white transition !tracking-[2px]"
         >
           {lang === 'es' ? 'MÁS ARTICULOS' : 'MORE ARTICLES'}
         </Link>
@@ -68,11 +68,12 @@ export default function BlogSection({ posts, lang }: any) {
             }}
           >
             {posts.map((post: any) => (
-              <div
+              <Link
                 key={post.slug.current}
-                className="shrink-0 w-full sm:w-[48%] lg:w-[32%]"
+                href={`/${lang}/blogs/${post.slug.current}`}
+                className="shrink-0 w-full sm:w-[48%] lg:w-[32%] block"
               >
-                <div className="relative w-full aspect-square overflow-hidden">
+                <div className="relative w-full aspect-16/9 overflow-hidden">
                   <img
                     src={
                       post?.mainImage
@@ -88,11 +89,14 @@ export default function BlogSection({ posts, lang }: any) {
                   </span>
 
                   <div className="absolute bottom-4 right-4 bg-black/50 text-white px-3 py-2 rounded-md">
+                    <div className="flex justify-center pb-2">
+                      <img src="/images/blogs/durationTime.svg" />
+                    </div>
                     {post.readingTime}
                   </div>
                 </div>
 
-                <p className="!tracking-[3px] text-gray-500 my-3">
+                <p className="!tracking-[2px] text-gray-500 my-3">
                   {post.publishedAt}
                 </p>
 
@@ -104,13 +108,10 @@ export default function BlogSection({ posts, lang }: any) {
                   {post.excerpt?.[lang]}
                 </p>
 
-                <Link
-                  href={`/${lang}/blogs/${post.slug.current}`}
-                  className="border-b pb-1 inline-block !tracking-[3px]"
-                >
+                <span className="border-b pb-1 inline-block !tracking-[2px]">
                   {lang === 'es' ? 'LEER MÁS' : 'VIEW MORE'}
-                </Link>
-              </div>
+                </span>
+              </Link>
             ))}
           </div>
         </div>

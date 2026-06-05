@@ -50,7 +50,7 @@ export default function BlogCategorySection({ category, posts, lang }: any) {
 
           {/*<Link
             href={`/${lang}/blogs/category/${category.slug.current}`}
-            className="border-b w-fit pb-1 tracking-[3px]"
+            className="border-b w-fit pb-1 tracking-[2px]"
           >
             {lang === "es" ? "VER MAS" : "VIEW MORE"}
           </Link>*/}
@@ -67,12 +67,14 @@ export default function BlogCategorySection({ category, posts, lang }: any) {
               }}
             >
               {posts.map((post: any) => (
-                <div
+                <Link
                   key={post._id}
+                  href={`/${lang}/blogs/${post.slug.current}`}
                   className={`
                     shrink-0
                     w-full
                     ${itemsPerView === 2 ? "lg:w-[48%]" : ""}
+                    block group
                   `}
                 >
                   <div className="relative w-full aspect-[16/9] overflow-hidden">
@@ -109,13 +111,10 @@ export default function BlogCategorySection({ category, posts, lang }: any) {
                     {post.excerpt?.[lang]}
                   </p>
 
-                  <Link
-                    href={`/${lang}/blogs/${post.slug.current}`}
-                    className="border-b pb-1 inline-block tracking-[3px]"
-                  >
+                  <span className="border-b pb-1 inline-block tracking-[2px]">
                     {lang === "es" ? "LEER MÁS" : "VIEW MORE"}
-                  </Link>
-                </div>
+                  </span>
+                </Link>
               ))}
             </div>
           </div>

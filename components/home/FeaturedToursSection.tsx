@@ -72,7 +72,7 @@ export default function FeaturedToursSection({ tours, lang }: any) {
         </div>
 
         <Link href={`/${lang}/tours`} 
-            className="mt-4 md:mt-0 border border-gray-400 px-6 py-2 hover:bg-black hover:text-white transition !tracking-[3px]">
+            className="hidden md:block mt-4 md:mt-0 border border-gray-400 px-6 py-2 hover:bg-black hover:text-white transition !tracking-[2px]">
           {lang === "es" ? "EXPLORAR MÁS" : "EXPLORE MORE"}
         </Link>
       </div>
@@ -108,11 +108,11 @@ export default function FeaturedToursSection({ tours, lang }: any) {
                   </div>
 
                   <div className="text-center mt-4">
-                    <p className="text-gray-500 !tracking-[3px]">
+                    <p className="text-gray-500 !tracking-[2px]">
                       {tour.durationLabel?.[lang]}
                     </p>
 
-                    <h3 className="!tracking-[3px] mt-2">
+                    <h3 className="!tracking-[2px] mt-2">
                       {tour.title?.[lang]}
                     </h3>
 
@@ -122,7 +122,7 @@ export default function FeaturedToursSection({ tours, lang }: any) {
 
                     <Link
                       href={`/${lang}/tours/${tour.category.slug.current}/${tour.slug.current}`}
-                      className="!tracking-[3px] inline-block mt-4 border-b border-gray-400 pb-1 hover:border-black"
+                      className="!tracking-[2px] inline-block mt-4 border-b border-gray-400 pb-1 hover:border-black"
                     >
                       {lang === "es"
                         ? "VER ITINERARIO"
@@ -170,6 +170,13 @@ export default function FeaturedToursSection({ tours, lang }: any) {
           </div>
         </div>
       )}
+
+      <div className="mt-10 md:hidden w-full">
+        <Link href={`/${lang}/tours`} 
+            className="border w-full block text-center py-3">
+          {lang === "es" ? "EXPLORAR MÁS" : "EXPLORE MORE"}
+        </Link>
+      </div>
     </section>
   )
 }
