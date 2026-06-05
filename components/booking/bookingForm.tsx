@@ -132,11 +132,7 @@ export default function BookingForm({lang, hero, data}: any) {
                 lang={lang}
                 form={form}
                 setForm={setForm}
-                next={() => {
-                    //localStorage.removeItem('bookingForm');
-                    //localStorage.removeItem('bookingStep');
-                    setStep(4);
-                }}
+                next={() => setStep(4)}
                 prev={() => setStep(2)}
             />
         )}

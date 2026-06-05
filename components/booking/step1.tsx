@@ -231,7 +231,7 @@ export default function Step1({ lang, form, setForm, data, next }: any) {
                     </span>
 
                     <span className="font-medium">
-                      {'$ ' + form.tourData.price}
+                      {'$ ' + form.tourData?.price}
                     </span>
                   </div>
                 </div>

@@ -179,15 +179,32 @@ export default function Step3({ lang, form, setForm, next, prev }: any) {
               lang={lang}
               amount={amountToPay} 
               showToast={showToast}
-              onSuccess={(paymentData: any) => {
-                console.log("DATOS DEL PAGO EN STEP3:", paymentData);
-                setForm({
-                  ...form,
-                  paymentData,
-                });
-                console.log("DATOS DEL FORM:", form);
-                next();
-              }} 
+              onSuccess={async (paymentData: any) => {
+                try {
+                  const res = await fetch("/api/booking", {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                      form,
+                      payment: paymentData,
+                      lang,
+                    }),
+                  });
+                  const data = await res.json();
+                  if (!data.success) {
+                    showToast("Error al guardar la reserva", "error");
+                    return;
+                  }
+
+                  localStorage.removeItem('bookingForm');
+                  localStorage.removeItem('bookingStep');
+                  next();
+                } catch (err) {
+                  showToast("Error inesperado", "error");
+                }
+              }}
             />
           </div>
         </div>

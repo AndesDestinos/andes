@@ -1,10 +1,12 @@
 'use client';
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import PaypalButton from "@/components/paypal/Paypal";
 
 export default function OrderSummary({ lang, form, setForm }: { lang: "es" | "en", form: any, setForm: any }) {
   const [cart, setCart] = useState<any[]>([]);
+  const router = useRouter();
   const [toast, setToast] = useState<{
     message: string;
     type: 'success' | 'warn' | 'error';
@@ -59,10 +61,19 @@ export default function OrderSummary({ lang, form, setForm }: { lang: "es" | "en
   const shipping = 10;
   const total = subtotal + shipping;
 
-  const handleSuccess = () => {
-    //localStorage.removeItem("cart");
+  const handleSuccess = async (paymentData: any) => {
+    await fetch("/api/checkout", {
+      method: "POST",
+      body: JSON.stringify({
+        products: cart,
+        payment: paymentData,
+        customer: form,
+        lang: lang,
+      }),
+    });
+    localStorage.removeItem("cart");
     setCart([]);
-    window.location.href = `/${lang}/store/success`;
+    router.push(`/${lang}/store`);
   };
 
   return (
@@ -120,7 +131,7 @@ export default function OrderSummary({ lang, form, setForm }: { lang: "es" | "en
               paymentData,
             });
             console.log("DATOS DEL FORM:", form);
-            handleSuccess();
+            handleSuccess(paymentData);
           }} 
         />
       ) : (
