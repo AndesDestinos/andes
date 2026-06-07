@@ -1,10 +1,11 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
 import { urlFor } from "@/lib/sanity.image"
 
 export default function BlogCategorySection({ category, posts, lang }: any) {
+  const containerRef = useRef<HTMLDivElement>(null)
   const [current, setCurrent] = useState(0)
   const [itemsPerView, setItemsPerView] = useState(2)
 
@@ -37,6 +38,14 @@ export default function BlogCategorySection({ category, posts, lang }: any) {
     setCurrent(index)
   }
 
+  let translate = 0
+
+  if (containerRef.current && containerRef.current.children.length > 0) {
+    const firstItem = containerRef.current.children[0] as HTMLElement
+    const gap = 24 // gap-6
+    translate = current * (firstItem.offsetWidth + gap)
+  }
+
   return (
     <section
       id={category.slug.current}
@@ -58,11 +67,11 @@ export default function BlogCategorySection({ category, posts, lang }: any) {
 
         <div className="md:col-span-1 lg:col-span-2 w-full">
           <div className="overflow-hidden">
-            <div
+            <div ref={containerRef}
               className="flex gap-7 transition-transform duration-500"
               style={{
                 transform: showControls
-                  ? `translateX(-${current * (100 / itemsPerView)}%)`
+                  ? `translateX(-${translate}px)`
                   : "none",
               }}
             >

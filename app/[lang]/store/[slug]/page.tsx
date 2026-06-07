@@ -11,7 +11,8 @@ export default async function ProductPage({ params }: any) {
       name,
       price,
       images,
-      details
+      details,
+      stock,
     }
   `,
     { slug }

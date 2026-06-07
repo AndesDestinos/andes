@@ -1,10 +1,11 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
 import { urlFor } from "@/lib/sanity.image"
 
 export default function BlogFeaturedCarousel({ posts, lang }: any) {
+  const containerRef = useRef<HTMLDivElement>(null)
   if (!posts?.length) return null
   const mainPost = posts[0]
   const secondaryPosts = posts.slice(1)
@@ -36,6 +37,14 @@ export default function BlogFeaturedCarousel({ posts, lang }: any) {
 
   const goTo = (index: number) => {
     setCurrent(index)
+  }
+
+  let translate = 0
+
+  if (containerRef.current && containerRef.current.children.length > 0) {
+    const firstItem = containerRef.current.children[0] as HTMLElement
+    const gap = 24 // gap-6
+    translate = current * (firstItem.offsetWidth + gap)
   }
 
   return (
@@ -94,13 +103,13 @@ export default function BlogFeaturedCarousel({ posts, lang }: any) {
         <div className="w-full">
             <div className="relative">
                 <div className="overflow-hidden">
-                <div
+                <div ref={containerRef}
                     className={`flex w-full gap-7 transition-transform duration-500 ${
                     !showControls ? "justify-center" : ""
                     }`}
                     style={{
-                    transform: showControls
-                        ? `translateX(-${current * (100 / itemsPerView)}%)`
+                      transform: showControls
+                        ? `translateX(-${translate}px)`
                         : "none",
                     }}
                 >

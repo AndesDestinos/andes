@@ -3,12 +3,18 @@
 import { urlFor } from "@/lib/sanity.image";
 import { useState } from "react";
 import { useCart } from "../cart/CartContext";
+import { useRouter } from "next/navigation";
 
 export default function ProductDetail({ product, lang }: any) {
   const [current, setCurrent] = useState(0);
   const [openItems, setOpenItems] = useState<number[]>([]);
   const { addToCart } = useCart();
   const [qty, setQty] = useState(1);
+
+  const router = useRouter();
+
+  const isOutOfStock = product?.stock <= 0;
+  const exceedsStock = qty > product?.stock;
 
   const images = product?.images || [];
 
@@ -32,6 +38,11 @@ export default function ProductDetail({ product, lang }: any) {
     setCurrent((prev) =>
       prev === 0 ? images.length - 1 : prev - 1
     );
+  };
+
+  const handleBuyNow = () => {
+    addToCart(product, qty, { openCart: false });
+    router.push(`/${lang}/store/checkout`);
   };
 
   return (
@@ -73,9 +84,18 @@ export default function ProductDetail({ product, lang }: any) {
             {t(product?.name)}
           </h1>
 
-          <p className="mt-2 mb-6">
-            ${product?.price?.usd} USD
-          </p>
+          <div className="flex justify-between mb-3">
+            <p>
+              {lang === "es"
+                ? `Stock disponible: ${product.stock}`
+                : `Available stock: ${product.stock}`}
+            </p>
+            <p>
+              {lang === "es"
+                ? `Precio: $ ${product.price}`
+                : `Price: $ ${product.price}`}
+            </p>
+          </div>
 
           <div className="mb-6">
             <label className="block mb-2">
@@ -85,20 +105,51 @@ export default function ProductDetail({ product, lang }: any) {
               type="number"
               value={qty}
               min={1}
-              onChange={(e) => setQty(Number(e.target.value))}
+              max={product?.stock || 1}
+              onChange={(e) => {
+                const value = Number(e.target.value);
+                if (value > product.stock) {
+                  setQty(product.stock);
+                  return;
+                }
+                if (value < 1) {
+                  setQty(1);
+                  return;
+                }
+                setQty(value);
+              }}
               className="w-full border p-2"
             />
           </div>
 
           <div className="flex gap-3 mb-8">
             <button
+              disabled={isOutOfStock || exceedsStock}
               onClick={() => addToCart(product, qty)}
-              className="bg-black text-white py-3 w-full"
+              className={`py-3 w-full cursor-pointer ${
+                isOutOfStock || exceedsStock
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-black text-white"
+              }`}
             >
-              {lang === "es" ? "AGREGAR AL CARRITO" : "ADD TO CART"}
+              {isOutOfStock
+                ? lang === "es"
+                  ? "SIN STOCK"
+                  : "OUT OF STOCK"
+                : lang === "es"
+                ? "AGREGAR AL CARRITO"
+                : "ADD TO CART"}
             </button>
-
-            <button className="border border-black py-3 w-full">
+            
+            <button
+              disabled={isOutOfStock || exceedsStock}
+              onClick={handleBuyNow}
+              className={`py-3 w-full border cursor-pointer ${
+                isOutOfStock || exceedsStock
+                  ? "border-gray-400 text-gray-400 cursor-not-allowed"
+                  : "border-black"
+              }`}
+            >
               {lang === "es" ? "COMPRAR AHORA" : "BUY NOW"}
             </button>
           </div>

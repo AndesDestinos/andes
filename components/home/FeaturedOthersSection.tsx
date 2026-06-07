@@ -1,10 +1,11 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
 import { urlFor } from "@/lib/sanity.image"
 
 export default function FeaturedOtherssSection({ tours, lang }: any) {
+  const containerRef = useRef<HTMLDivElement>(null)
   const [current, setCurrent] = useState(0)
   const [itemsPerView, setItemsPerView] = useState(3)
 
@@ -32,6 +33,14 @@ export default function FeaturedOtherssSection({ tours, lang }: any) {
     setCurrent((prev) => (prev > 0 ? prev - 1 : prev))
   }
 
+  let translate = 0
+
+  if (containerRef.current && containerRef.current.children.length > 0) {
+    const firstItem = containerRef.current.children[0] as HTMLElement
+    const gap = 24 // gap-6
+    translate = current * (firstItem.offsetWidth + gap)
+  }
+
   return (
     <section className="w-full">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-10">
@@ -53,13 +62,13 @@ export default function FeaturedOtherssSection({ tours, lang }: any) {
 
       <div className="relative">
         <div className="overflow-hidden">
-          <div
+          <div ref={containerRef}
             className={`flex gap-6 transition-transform duration-500 ${
               !showControls ? "justify-center" : ""
             }`}
             style={{
               transform: showControls
-                ? `translateX(-${current * (100 / itemsPerView)}%)`
+                ? `translateX(-${translate}px)`
                 : "none",
             }}
           >

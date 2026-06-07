@@ -2,6 +2,7 @@ import { supabaseAdmin } from "@/lib/supabase/admin";
 import { NextRequest, NextResponse } from "next/server";
 import { resend } from "@/lib/resend";
 import OrderEmail from "@/emails/OrderEmail";
+import { sanityAdmin } from "@/lib/sanity.admin";
 
 export async function POST(req: NextRequest) {
   try {
@@ -12,6 +13,21 @@ export async function POST(req: NextRequest) {
         success: false,
         error: "Datos incompletos",
       });
+    }
+
+    for (const item of products) {
+      const product = await sanityAdmin.getDocument(item._id);
+
+      if (!product) {
+        throw new Error(`Producto no existe`);
+      }
+
+      if (product.stock < item.quantity) {
+        return NextResponse.json({
+          success: false,
+          error: `Stock insuficiente para ${product.name?.es || "producto"}`,
+        });
+      }
     }
 
     const total = products.reduce((acc: number, item: any) => {
@@ -74,6 +90,15 @@ export async function POST(req: NextRequest) {
       .from("order_items")
       .insert(itemsToInsert);
     if (itemsError) throw itemsError;
+
+    await Promise.all(
+      products.map((item: any) =>
+        sanityAdmin
+          .patch(item._id)
+          .dec({ stock: item.quantity })
+          .commit()
+      )
+    );
 
     const texto = {
       es: {

@@ -2,7 +2,6 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 
-// 👇 tipos (evita errores después)
 type CartItem = {
   _id: string;
   price: number;
@@ -12,7 +11,11 @@ type CartItem = {
 
 type CartContextType = {
   cart: CartItem[];
-  addToCart: (product: CartItem, quantity: number) => void;
+  addToCart: (
+    product: CartItem,
+    quantity: number,
+    options?: { openCart?: boolean }
+  ) => void;
   removeFromCart: (_id: string) => void;
   updateQuantity: (_id: string, quantity: number) => void;
   subtotal: number;
@@ -28,7 +31,6 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const [loaded, setLoaded] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
-  // ✅ cargar SOLO en cliente (NO SSR)
   useEffect(() => {
     const saved = localStorage.getItem("cart");
     if (saved) {
@@ -37,14 +39,13 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     setLoaded(true);
   }, []);
 
-  // ✅ guardar SOLO después de cargar
   useEffect(() => {
     if (loaded) {
       localStorage.setItem("cart", JSON.stringify(cart));
     }
   }, [cart, loaded]);
 
-  const addToCart = (product: CartItem, quantity: number) => {
+  const addToCart = (product: CartItem, quantity: number, options?: { openCart?: boolean }) => {
     setCart((prev) => {
       const exist = prev.find((p) => p._id === product._id);
 
@@ -59,7 +60,9 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
       return [...prev, { ...product, quantity }];
     });
 
-    setIsOpen(true);
+    if (options?.openCart !== false) {
+      setIsOpen(true);
+    }
   };
 
   const removeFromCart = (_id: string) => {
