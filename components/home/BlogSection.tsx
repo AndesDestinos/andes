@@ -40,7 +40,7 @@ export default function BlogSection({ posts, lang }: any) {
 
   if (containerRef.current && containerRef.current.children.length > 0) {
     const firstItem = containerRef.current.children[0] as HTMLElement
-    const gap = 24 // gap-6
+    const gap = 24
     translate = current * (firstItem.offsetWidth + gap)
   }
 
@@ -164,7 +164,7 @@ export default function BlogSection({ posts, lang }: any) {
 
       <div className="mt-10 md:hidden">
         <Link
-          href={`/${lang}/blog`}
+          href={`/${lang}/blogs`}
           className="border w-full block text-center py-3"
         >
           {lang === 'es' ? 'MÁS ARTICULOS' : 'MORE ARTICLES'}

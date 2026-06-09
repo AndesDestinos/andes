@@ -26,7 +26,7 @@ export default function CartSidebar({ lang }: any) {
       />
 
       <div
-        className={`fixed top-0 right-0 h-full w-[400px] bg-white border-l border-l-[#CDCDCD] z-51 p-6 transition-transform duration-300 ${
+        className={`fixed top-0 right-0 h-full w-[400px] bg-white border-l border-l-[#CDCDCD] z-1000 p-6 transition-transform duration-300 ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >

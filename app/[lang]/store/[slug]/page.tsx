@@ -19,7 +19,7 @@ export default async function ProductPage({ params }: any) {
   );
 
   return (
-    <div className="px-6 md:px-12 mt-[60px] md:mt-[80px]">
+    <div className="px-2 md:px-12 mt-[60px] md:mt-[80px]">
       <ProductDetail product={product} lang={lang} />
     </div>
   );

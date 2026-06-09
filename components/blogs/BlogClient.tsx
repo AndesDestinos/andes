@@ -13,17 +13,29 @@ export default function BlogClient({ data, lang }: any) {
     const [topOffset, setTopOffset] = useState(80)
     const lastScroll = useRef(0)
 
-    const handleShare = async () => {
-        if (navigator.share) {
-            await navigator.share({
-            title: data.headline?.[lang],
-            text: data.headline?.[lang],
-            url: window.location.href,
-            })
-        } else {
-            navigator.clipboard.writeText(window.location.href)
-            alert('Link copiado')
-        }
+    const [openShare, setOpenShare] = useState(false)
+    const handleShareWhatsApp = () => {
+        const url = window.location.href
+        const text = data.headline?.[lang] || ''
+        window.open(
+            `https://api.whatsapp.com/send?text=${encodeURIComponent(text + ' ' + url)}`,
+            '_blank'
+        )
+    }
+    const handleShareFacebook = () => {
+        const url = window.location.href
+        window.open(
+            `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
+            '_blank'
+        )
+    }
+    const handleShareLinkedIn = () => {
+        const url = window.location.href
+        const title = data.headline?.[lang] || ''
+        window.open(
+            `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
+            '_blank'
+        )
     }
 
     useEffect(() => {
@@ -69,7 +81,7 @@ export default function BlogClient({ data, lang }: any) {
                             }}
                             className="hover:opacity-60 transition cursor-pointer"
                         >
-                            ← VOLVER
+                            ← {lang === 'es' ? 'VOLVER' : 'BACK'}
                         </button>
                         <span className="hidden md:block truncate max-w-[400px] andes-blog-font">
                             {data.headline?.[lang]}
@@ -82,12 +94,50 @@ export default function BlogClient({ data, lang }: any) {
                                 {lang === 'es' ? 'VER TODOS' : 'ALL BLOGS'}
                             </button>
 
-                            <button
-                                onClick={handleShare}
-                                className="hover:opacity-60 transition cursor-pointer"
-                            >
-                                {lang === 'es' ? 'COMPARTIR' : 'SHARE'}
-                            </button>
+                            <div className="relative">
+  <button
+    onClick={() => setOpenShare(!openShare)}
+    className="hover:opacity-60 transition cursor-pointer"
+  >
+    {lang === 'es' ? 'COMPARTIR' : 'SHARE'}
+  </button>
+
+  {openShare && (
+  <div className="absolute right-0 top-full mt-2 bg-white shadow-lg border p-2 flex flex-col min-w-[160px] z-50">
+    
+    <button
+      onClick={() => {
+        handleShareFacebook()
+        setOpenShare(false)
+      }}
+      className="text-left px-3 py-2 hover:bg-gray-100"
+    >
+      Facebook
+    </button>
+
+    <button
+      onClick={() => {
+        handleShareWhatsApp()
+        setOpenShare(false)
+      }}
+      className="text-left px-3 py-2 hover:bg-gray-100"
+    >
+      WhatsApp
+    </button>
+
+    <button
+      onClick={() => {
+        handleShareLinkedIn()
+        setOpenShare(false)
+      }}
+      className="text-left px-3 py-2 hover:bg-gray-100"
+    >
+      LinkedIn
+    </button>
+
+  </div>
+)}
+</div>
                         </div>
                     </div>
                     <div className="h-[2px] bg-gray-200">
@@ -103,21 +153,26 @@ export default function BlogClient({ data, lang }: any) {
                     <h1 className="leading-tight andes-blog-font">
                         {data.headline?.[lang]}
                     </h1>
-                    <div className="flex justify-center items-center gap-7 pt-7">
-                        <span>
-                            <b>{data.publishedAt}</b>
-                        </span>
-                        <span>|</span>
-                        <span>TEAM ANDES</span>
-                        <div className='flex items-center gap-2'>
-                            <img 
-                            src="/images/blogs/duracion.svg" 
-                            alt="" 
-                            className="h-[1em] w-auto"
-                            />
-                            <span>{data.readingTime}</span>
+                    <div className="flex flex-wrap justify-center items-center gap-3 md:gap-7 pt-7">
+                        <div className="flex items-center gap-2 w-full justify-center md:w-auto">
+                            <span><b>{data.publishedAt}</b></span>
+                            <span>|</span>
+                            <span>TEAM ANDES</span>
                         </div>
-                        <span className='px-3 py-1 bg-black text-white rounded-full'>{data.category?.title?.[lang]}</span>
+                        
+                        <div className="flex items-center gap-4 w-full justify-center md:w-auto">
+                            <div className="flex items-center gap-2">
+                                <img
+                                src="/images/blogs/duracion.svg"
+                                className="h-[1em] w-auto"
+                                />
+                                <span>{data.readingTime}</span>
+                            </div>
+
+                            <span className="px-3 py-1 bg-black text-white rounded-full">
+                                {data.category?.title?.[lang]}
+                            </span>
+                        </div>
                     </div>
                     <img
                         src={urlFor(data.mainImage).url()}
@@ -218,7 +273,7 @@ export default function BlogClient({ data, lang }: any) {
                                 className="w-full h-[300px] object-cover"
                             />
                         </div>
-                        <div className="relative z-10 max-w-[500px] mx-auto bg-white px-8 py-10 text-center shadow-sm">
+                        <div className="relative z-10 max-w-[500px] mx-auto bg-white px-8 py-10 text-center">
                             <h2 className="leading-snug andes-blog-font">
                                 {data.cta?.title?.[lang]}
                             </h2>
@@ -231,16 +286,6 @@ export default function BlogClient({ data, lang }: any) {
                             >
                                 {data.cta?.buttonLabel?.[lang]}
                             </button>
-                        </div>
-                        <div className="md:hidden mt-10 flex flex-col gap-6">
-                            <img
-                                src={urlFor(data.cta?.images?.[0]).url()}
-                                className="w-full h-[220px] object-cover"
-                            />
-                            <img
-                                src={urlFor(data.cta?.images?.[1]).url()}
-                                className="w-full h-[220px] object-cover"
-                            />
                         </div>
                     </div>
                 </section>

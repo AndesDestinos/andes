@@ -75,7 +75,7 @@ export default function AlsoLikeSection({ tours, lang, path }: any) {
         </div>
 
         <Link href={`/${lang}/${path}`} 
-            className="mt-4 md:mt-0 border border-gray-400 px-6 py-2 hover:bg-black hover:text-white transition !tracking-[2px]">
+            className="hidden md:block mt-4 md:mt-0 border border-gray-400 px-6 py-2 hover:bg-black hover:text-white transition !tracking-[2px]">
           {lang === "es" ? "EXPLORAR MÁS" : "EXPLORE MORE"}
         </Link>
       </div>
@@ -171,6 +171,11 @@ export default function AlsoLikeSection({ tours, lang, path }: any) {
           </div>
         </div>
       )}
+      <Link href={`/${lang}/${path}`} 
+            className="block md:hidden mt-4 text-center md:mt-0 border border-gray-400 px-6 py-2 hover:bg-black hover:text-white 
+            transition !tracking-[2px]">
+          {lang === "es" ? "EXPLORAR MÁS" : "EXPLORE MORE"}
+        </Link>
     </section>
   )
 }

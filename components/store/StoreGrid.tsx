@@ -62,7 +62,7 @@ export default function StoreGrid({ storePage, products, categories, lang }: any
 
         <div className="absolute inset-0 bg-black/50" />
 
-        <div className="absolute bottom-12 left-12 text-white max-w-xl z-10">
+        <div className="absolute bottom-18 md:bottom-12 left-12 text-white max-w-xl z-10">
           <h1 className="text-5xl mb-4">
             {storePage?.title?.[lang]}
           </h1>
@@ -87,7 +87,7 @@ export default function StoreGrid({ storePage, products, categories, lang }: any
           </Link>
         </div>
 
-        <div className="absolute bottom-12 right-12 flex gap-4 z-10">
+        <div className="hidden md:block absolute bottom-12 right-12 flex gap-4 z-10">
           {heroImages.map((img: string, i: number) => (
             <img
               key={i}
@@ -151,7 +151,7 @@ export default function StoreGrid({ storePage, products, categories, lang }: any
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {filteredProducts?.map((product: any) => (
-            <div key={product._id} className="group">
+            <Link href={`/${lang}/store/${product.slug.current}`} key={product._id} className="group">
               <div className="relative overflow-hidden bg-[#f7f7f7]">
                 <img
                   src={product.image ? urlFor(product.image).url() : ''}
@@ -159,12 +159,10 @@ export default function StoreGrid({ storePage, products, categories, lang }: any
                 />
 
                 <div className="absolute inset-0 flex items-end justify-center opacity-0 group-hover:opacity-100 transition">
-                  <Link
-                    href={`/${lang}/store/${product.slug.current}`}
-                    className="w-full text-center mb-2 border border-gray-300 bg-white px-6 py-2 hover:bg-black hover:text-white transition"
-                  >
+                  <span className="w-full text-center mb-2 border border-gray-300 bg-white px-6 py-2 hover:bg-black 
+                  hover:text-white transition">
                     {lang === 'es' ? 'VER DETALLE' : 'VIEW DETAILS'}
-                  </Link>
+                  </span>
                 </div>
               </div>
 
@@ -177,7 +175,7 @@ export default function StoreGrid({ storePage, products, categories, lang }: any
                   { `$${product.price}` }
                 </p>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </section>
@@ -200,20 +198,10 @@ export default function StoreGrid({ storePage, products, categories, lang }: any
                     {item?.title?.[lang]}
                   </h3>
 
-                  <div className="relative w-5 h-5">
-                    <span
-                      className={`absolute left-0 top-1/2 w-full h-0.5 bg-black transition-all duration-300
-                        ${isOpen ? 'rotate-45' : 'rotate-0'}
-                      `}
-                      style={{ transformOrigin: 'center' }}
-                    />
-
-                    <span
-                      className={`absolute left-1/2 top-0 h-full w-0.5 bg-black transition-all duration-300
-                        ${isOpen ? 'rotate-45' : 'rotate-0'}
-                      `}
-                      style={{ transformOrigin: 'center' }}
-                    />
+                  <div className="relative w-5 h-5 flex items-center">
+                    <span className="!text-[30px]">
+                      {isOpen ? '-' : '+'}
+                    </span>
                   </div>
                 </button>
 

@@ -26,6 +26,11 @@ export default function Step2({ lang, form, setForm, next, prev }: any) {
       noLeader: 'There must be a group leader'
     }
   };
+
+  const titles = {
+    es: ["Sr.", "Sra.", "Srta.", "Dr.", "Prof.", "Rev."],
+    en: ["Mr", "Mrs", "Miss", "Ms", "Mx", "Dr", "Dame", "Lady", "Lord", "Prof", "Rev", "Sir"]
+  }
   const [toast, setToast] = useState<{
     message: string;
     type: 'error' | 'warn' | 'success';
@@ -177,7 +182,7 @@ export default function Step2({ lang, form, setForm, next, prev }: any) {
         </div>
       )}
 
-      <div className='flex flex-col gap-12'>
+      <div className='flex flex-col gap-12 mb-20'>
         <div className="flex flex-col gap-1">
           <h4 className="text-[#ABB8C3]">
             { lang === 'es' ? 'TOUR SELECCIONADO' : 'SELECTED TOUR' }
@@ -196,7 +201,7 @@ export default function Step2({ lang, form, setForm, next, prev }: any) {
             'Para reservar su viaje en menos de 5 minutos, podrías necesitar lo siguiente:' :
             'To book your trip in less than 5 minutes, you might need the following:' }
           </span>
-          <div className='flex justify-between'>
+          <div className='flex flex-col md:flex-row md:justify-between'>
             <div className='flex gap-3 items-center'>
               <img src='/images/booking/information.svg' />
               <span>
@@ -274,27 +279,26 @@ export default function Step2({ lang, form, setForm, next, prev }: any) {
 
                 {isOpen && (
                   <div className="w-full p-6">
-                    <div className="grid grid-cols-12 gap-7">
-                      <div className="col-span-2 flex flex-col gap-2">
-                        <span className="text-[#BCBCBC]">
-                          {lang === 'es' ? 'Denominación' : 'Denomination'}
-                        </span>
-                        <select value={v?.denominacion || 'Sr.'}
-                          onChange={(e) => update(i, 'denominacion', e.target.value)}
-                          className="border-b border-b-[#BCBCBC] py-2 outline-none
-                          text-[#BCBCBC]
-                          focus:border-black focus:text-black
-                          valid:text-black">
-                          <option value="Sr.">Sr.</option>
-                          <option value="Sra.">Sra.</option>
+                    <div className="grid grid-cols-1 md:grid-cols-12 gap-7">
+                      <div className="col-span-1 md:col-span-2 flex flex-col gap-2">
+                        <select
+                          value={v?.denominacion}
+                          onChange={(e) => update(i, "denominacion", e.target.value)}
+                          className="border-b border-b-[#BCBCBC] py-2 outline-none bg-transparent appearance-none leading-[1.5] text-[#BCBCBC] focus:border-black focus:text-black"
+                        >
+                          <option value="" disabled hidden>
+                            {lang === 'es' ? 'Denominación' : 'Denomination'}
+                          </option>
+                          {titles[lang as 'en' | 'es'].map((t) => (
+                            <option key={t} value={t}>
+                              {t}
+                            </option>
+                          ))}
                         </select>
                       </div>
 
-                      <div className="col-span-4 flex flex-col gap-2">
-                        <span className="text-[#BCBCBC]">
-                          {lang === 'es' ? 'Nombre *' : 'Name *'}
-                        </span>
-                        <input
+                      <div className="col-span-3 md:col-span-4 flex flex-col gap-2">
+                        <input placeholder={lang === 'es' ? 'Nombre *' : 'Name *'}
                           className="border-b border-b-[#BCBCBC] py-2 outline-none
                           text-[#BCBCBC]
                           focus:border-black focus:text-black
@@ -305,10 +309,7 @@ export default function Step2({ lang, form, setForm, next, prev }: any) {
                       </div>
 
                       <div className="col-span-4 flex flex-col gap-2">
-                        <span className="text-[#BCBCBC]">
-                          {lang === 'es' ? 'Apellido *' : 'Last name *'}
-                        </span>
-                        <input
+                        <input placeholder={lang === 'es' ? 'Apellido *' : 'Last name *'}
                           className="border-b border-b-[#BCBCBC] py-2 outline-none
                           text-[#BCBCBC]
                           focus:border-black focus:text-black
@@ -319,10 +320,6 @@ export default function Step2({ lang, form, setForm, next, prev }: any) {
                       </div>
 
                       <div className="col-span-2 flex flex-col gap-2">
-                        <span className="text-[#BCBCBC]">
-                          {lang === 'es' ? 'País *' : 'Country *'}
-                        </span>
-
                         <select
                           value={v?.countryCode || ''}
                           onChange={(e) => {
@@ -336,13 +333,11 @@ export default function Step2({ lang, form, setForm, next, prev }: any) {
                             };
                             setForm({ ...form, viajerosData: arr });
                           }}
-                          className="border-b border-b-[#BCBCBC] py-2 outline-none
-                          text-[#BCBCBC]
-                          focus:border-black focus:text-black
-                          valid:text-black"
+                          className="border-b border-b-[#BCBCBC] py-2 outline-none bg-transparent appearance-none leading-[1.5] text-[#BCBCBC] focus:border-black focus:text-black"
                         >
-                          <option value="">
-                            {lang === 'es' ? 'Seleccione un país' : 'Select a country'}
+                          
+                          <option value="" disabled hidden>
+                            {lang === 'es' ? 'País' : 'Country'}
                           </option>
 
                           {getCountries().map((c) => (
@@ -354,25 +349,19 @@ export default function Step2({ lang, form, setForm, next, prev }: any) {
                       </div>
 
                       <div className="col-span-2 flex flex-col gap-2">
-                        <span className="text-[#BCBCBC]">
-                          Doc.
-                        </span>
                         <select value={v?.tipoDoc  || 'DNI'}
                           onChange={(e) => update(i, 'tipoDoc', e.target.value)}
-                          className="border-b border-b-[#BCBCBC] py-2 outline-none
-                          text-[#BCBCBC]
-                          focus:border-black focus:text-black
-                          valid:text-black">
+                          className="border-b border-b-[#BCBCBC] py-2 outline-none bg-transparent appearance-none leading-[1.5] text-[#BCBCBC] focus:border-black focus:text-black">
+                          <option value="" disabled hidden>
+                            {lang === 'es' ? 'Doc' : 'Doc'}
+                          </option>
                           <option value="DNI">DNI</option>
                           <option value="Passport">Passport</option>
                         </select>
                       </div>
 
                       <div className="col-span-4 flex flex-col gap-2">
-                        <span className="text-[#BCBCBC]">
-                          {lang === 'es' ? 'Número doc. *' : 'Document number *'}
-                        </span>
-                        <input
+                        <input placeholder={lang === 'es' ? 'Número doc. *' : 'Document number *'}
                           className="border-b border-b-[#BCBCBC] py-2 outline-none
                           text-[#BCBCBC]
                           focus:border-black focus:text-black
@@ -382,9 +371,9 @@ export default function Step2({ lang, form, setForm, next, prev }: any) {
                         />
                       </div>
 
-                      <div className="col-span-4 flex flex-col gap-2">
-                        <span className="text-[#BCBCBC]">
-                          {lang === 'es' ? 'Fecha de nacimiento *' : 'Birth date *'}
+                      <div className="col-span-2 md:col-span-4 flex flex-col gap-2">
+                        <span className={`block md:hidden ${v?.lider ? 'text-black' : 'text-[#BCBCBC]'}`}>
+                          {lang === 'es' ? 'Fecha de nacimiento *' : 'Birth date *'} 
                         </span>
                         <input value={v?.fechaNacimiento || ''}
                           onChange={(e) => update(i, 'fechaNacimiento', e.target.value)}
@@ -413,10 +402,7 @@ export default function Step2({ lang, form, setForm, next, prev }: any) {
                       </div>
 
                       <div className="col-span-4 flex flex-col gap-2">
-                        <span className="text-[#BCBCBC]">
-                          {lang === 'es' ? 'Correo electrónico. *' : 'Email *'}
-                        </span>
-                        <input
+                        <input placeholder={lang === 'es' ? 'Correo electrónico. *' : 'Email *'}
                           className="border-b border-b-[#BCBCBC] py-2 outline-none
                           text-[#BCBCBC]
                           focus:border-black focus:text-black
@@ -427,11 +413,7 @@ export default function Step2({ lang, form, setForm, next, prev }: any) {
                       </div>
 
                       <div className="col-span-4 flex flex-col gap-2">
-                        <span className="text-[#BCBCBC]">
-                          {lang === 'es' ? 'Número celular *' : 'Phone *'}
-                        </span>
-
-                        <PhoneInput
+                        <PhoneInput placeholder={lang === 'es' ? 'Número celular *' : 'Phone *'}
                           international
                           defaultCountry={v?.countryCode || 'PE'}
                           value={v?.phone || ''}
@@ -442,7 +424,7 @@ export default function Step2({ lang, form, setForm, next, prev }: any) {
                         />
                       </div>
                     </div>
-                    <div className="mt-6 flex justify-end relative">
+                    <div className="hidden mt-6 flex justify-end relative">
                       <button
                         onClick={() => setOpenExtras(openExtras === i ? null : i)}
                         className="flex items-center text-white bg-[#EC4724] gap-2 px-5 py-2 cursor-pointer"
@@ -534,44 +516,47 @@ export default function Step2({ lang, form, setForm, next, prev }: any) {
           </button>
         </div>
 
-        <div className="flex justify-between">
-          <button
-            onClick={prev}
-            className="relative overflow-hidden border border-black pl-3 pr-3 text-black cursor-pointer group"
-          >
-            <div className="absolute inset-0 bg-black transform scale-x-0 origin-left transition-transform duration-300 ease-out group-hover:scale-x-100"></div>
-            <div className="flex items-center relative z-10 transition-colors duration-300 group-hover:text-white">
-              <svg
-                className="w-9 h-9 transition-transform duration-300 group-hover:translate-x-1"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-              >
-                <text x="6" y="17" fontSize="16">{'<'}</text>
-              </svg>
+        <div className="flex justify-between md:static fixed bottom-0 left-0 right-0 p-4 bg-white md:bg-transparent z-50 md:p-0">          
+          <button onClick={prev} 
+            className="cursor-pointer group relative overflow-hidden border border-black pl-5 pr-3 py-2 bg-black text-white">
+            <div className="absolute inset-0 bg-white scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100 z-0" />
+            <div className="relative z-10 flex items-center gap-2 group-hover:text-black transition-colors duration-300">
+              <img
+                src="/images/booking/izquierda.svg"
+                className="w-4 h-4 group-hover:hidden"
+              />
+
+              <img
+                src="/images/booking/izquierdaOscuro.svg"
+                className="w-4 h-4 hidden group-hover:block"
+              />
+
               <span>
                 { lang === 'es' ? 'VOLVER' : 'BACK' }
               </span>
             </div>
           </button>
-          <button
-            onClick={() => {
+
+          <button onClick={() => {
               if (!validateStep2()) return;
               next();
-            }}
-            className="relative overflow-hidden border border-black pl-5 pr-3 text-black cursor-pointer group"
-          >
-            <div className="absolute inset-0 bg-black transform scale-x-0 origin-left transition-transform duration-300 ease-out group-hover:scale-x-100"></div>
-            <div className="flex items-center relative z-10 transition-colors duration-300 group-hover:text-white">
+            }} 
+            className="cursor-pointer group relative overflow-hidden border border-black pl-5 pr-3 py-2 bg-black text-white">
+            <div className="absolute inset-0 bg-white scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100 z-0" />
+            <div className="relative z-10 flex items-center gap-2 group-hover:text-black transition-colors duration-300">
               <span>
-                { lang === 'es' ? 'CONTINUAR' : 'CONTINUE' }
+                {lang === "es" ? "CONTINUAR" : "CONTINUE"}
               </span>
-              <svg
-                className="w-9 h-9 transition-transform duration-300 group-hover:translate-x-1"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-              >
-                <text x="6" y="17" fontSize="16">{'>'}</text>
-              </svg>
+
+              <img
+                src="/images/booking/derecha.svg"
+                className="w-4 h-4 group-hover:hidden"
+              />
+
+              <img
+                src="/images/booking/derechaOscuro.svg"
+                className="w-4 h-4 hidden group-hover:block"
+              />
             </div>
           </button>
         </div>

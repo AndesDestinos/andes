@@ -49,7 +49,7 @@ export default function BlogFeaturedCarousel({ posts, lang }: any) {
 
   return (
     <div className="flex flex-col gap-12">
-      <div className="grid md:grid-cols-2 gap-12 items-center">
+      <Link href={`/${lang}/blogs/${mainPost.slug.current}`} className="grid md:grid-cols-2 gap-12 items-center">
         <div className="relative w-full aspect-[16/9] overflow-hidden">
           <img
             src={
@@ -91,13 +91,12 @@ export default function BlogFeaturedCarousel({ posts, lang }: any) {
           </p>
 
           <div>
-            <Link href={`/${lang}/blogs/${mainPost.slug.current}`}
-                className="border-b pb-1 inline-block !tracking-[2px]">
+            <span className="border-b pb-1 inline-block !tracking-[2px]">
                 {lang === 'es' ? 'LEER MÁS' : 'VIEW MORE'}
-            </Link>
+            </span>
           </div>
         </div>
-      </div>
+      </Link>
 
       {secondaryPosts.length > 0 && (
         <div className="w-full">

@@ -150,14 +150,14 @@ export default function Step1({ lang, form, setForm, data, next }: any) {
           </div>
         </div>
       )}
-      <div className='flex flex-col gap-12'>
+      <div className='flex flex-col gap-12 mb-20'>
         <div className='flex flex-col w-full bg-[#F5F2EB] p-6 gap-3'>
           <span>
             { lang === 'es' ? 
             'Para reservar su viaje en menos de 5 minutos, podrías necesitar lo siguiente:' :
             'To book your trip in less than 5 minutes, you might need the following:' }
           </span>
-          <div className='flex justify-between'>
+          <div className='flex flex-col md:flex-row md:justify-between'>
             <div className='flex gap-3 items-center'>
               <img src='/images/booking/information.svg' />
               <span>
@@ -239,37 +239,37 @@ export default function Step1({ lang, form, setForm, data, next }: any) {
             )}
           </div>
 
-          <div className="flex flex-wrap justify-between items-center">
+          <div className="flex flex-wrap justify-between items-center gap-3">
             <div className="flex items-center gap-5">
               <span>
                 { lang === 'es' ? '¿Cuántos Viajan?' : 'How many are traveling?' }
               </span>
               <div className="flex items-center gap-2">
-                <button className="border border-[#DDDDDD] w-12 h-12 rounded cursor-pointer hover:border-black hover:bg-[#F5F2EB]"
+                <button className="border border-[#DDDDDD] w-12 h-12 rounded-[12px] cursor-pointer hover:border-black hover:bg-[#F5F2EB]"
                   onClick={()=>setForm({...form,viajeros:Math.max(1,form.viajeros-1)})}>
                   -
                 </button>
                 <span>{form.viajeros}</span>
-                <button className="border border-[#DDDDDD] w-12 h-12 rounded cursor-pointer hover:border-black hover:bg-[#F5F2EB]"
+                <button className="border border-[#DDDDDD] w-12 h-12 rounded-[12px] cursor-pointer hover:border-black hover:bg-[#F5F2EB]"
                   onClick={()=>setForm({...form,viajeros:form.viajeros+1})}>
                   +
                 </button>
               </div>
             </div>
 
-            <div className="flex gap-5 items-center">
+            <div className="flex gap-3 md:gap-5 items-center">
               <span>
                 { lang === 'es' ? 'Tipo de servicio' : 'Type of service' }
               </span>
-              <div className='flex gap-5'>
+              <div className='flex gap-2 md:gap-5'>
                 {services.map((serviceItem, index)=>(
                   <button
                     key={index}
                     onClick={() => setForm({...form, servicio: serviceItem.value})}
-                    className={`flex gap-3 cursor-pointer border rounded-full px-5 py-3 hover:bg-[#F5F2EB] hover:border-black
+                    className={`flex gap-2 md:gap-3 cursor-pointer border rounded-full px-2 md:px-5 py-3 hover:bg-[#F5F2EB] hover:border-black
                     ${form.servicio === serviceItem.value ? 'bg-[#F5F2EB] border-black' : 'border-[#C6C6C6]'}`}
                   >
-                    <img src={serviceItem.icon} />
+                    <img src={serviceItem.icon} className="w-[15px] md:w-auto h-auto" />
                     {serviceItem.label[lang as 'es' | 'en']}
                   </button>
                 ))}
@@ -303,29 +303,27 @@ export default function Step1({ lang, form, setForm, data, next }: any) {
           <div className="relative">
             <div className="flex justify-between">
               <button
-                className="absolute top-0 left-0 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center border border-[#969696] rounded-full bg-white hover:bg-black hover:text-white"
+                className="cursor-pointer absolute top-0 left-0 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center border border-[#969696] rounded-full bg-white hover:bg-black hover:text-white"
                 onClick={()=>setMonth(new Date(month.getFullYear(),month.getMonth()-1))}
               >
-                <svg
-                  className="w-7 h-7"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <text x="6" y="17" fontSize="16">{'<'}</text>
-                </svg>
+                <img
+                  src="/images/booking/izquierdaOscuro.svg"
+                  onMouseEnter={(e) => (e.currentTarget.src = "/images/booking/izquierda.svg")}
+                  onMouseLeave={(e) => (e.currentTarget.src = "/images/booking/izquierdaOscuro.svg")}
+                  className="w-4 h-4"
+                />
               </button>
 
               <button
-                className="absolute top-0 right-0 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center border border-[#969696] rounded-full bg-white hover:bg-black hover:text-white"
+                className="cursor-pointer absolute top-0 right-0 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center border border-[#969696] rounded-full bg-white hover:bg-black hover:text-white"
                 onClick={()=>setMonth(new Date(month.getFullYear(),month.getMonth()+1))}
               >
-                <svg
-                  className="w-7 h-7"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <text x="6" y="17" fontSize="16">{'>'}</text>
-                </svg>
+                <img
+                  src="/images/booking/derechaOscuro.svg"
+                  onMouseEnter={(e) => (e.currentTarget.src = "/images/booking/derecha.svg")}
+                  onMouseLeave={(e) => (e.currentTarget.src = "/images/booking/derechaOscuro.svg")}
+                  className="w-4 h-4"
+                />
               </button>
             </div>
 
@@ -338,23 +336,23 @@ export default function Step1({ lang, form, setForm, data, next }: any) {
           </div>
         </div>
 
-        <div className="flex justify-end">
-          <button
-            onClick={handleNext}
-            className="relative overflow-hidden border border-black pl-5 pr-3 text-black cursor-pointer group"
-          >
-            <div className="absolute inset-0 bg-black transform scale-x-0 origin-left transition-transform duration-300 ease-out group-hover:scale-x-100"></div>
-            <div className="flex items-center relative z-10 transition-colors duration-300 group-hover:text-white">
+        <div className="flex justify-end md:static fixed bottom-0 left-0 right-0 p-4 bg-white md:bg-transparent z-50 md:p-0">
+          <button onClick={handleNext} className="cursor-pointer group relative overflow-hidden border border-black pl-5 pr-3 py-2 bg-black text-white">
+            <div className="absolute inset-0 bg-white scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100 z-0" />
+            <div className="relative z-10 flex items-center gap-2 group-hover:text-black transition-colors duration-300">
               <span>
-                { lang === 'es' ? 'CONTINUAR' : 'CONTINUE' }
+                {lang === "es" ? "CONTINUAR" : "CONTINUE"}
               </span>
-              <svg
-                className="w-9 h-9 transition-transform duration-300 group-hover:translate-x-1"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-              >
-                <text x="6" y="17" fontSize="16">{'>'}</text>
-              </svg>
+
+              <img
+                src="/images/booking/derecha.svg"
+                className="w-4 h-4 group-hover:hidden"
+              />
+
+              <img
+                src="/images/booking/derechaOscuro.svg"
+                className="w-4 h-4 hidden group-hover:block"
+              />
             </div>
           </button>
         </div>

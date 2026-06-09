@@ -33,8 +33,7 @@ export default function BookingLayout({ children, form, lang, step }: any) {
   return (
     <div className="flex w-full">
       <div className="w-full">
-        <div className="flex w-full items-center justify-center gap-5 mb-10 p-7 border-b border-b-2 border-b-[#E1E1E1]">
-          <img src='/images/booking/logo.svg' />
+        <div className="flex w-full items-center justify-center gap-2 mb-10 p-7 border-b border-b-2 border-b-[#E1E1E1]">
           <div className="flex items-center gap-2">
             <div className={`w-7 h-7 ${step1.bg} ${step1.text} rounded-full flex items-center justify-center`}>
               {
@@ -57,7 +56,7 @@ export default function BookingLayout({ children, form, lang, step }: any) {
               }
             </div>
             <span className='text-[#999999]'>
-              { lang === 'es' ? 'FECHA' : 'DATE' }
+              { lang === 'es' ? 'INFORMACIÓN' : 'INFORMATION' }
             </span>
           </div>
           <div className="w-20 h-[1px] bg-black"/>
@@ -80,25 +79,35 @@ export default function BookingLayout({ children, form, lang, step }: any) {
         </div>
       </div>
 
-      <div className="hidden lg:block w-[30%] relative">
-        <img
-          src="/images/booking/booking.webp"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
+      <div className="hidden lg:block w-[30%]">
+  <div className="sticky top-10">
+    
+    {/* CONTENEDOR RELATIVO */}
+    <div className="relative w-full">
 
-        <div className="absolute border border-[#DDDDDD] top-10 left-[-60px] bg-white w-[320px] p-6 shadow flex flex-col gap-5">
-          <div>
-            <h4 className="text-sm tracking-widest font-semibold mb-2">
-              {lang === 'es' ? 'RESUMEN DEL TOUR' : 'TOUR SUMMARY'}
-            </h4>
+      {/* BACKGROUND */}
+      <img
+        src="/images/booking/booking.webp"
+        className="w-full h-[700px] object-cover"
+      />
 
-            <p className="text-sm text-gray-600">
-              {form.viajeros} {lang === 'es' ? 'viajeros' : 'travelers'} -{" "}
-              {form.fechaInicio
-                ? new Date(form.fechaInicio).toLocaleDateString()
-                : '-'}
-            </p>
-          </div>
+      {/* CARD FLOTANTE */}
+      <div className="absolute top-10 left-[-60px] bg-white w-[320px] p-6 shadow flex flex-col gap-5 border border-[#DDDDDD]">
+        
+        {/* TU CONTENIDO IGUAL */}
+        <div>
+          <h4 className="text-sm tracking-widest font-semibold mb-2">
+            {lang === 'es' ? 'RESUMEN DEL TOUR' : 'TOUR SUMMARY'}
+          </h4>
+
+          <p className="text-sm text-gray-600">
+            {form.viajeros} {lang === 'es' ? 'viajeros' : 'travelers'} -{" "}
+            {form.fechaInicio
+              ? new Date(form.fechaInicio).toLocaleDateString()
+              : '-'}
+          </p>
+        </div>
+
 
           <hr className="text-[#D9D9D9]"/>
 
@@ -209,6 +218,8 @@ export default function BookingLayout({ children, form, lang, step }: any) {
           </div>
         </div>
       </div>
+    </div>
+    </div>
     </div>
   );
 }

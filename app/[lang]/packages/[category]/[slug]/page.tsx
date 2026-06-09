@@ -74,7 +74,7 @@ export default async function PackagePage({
         <>
             <HeroSection
                 title={paquete.title}
-                destinations={paquete.destinations}
+                destinations={paquete.destinations || []}
                 days={paquete.days}
                 category={paquete.category?.title}
                 image={paquete.mainImage}

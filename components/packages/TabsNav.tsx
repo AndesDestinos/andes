@@ -4,12 +4,12 @@ import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 
 const sections = [
-  { id: "resumen", label: { es: "Resumen", en: "Resume" } },
-  { id: "itinerary", label: { es: "Itinerario", en: "Itinerary" } },
-  { id: "includes", label: { es: "Incluye", en: "Include" } },
-  { id: "recomendations", label: { es: "Que llevar", en: "What to wear" } },
-  { id: "help", label: { es: "Ayuda", en: "Help" } },
-  { id: "moreDestinations", label: { es: "Más destinos", en: "More destinations" } },
+  { id: "resumen", label: { es: "RESUMEN", en: "RESUME" } },
+  { id: "itinerary", label: { es: "ITINERARIO", en: "ITINERARY" } },
+  { id: "includes", label: { es: "INCLUYE", en: "INCLUDE" } },
+  { id: "recomendations", label: { es: "QUE LLEVAR", en: "WHAT TO WEAR" } },
+  { id: "help", label: { es: "AYUDA", en: "HELP" } },
+  { id: "moreDestinations", label: { es: "MÁS DESTINOS", en: "MORE DESTINATIONS" } },
 ]
 
 export default function TabsNav({ lang, currentTourId, price }: any) {
@@ -65,7 +65,7 @@ export default function TabsNav({ lang, currentTourId, price }: any) {
   return (
     <>
     <section
-      className="sticky z-50 bg-white border-b border-b-[#E6E6E6]"
+      className="sticky z-50 bg-white border-x border-x-[#E6E6E6]"
       style={{ top: `${offset}px` }}
     >
       <div className="andes-contenido flex justify-between">
@@ -95,15 +95,15 @@ export default function TabsNav({ lang, currentTourId, price }: any) {
           before:transition-all before:duration-300
           hover:before:w-full hover:text-white before:-z-10"
         >
-          {lang === 'es' ? 'Reservar' : 'Book now'}
+          {lang === 'es' ? 'RESERVAR' : 'BOOK NOW'}
         </button>
       </div>
     </section>
 
-    <div className="md:hidden flex gap-3 fixed bottom-0 left-0 w-full z-50 bg-white border-t p-4">
+    <div className="md:hidden flex gap-7 fixed bottom-0 left-0 w-full z-50 bg-white border-t border-t-[#cdcdcd] p-4">
       <div className='flex flex-col'>
         <span>{ lang === 'es' ? 'Desde' : 'From' }</span>
-        <span className='!text-[36px] font-medium'>{ `$${price}` }</span>
+        <span className='!text-[25px] font-medium'>{ `$${price}` }</span>
       </div>
       <button
         onClick={() => {
@@ -111,7 +111,7 @@ export default function TabsNav({ lang, currentTourId, price }: any) {
         }}
         className="w-full bg-black text-white py-3 text-center font-medium tracking-[2px]"
       >
-        {lang === 'es' ? 'Reservar' : 'Book now'}
+        {lang === 'es' ? 'RESERVAR' : 'BOOK NOW'}
       </button>
     </div>
     </>

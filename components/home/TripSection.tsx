@@ -66,20 +66,19 @@ export default function TripSection({ data, lang }: any) {
       <div className="md:hidden relative w-full h-[600px] overflow-hidden">
         <img
           src={data?.images?.[0]?.asset?.url}
-          className="absolute left-0 top-[-70px] w-[50%] h-[80%] object-cover"
+          className="hidden md:block absolute left-0 top-[-70px] w-[50%] h-[80%] object-cover"
         />
 
         <img
           src={data?.images?.[1]?.asset?.url}
-          className="absolute right-0 bottom-[-70px] w-[50%] h-[80%] object-cover"
+          className="hidden md:block absolute right-0 bottom-[-70px] w-[50%] h-[80%] object-cover"
         />
 
         <div className="
           absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2
-          bg-[#f5f3ef]
+          bg-[#ffffff]
           w-[85%]
           p-3
-          shadow-lg
           z-20
         ">
           <h4 className="text-[#a08d5f] mb-3 text-center">

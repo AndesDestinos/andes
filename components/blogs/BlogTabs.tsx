@@ -67,8 +67,8 @@ export default function BlogTabs({ categories, posts, lang }: any) {
       className="border-b border-b-[#CDCDCD] bg-white z-50 sticky transition-all duration-300"
       style={{ top: `${topOffset}px` }}
     >
-      <div className="andes-contenido flex items-center justify-between gap-6 py-4">
-        <div className="flex gap-6 overflow-x-auto">
+      <div className="andes-contenido flex flex-col md:flex-row md:items-center md:justify-between gap-4 py-4">
+        <div className="flex gap-6 overflow-x-auto md:overflow-visible">
           <button
             onClick={() => {
               setActive('alls')
@@ -108,7 +108,7 @@ export default function BlogTabs({ categories, posts, lang }: any) {
           ))}
         </div>
 
-        <div className="relative w-[250px]">
+        <div className="relative w-full md:w-[250px]">
           <input
             type="text"
             placeholder={lang === 'es' ? 'Buscar' : 'Search'}

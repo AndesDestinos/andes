@@ -57,7 +57,7 @@ export default function Step3({ lang, form, setForm, next, prev }: any) {
         </div>
       )}
 
-      <div className="flex flex-col gap-12">
+      <div className="flex flex-col gap-12 mb-20">
         <div className="flex flex-col gap-1">
             <h4 className="text-[#ABB8C3]">
               { lang === 'es' ? 'TOUR SELECCIONADO' : 'SELECTED TOUR' }
@@ -83,14 +83,14 @@ export default function Step3({ lang, form, setForm, next, prev }: any) {
           </span>
         </div>
 
-        <div className="flex gap-3">
+        <div className="grid md:flex grid-cols-2 gap-3">
           <button
             onClick={() => setForm({ ...form, paymentType: 'half' })}
             className={`border px-6 py-3 rounded-[12px] hover:border-black ${
               form.paymentType === 'half' ? 'border-black bg-[#F5F2EB]' : 'border-[#CDCDCD]'
             }`}
           >
-            $ {form.tourData.price / 2}
+            <span className="!text-[30px]">$ {form.tourData.price / 2}</span>
             <br />
             {lang === 'es' ? 'Pagar el 50%' : 'Pay the 50%'}
           </button>
@@ -101,7 +101,7 @@ export default function Step3({ lang, form, setForm, next, prev }: any) {
               form.paymentType === 'full' ? 'border-black bg-[#F5F2EB]' : 'border-[#CDCDCD]'
             }`}
           >
-            $ {form.tourData.price}
+            <span className="!text-[30px]">$ {form.tourData.price}</span>
             <br />
             {lang === 'es' ? 'Pagar el total' : 'Pay the total'}
           </button>
@@ -120,7 +120,8 @@ export default function Step3({ lang, form, setForm, next, prev }: any) {
           </span>
         </div>
 
-        <div className="flex items-center bg-[#FFF5DD] gap-3 p-6">
+        <div className="flex flex-col md:flex-row items-center bg-[#FFF5DD] gap-1 md:gap-3 p-3 md:p-6">
+          <div className="flex items-center bg-[#FFF5DD] gap-3 p-2">
           <button
             onClick={() =>
               setForm({ ...form, donationActive: !form.donationActive, donationAmount: 0 })
@@ -139,24 +140,56 @@ export default function Step3({ lang, form, setForm, next, prev }: any) {
           <span>
             {lang === 'es' ? 'Donar $1 por viajero' : 'Donate $1 per traveler'}
           </span>
+          </div>
 
-          <input
-            type="number"
-            className={`bg-white p-2 rounded border border-[#C9C9C9] outline-none transition-all ${
-              !form.donationActive
-                ? 'opacity-50 cursor-not-allowed'
-                : 'border-black'
-            }`}
-            value={form.donationAmount}
-            disabled={!form.donationActive}
-            onChange={(e) =>
-              setForm({ ...form, donationAmount: Number(e.target.value) })
-            }
-          />
+          <div className="flex items-center bg-[#FFF5DD] gap-3 p-2">
+          <div className={`flex items-center bg-white border rounded border-[#C9C9C9] overflow-hidden transition-all ${
+            !form.donationActive ? 'opacity-50 cursor-not-allowed' : 'border-black'
+          }`}>
+            <button
+              type="button"
+              disabled={!form.donationActive}
+              onClick={() =>
+                setForm({
+                  ...form,
+                  donationAmount: Math.max(0, Number(form.donationAmount || 0) - 1),
+                })
+              }
+              className="px-3 py-2 text-lg disabled:opacity-50"
+            >
+              −
+            </button>
+            <input
+              type="number"
+              disabled={!form.donationActive}
+              className="w-full text-center outline-none py-2"
+              value={form.donationAmount}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  donationAmount: Number(e.target.value),
+                })
+              }
+            />
+            <button
+              type="button"
+              disabled={!form.donationActive}
+              onClick={() =>
+                setForm({
+                  ...form,
+                  donationAmount: Number(form.donationAmount || 0) + 1,
+                })
+              }
+              className="px-3 py-2 text-lg disabled:opacity-50"
+            >
+              +
+            </button>
+          </div>
 
-          <span>
+          <span className="flex flex-row flex-0">
             {lang === 'es' ? 'Total: $' : 'Total: $'} {totalDonacion}
           </span>
+          </div>
         </div>
 
         <div className="border border-gray-300 p-6 w-full flex flex-col gap-3">
@@ -209,20 +242,21 @@ export default function Step3({ lang, form, setForm, next, prev }: any) {
           </div>
         </div>
 
-        <div className="flex justify-between">
-          <button
-            onClick={prev}
-            className="relative overflow-hidden border border-black pl-3 pr-3 text-black cursor-pointer group"
-          >
-            <div className="absolute inset-0 bg-black transform scale-x-0 origin-left transition-transform duration-300 ease-out group-hover:scale-x-100"></div>
-            <div className="flex items-center relative z-10 transition-colors duration-300 group-hover:text-white">
-              <svg
-                className="w-9 h-9 transition-transform duration-300 group-hover:translate-x-1"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-              >
-                <text x="6" y="17" fontSize="16">{'<'}</text>
-              </svg>
+        <div className="flex justify-start md:static fixed bottom-0 left-0 right-0 p-4 bg-white md:bg-transparent z-50 md:p-0">
+          <button onClick={prev} 
+            className="cursor-pointer group relative overflow-hidden border border-black pl-5 pr-3 py-2 bg-black text-white">
+            <div className="absolute inset-0 bg-white scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100 z-0" />
+            <div className="relative z-10 flex items-center gap-2 group-hover:text-black transition-colors duration-300">
+              <img
+                src="/images/booking/izquierda.svg"
+                className="w-4 h-4 group-hover:hidden"
+              />
+
+              <img
+                src="/images/booking/izquierdaOscuro.svg"
+                className="w-4 h-4 hidden group-hover:block"
+              />
+
               <span>
                 { lang === 'es' ? 'VOLVER' : 'BACK' }
               </span>

@@ -11,7 +11,7 @@ export default function Step4({ lang, form, reset }: any) {
 
   return (
     <BookingLayout form={form} lang={lang} step={4}>
-      <div className="p-12 flex flex-col gap-7">
+      <div className="p-3 md:p-12 flex flex-col gap-7">
         <div className="w-full p-6 flex gap-5 justify-center items-center bg-[#F5F2EB]">
           <div className="relative flex items-center bg-white p-7 rounded-full">
             <img src="/images/booking/map.svg" />
@@ -25,9 +25,9 @@ export default function Step4({ lang, form, reset }: any) {
           </div>
         </div>
 
-        <div className="flex justify-between items-start">
-          <div className="flex flex-col gap-2">
-            <img src="/images/booking/logoCompleto.svg" />
+        <div className="flex flex-col md:flex-row md:justify-between items-start">
+          <div className="order-2 md:order-1 flex flex-col gap-2">
+            <img src="/images/booking/logoCompleto.svg" className="hidden md:block" />
             <div className="flex flex-col gap-2 mt-4">
               <h3 className="tracking-widest">{ lang === 'es' ? 'CLIENTE' : 'CLIENT' }</h3>
               <p>{ lang === 'es' ? 'Nombre' : 'Name' }: {cliente?.nombre} {cliente?.apellido}</p>
@@ -37,7 +37,10 @@ export default function Step4({ lang, form, reset }: any) {
             </div>
           </div>
 
-          <div className="text-right">
+          <div className="order-1 md:order-2 w-full text-right border-b border-b-[#CDCDCD] md:border-none pb-7 md:pb-0">
+            <div className="w-full block md:hidden">
+              <img src="/images/booking/logoCompleto.svg" className="w-36" />
+            </div>
             <h1 className="">{ lang === 'es' ? 'Factura' : 'Invoice' }</h1>
             <p className="mt-4">{ lang === 'es' ? 'Factura' : 'Invoice' } N° {Math.floor(Math.random() * 10000)}</p>
             <p className="">{today}</p>

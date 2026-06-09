@@ -60,14 +60,14 @@ export default function ProductDetail({ product, lang }: any) {
                 <>
                   <button
                     onClick={prev}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 bg-white px-3 py-1"
+                    className="text-[25px] absolute left-4 top-1/2 -translate-y-1/2 bg-white px-3 py-1 rounded-full"
                   >
                     ‹
                   </button>
 
                   <button
                     onClick={next}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 bg-white px-3 py-1"
+                    className="text-[25px] absolute right-4 top-1/2 -translate-y-1/2 bg-white px-3 py-1 rounded-full"
                   >
                     ›
                   </button>
@@ -101,25 +101,48 @@ export default function ProductDetail({ product, lang }: any) {
             <label className="block mb-2">
               {lang === "es" ? "Cantidad" : "Quantity"}
             </label>
-            <input
-              type="number"
-              value={qty}
-              min={1}
-              max={product?.stock || 1}
-              onChange={(e) => {
-                const value = Number(e.target.value);
-                if (value > product.stock) {
-                  setQty(product.stock);
-                  return;
+            <div className="flex items-center border">
+              <button
+                type="button"
+                onClick={() => setQty(Math.max(1, qty - 1))}
+                className="px-3 py-2 text-[25px]"
+              >
+                −
+              </button>
+
+              <input
+                type="number"
+                value={qty}
+                min={1}
+                max={product?.stock || 1}
+                onChange={(e) => {
+                  const value = Number(e.target.value)
+
+                  if (value > product.stock) {
+                    setQty(product.stock)
+                    return
+                  }
+
+                  if (value < 1) {
+                    setQty(1)
+                    return
+                  }
+
+                  setQty(value)
+                }}
+                className="w-full text-center outline-none"
+              />
+
+              <button
+                type="button"
+                onClick={() =>
+                  setQty(Math.min(product.stock || 1, qty + 1))
                 }
-                if (value < 1) {
-                  setQty(1);
-                  return;
-                }
-                setQty(value);
-              }}
-              className="w-full border p-2"
-            />
+                className="px-3 py-2 text-lg"
+              >
+                +
+              </button>
+            </div>
           </div>
 
           <div className="flex gap-3 mb-8">
@@ -154,13 +177,13 @@ export default function ProductDetail({ product, lang }: any) {
             </button>
           </div>
 
-          <div className="border-t">
+          <div className="border-t pb-25">
             {product?.details?.map((item: any, i: number) => {
                 const isOpen = openItems.includes(i);
                 return (
                 <div
                     key={i}
-                    className="border-b py-4 cursor-pointer"
+                    className="border-b border-b-[#CDCDCD] py-4 cursor-pointer"
                     onClick={() => toggle(i)}
                 >
                     <div className="flex justify-between items-center">
@@ -169,7 +192,7 @@ export default function ProductDetail({ product, lang }: any) {
                     </h3>
 
                     <span
-                        className={`transition-transform duration-300 ${
+                        className={`!text-[25px] transition-transform duration-300 ${
                         isOpen ? "rotate-45" : "rotate-0"
                         }`}
                     >

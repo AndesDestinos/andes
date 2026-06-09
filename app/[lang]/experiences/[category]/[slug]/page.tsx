@@ -74,7 +74,7 @@ export default async function ExperiencePage({
         <>
             <HeroSection
                 title={paquete.title}
-                destinations={paquete.destinations}
+                destinations={paquete.destinations || []}
                 days={paquete.days}
                 category={paquete.category?.title}
                 image={paquete.mainImage}
@@ -82,7 +82,7 @@ export default async function ExperiencePage({
                 lang={lang}
             />
 
-            <TabsNav lang={lang} />
+            <TabsNav lang={lang} currentTourId={paquete._id} price={paquete.price}/>
 
             <div className='flex flex-col w-full gap-36 pt-12 pb-36'>
             <SummarySection 

@@ -8,6 +8,7 @@ const query = `
     title,
     slug,
     icon,
+    order,
   },
 
   "posts": *[_type == "blogPost"] | order(publishedAt desc){
@@ -47,11 +48,13 @@ export default async function BlogPage({ params }: any) {
 
   const heroData = await client.fetch(hero);
   const data = await client.fetch(query);
-  const categories = data.categories.map((cat: any) => ({
+  const categories = data.categories
+  .sort((a: any, b: any) => (a.order ?? 0) - (b.order ?? 0))
+  .map((cat: any) => ({
     ...cat,
     posts: data.posts.filter(
       (post: any) => post.categoryId === cat._id
-    )
+    ),
   }));
   const featuredPosts = data.featuredPosts;
 

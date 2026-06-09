@@ -136,7 +136,7 @@ export default function ContactModal({ isOpen, onClose, lang = "es" }: Props) {
           
           <button 
             onClick={onClose}
-            className="cursor-pointer absolute top-4 right-4 text-gray-500 hover:text-black"
+            className="cursor-pointer absolute top-4 right-4 text-gray-500 hover:text-black text-[30px]"
           >
             ✕
           </button>

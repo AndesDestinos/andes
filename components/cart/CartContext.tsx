@@ -32,11 +32,26 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    const saved = localStorage.getItem("cart");
-    if (saved) {
-      setCart(JSON.parse(saved));
-    }
-    setLoaded(true);
+    const init = async () => {
+      try {
+        const saved = localStorage.getItem("cart");
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          let validCart = parsed;
+          try {
+            validCart = await validateCartStock(parsed);
+          } catch (err) {
+            console.warn("Stock validation failed, using local cart", err);
+          }
+          setCart(validCart);
+        }
+      } catch (err) {
+        console.error("Cart init error:", err);
+      } finally {
+        setLoaded(true);
+      }
+    };
+    init();
   }, []);
 
   useEffect(() => {
@@ -44,6 +59,14 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
       localStorage.setItem("cart", JSON.stringify(cart));
     }
   }, [cart, loaded]);
+
+  const validateCartStock = async (items: CartItem[]) => {
+    const res = await fetch("/api/cart/validate", {
+      method: "POST",
+      body: JSON.stringify({ items }),
+    });
+    return res.json();
+  };
 
   const addToCart = (product: CartItem, quantity: number, options?: { openCart?: boolean }) => {
     setCart((prev) => {

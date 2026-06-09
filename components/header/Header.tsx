@@ -6,6 +6,7 @@ import DropdownMenu from './DropdownMenu'
 import DropdownAboutMenu from './DropdownAboutMenu'
 import { useRef } from 'react'
 import { useCart } from '../cart/CartContext'
+import Link from 'next/link'
 
 type Item = {
   title: string
@@ -115,6 +116,7 @@ export default function Header({
   const isActiveHeader = isHome || isScrolled || isHovered || mobileOpen
   const currentLogo = isActiveHeader ? logoDark : logoLight
   const currentStoreLogo = isActiveHeader ? storeLogoDark : storeLogoLight
+  const currentCartLogo = isActiveHeader ? '/images/header/cartOscuro.svg' : '/images/header/cart.svg'
 
   useEffect(() => {
     let lastScroll = window.scrollY
@@ -166,7 +168,7 @@ export default function Header({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       className={`
-        fixed top-0 left-0 w-full z-50 transition-all duration-300
+        fixed top-0 left-0 w-full z-999 transition-all duration-300
         ${showHeader ? 'translate-y-0' : '-translate-y-full'}
         ${(isHome || isScrolled || isHovered)
           ? 'bg-white text-black shadow-md'
@@ -179,8 +181,7 @@ export default function Header({
         <div className="flex items-center justify-between w-full md:hidden">
 
     <div className='flex gap-5 items-center'>
-    <div
-      className="cursor-pointer"
+    <div className="cursor-pointer"
       onClick={() => setMobileOpen(!mobileOpen)}
     >
       <img src={(isHome || isScrolled || isHovered) ? '/images/header/menuOscuro.svg' : '/images/header/menu.svg'} 
@@ -199,6 +200,7 @@ export default function Header({
     </div>
   </div>
 
+    <div className='flex gap-3 items-center'>
     <div
       onClick={() => goTo('booking')}
       className={`!tracking-[2px]
@@ -212,20 +214,37 @@ export default function Header({
         hover:before:w-full hover:text-white before:-z-10
       `}
     >
-      {lang === "es" ? "RESERVAR" : " NOW"}
-    </div>
+      {lang === "es" ? "RESERVAR" : "BOOK"}
     </div>
 
-  <div
+      <div
+            className="relative cursor-pointer"
+            onClick={() => setIsOpen(true)}
+          >
+            <img
+              src={currentCartLogo}
+              className="h-5 w-auto"
+            />
+
+            {totalItems > 0 && (
+              <span className="absolute -top-2 -right-2 bg-black text-white text-[10px] w-5 h-5 flex items-center 
+              justify-center rounded-full">
+                {totalItems}
+              </span>
+            )}
+          </div>
+        </div>
+    </div>
+
+  <Link href={`/${lang}`}
     className="hidden md:flex items-center cursor-pointer"
-    onClick={() => router.push(`/${lang}`)}
   >
     <img
       src={currentLogo}
       alt="Andes Logo"
       className="h-5 w-auto"
     />
-  </div>
+  </Link>
 
         <div className="hidden md:flex items-center gap-5">
           <div
@@ -405,7 +424,7 @@ export default function Header({
             onClick={() => setIsOpen(true)}
           >
             <img
-              src="/images/header/cart.svg"
+              src={currentCartLogo}
               className="h-5 w-auto"
             />
 
@@ -435,7 +454,7 @@ export default function Header({
       </nav>
 
       {mobileOpen && (
-  <div className="fixed inset-0 z-[999] bg-white text-black md:hidden flex flex-col h-screen">
+  <div className="fixed inset-0 z-[999] bg-white text-black md:hidden flex flex-col h-[100dvh] max-h-[100dvh]">
 
     <div className="flex-1 overflow-y-auto">
       <div className="flex justify-between items-center px-6 py-5 border-b border-black/10">
@@ -530,13 +549,40 @@ export default function Header({
       }
     >
       <span>TOURS</span>
-      <span className="text-lg">
+      <span className="!text-[25px]">
         {mobileMenu === 'tours' ? '−' : '+'}
       </span>
     </div>
 
     {mobileMenu === 'tours' && (
-      <div className="mt-4">
+      <div className="ml-2 pl-4 border-l border-l-[#CDCDCD] mt-4">
+        <button
+          onClick={() => {
+            setMobileOpen(false)
+            goToWithSlug('tours', '')
+          }}
+          className="flex w-full justify-between text-left py-2 px-2 border-b border-[#ddd] font-medium"
+        >
+           <span>
+              {lang === 'es' ? 'VER TODOS LOS TOURS' : 'VIEW ALL TOURS'}
+            </span>
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M9 18l6-6-6-6"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+        </button>
+
         <DropdownMenu
           type="tour"
           data={tours}
@@ -561,13 +607,39 @@ export default function Header({
       }
     >
       <span>{lang === "es" ? "PAQUETES" : "PACKAGES"}</span>
-      <span className="text-lg">
+      <span className="!text-[25px]">
         {mobileMenu === 'packages' ? '−' : '+'}
       </span>
     </div>
 
     {mobileMenu === 'packages' && (
-      <div className="mt-4">
+      <div className="ml-2 pl-4 border-l border-l-[#CDCDCD] mt-4">
+        <button
+          onClick={() => {
+            setMobileOpen(false)
+            goToWithSlug('packages', '')
+          }}
+          className="flex w-full justify-between text-left py-2 px-2 border-b border-[#ddd] font-medium"
+        >
+           <span>
+              {lang === 'es' ? 'VER TODOS LOS PAQUETES' : 'VIEW ALL PACKAGES'}
+            </span>
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M9 18l6-6-6-6"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+        </button>
         <DropdownMenu
           type="package"
           data={packages}
@@ -592,13 +664,39 @@ export default function Header({
       }
     >
       <span>{lang === "es" ? "EXPERIENCIAS" : "EXPERIENCES"}</span>
-      <span className="text-lg">
+      <span className="!text-[25px]">
         {mobileMenu === 'experiences' ? '−' : '+'}
       </span>
     </div>
 
     {mobileMenu === 'experiences' && (
-      <div className="mt-4">
+      <div className="ml-2 pl-4 border-l border-l-[#CDCDCD] mt-4">
+        <button
+          onClick={() => {
+            setMobileOpen(false)
+            goToWithSlug('experiences', '')
+          }}
+          className="flex w-full justify-between text-left py-2 px-2 border-b border-[#ddd] font-medium"
+        >
+           <span>
+              {lang === 'es' ? 'VER TODAS LAS EXPERIENCIAS' : 'VIEW ALL EXPERIENCES'}
+            </span>
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M9 18l6-6-6-6"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+        </button>
         <DropdownMenu
           type="experience"
           data={experiences}
@@ -624,7 +722,7 @@ export default function Header({
   >
     <span>{lang === "es" ? "NOSOTROS" : "ABOUT"}</span>
 
-    <span className="text-lg">
+    <span className="!text-[25px]">
       {mobileMenu === 'about' ? '−' : '+'}
     </span>
   </div>
@@ -712,12 +810,12 @@ export default function Header({
 
       <div className="flex justify-between mb-4">
         <a href="mailto:hola@andes.travel" className="flex items-center gap-2 opacity-70">
-          <img src="/images/header/email.svg" className="w-7 h-auto cursor-pointer" />
+          <img src="/images/header/email.svg" className="w-4 h-auto cursor-pointer" />
           <span>{lang === "es" ? "CONTACTAR" : "CONTACT"}</span>
         </a>
 
         <a href="tel:+51900111114" className="flex items-center gap-2 opacity-70">
-          <img src="/images/header/phone.svg" className="w-7 h-auto cursor-pointer" />
+          <img src="/images/header/phone.svg" className="w-4 h-auto cursor-pointer" />
           <span>{lang === "es" ? "LLAMAR AHORA" : "CALL NOW"}</span>
         </a>
       </div>
@@ -728,7 +826,6 @@ export default function Header({
       >
         {lang === "es" ? "RESERVAR AHORA" : "BOOK NOW"}
       </div>
-
     </div>
   </div>
 )}
