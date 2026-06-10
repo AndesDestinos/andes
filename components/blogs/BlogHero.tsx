@@ -2,7 +2,7 @@ import { urlFor } from "@/lib/sanity.image";
 
 export default function BlogHero({lang, hero}: any) {
   return (
-    <section className="relative w-full h-[60vh]">
+    <section className="relative w-full h-[75vh]">
       <img
         src={hero?.image ? urlFor(hero.image).url() : '/images/share/noImage.jpg'}
         className="absolute inset-0 w-full h-full object-cover"

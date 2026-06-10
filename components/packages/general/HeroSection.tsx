@@ -8,7 +8,7 @@ type Props = {
 export default function Hero({ lang, hero }: Props) {
 
   return (
-    <section className="w-full h-[60vh] relative">
+    <section className="w-full h-[75vh] relative">
       <img
         src={hero?.image ? urlFor(hero.image).url() : '/images/share/noImage.jpg'}
         className="absolute inset-0 w-full h-full object-cover"

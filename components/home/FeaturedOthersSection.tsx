@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
 import { urlFor } from "@/lib/sanity.image"
 
-export default function FeaturedOtherssSection({ tours, lang }: any) {
+export default function FeaturedOtherssSection({ tours, lang, home }: any) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [current, setCurrent] = useState(0)
   const [itemsPerView, setItemsPerView] = useState(3)
@@ -46,12 +46,10 @@ export default function FeaturedOtherssSection({ tours, lang }: any) {
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-10">
         <div>
           <h4 className="text-gray-500">
-            {lang === "es" ? "DESTINOS IMPERDIBLES" : "MUST-SEE DESTINATIONS"}
+            {home.subtitle?.[lang]}
           </h4>
           <h2 className="text-gray-900 mt-2">
-            {lang === "es"
-              ? "LOS MEJORES DESTINOS POPULARES"
-              : "THE BEST POPULAR DESTINATIONS"}
+            {home.title?.[lang]}
           </h2>
         </div>
 

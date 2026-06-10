@@ -125,6 +125,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       success: true,
       bookingId: bookingData.id,
+      invoiceNumber: bookingData.invoice_number,
     });
   } catch (error) {
     console.error("BOOKING ERROR:", error);

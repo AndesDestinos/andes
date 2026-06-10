@@ -19,7 +19,7 @@ export default function CheckoutPage({ lang, hero }: any) {
 
     return (
         <>
-            <section className="relative h-[40vh] sm:h-[50vh] md:h-[60vh] w-full">
+            <section className="relative h-[40vh] sm:h-[50vh] md:h-[75vh] w-full">
                 <img src={hero?.image ? urlFor(hero.image).url() : '/images/share/noImage.jpg'}
                     className="w-full h-full object-cover"/>
                 <div className="absolute inset-0 bg-black/50"></div>

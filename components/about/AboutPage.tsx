@@ -25,7 +25,7 @@ export default function AboutPage({ data, lang }: any) {
 
   return (
     <div className="w-full flex flex-col gap-36 pb-36">
-        <section className="relative w-full h-[50vh] md:h-[60vh]">
+        <section className="relative w-full h-[50vh] md:h-[75vh]">
             <img
                 src={urlFor(data.heroImage).url()}
                 alt="hero"

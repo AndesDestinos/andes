@@ -87,7 +87,7 @@ export default function StoreGrid({ storePage, products, categories, lang }: any
           </Link>
         </div>
 
-        <div className="hidden md:block absolute bottom-12 right-12 flex gap-4 z-10">
+        <div className="hidden md:flex absolute bottom-12 right-12 flex gap-4 z-10">
           {heroImages.map((img: string, i: number) => (
             <img
               key={i}

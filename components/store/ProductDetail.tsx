@@ -47,7 +47,7 @@ export default function ProductDetail({ product, lang }: any) {
 
   return (
     <div className="andes-contenido flex flex-col md:flex-row gap-12">
-      <div className="w-full md:w-1/2 md:sticky md:top-0 h-[60vh] md:h-screen">
+      <div className="w-full md:w-1/2 md:sticky md:top-0 h-[75vh] md:h-screen">
         <div className="relative w-full h-full">
           {images.length > 0 && (
             <>

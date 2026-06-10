@@ -231,6 +231,11 @@ export default function Step3({ lang, form, setForm, next, prev }: any) {
                     return;
                   }
 
+                  setForm((prev: any) => ({
+                    ...prev,
+                    invoice: data.invoiceNumber,
+                  }));
+
                   localStorage.removeItem('bookingForm');
                   localStorage.removeItem('bookingStep');
                   next();

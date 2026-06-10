@@ -42,7 +42,7 @@ export default function Step4({ lang, form, reset }: any) {
               <img src="/images/booking/logoCompleto.svg" className="w-36" />
             </div>
             <h1 className="">{ lang === 'es' ? 'Factura' : 'Invoice' }</h1>
-            <p className="mt-4">{ lang === 'es' ? 'Factura' : 'Invoice' } N° {Math.floor(Math.random() * 10000)}</p>
+            <p className="mt-4">{ lang === 'es' ? 'Factura' : 'Invoice' } N° {form.invoiceNumber}</p>
             <p className="">{today}</p>
           </div>
         </div>

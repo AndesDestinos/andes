@@ -3,7 +3,7 @@ import { urlFor } from "@/lib/sanity.image";
 export default function EsnnaClient({ lang, hero }: any) {
     return (
         <section>
-            <div className="relative w-full h-[60vh]">
+            <div className="relative w-full h-[75vh]">
                 <img
                     src={hero?.image ? urlFor(hero.image).url() : '/images/share/noImage.jpg'}
                     className="w-full h-full object-cover"

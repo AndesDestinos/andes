@@ -12,7 +12,7 @@ export default function PrivacyClient({ data, lang }: any) {
 
   return (
     <section>
-      <div className="relative w-full h-[60vh]">
+      <div className="relative w-full h-[75vh]">
         <img
           src={urlFor(data.hero.image).width(2000).url()}
           className="w-full h-full object-cover"

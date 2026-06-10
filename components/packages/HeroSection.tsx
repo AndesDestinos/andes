@@ -11,7 +11,7 @@ export default function HeroSection({
 }: any) {
   return (
     <>
-    <section className="relative h-[60vh] w-full overflow-hidden">
+    <section className="relative h-[75vh] w-full overflow-hidden">
       <div className="absolute inset-0">
         <img
           src={image ? urlFor(image).width(2000).url() : '/images/share/noImage.jpg'}

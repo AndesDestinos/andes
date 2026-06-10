@@ -67,6 +67,18 @@ export default async function HomePage({params}: any) {
           subtitle,
           description
         },
+        toursSection{
+          title,
+          subtitle
+        },
+        popularSection{
+          title,
+          subtitle
+        },
+        blogsSection{
+          title,
+          subtitle
+        },
         yourTripSection{
         title,
         subtitle,
@@ -79,7 +91,7 @@ export default async function HomePage({params}: any) {
           title,
           description
         },
-        ctaButton
+        ctaButton,
       }
     }
   `);
@@ -112,7 +124,7 @@ export default async function HomePage({params}: any) {
       </div>
 
       <div className="andes-contenido home-section">
-        <FeaturedToursSection tours={featuredTours} lang={lang} />
+        <FeaturedToursSection tours={featuredTours} lang={lang} home={homeData.toursSection} />
       </div>
 
       <div className="andes-contenido-pequenio home-section">
@@ -120,11 +132,11 @@ export default async function HomePage({params}: any) {
       </div>
 
       <div className="andes-contenido home-section">
-        <FeaturedOtherssSection tours={featuredOthers} lang={lang} />
+        <FeaturedOtherssSection tours={featuredOthers} lang={lang} home={homeData.popularSection} />
       </div>
 
       <div className="andes-contenido andes-blog !pb-30">
-        <BlogSection posts={blogs} lang={lang} />
+        <BlogSection posts={blogs} lang={lang} home={homeData.blogsSection} />
       </div>
     </main>
   )

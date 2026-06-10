@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
 import { urlFor } from "@/lib/sanity.image"
 
-export default function BlogSection({ posts, lang }: any) {
+export default function BlogSection({ posts, lang, home }: any) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [current, setCurrent] = useState(0)
   const [itemsPerView, setItemsPerView] = useState(3)
@@ -49,10 +49,10 @@ export default function BlogSection({ posts, lang }: any) {
       <div className="flex justify-between items-start mb-10">
         <div>
           <h4 className="text-gray-500 mb-2">
-            {lang === 'es' ? 'HISTORIAS DE VIAJES' : 'TRAVEL STORIES'}
+            {home.subtitle?.[lang]}
           </h4>
           <h2>
-            {lang === 'es' ? 'ARTÍCULOS CLAVE PARA ORGANIZAR TU VIAJE' : 'KEY ARTICLES TO HELP YOU PLAN YOUR TRIP'}
+            {home.title?.[lang]}
           </h2>
         </div>
 
