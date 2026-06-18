@@ -11,7 +11,7 @@ import {
 type Lang = "es" | "en";
 
 export default function BookingEmail({ data, lang }: { data: any; lang: Lang }) {
-  const { form, payment } = data;
+  const { form, invoice, payment } = data;
 
   const leader = form.viajerosData.find((v: any) => v.lider);
 
@@ -69,6 +69,7 @@ export default function BookingEmail({ data, lang }: { data: any; lang: Lang }) 
                 <Heading>{t.title}</Heading>
               </td>
               <td align="right">
+                <Text><strong>INVOICE:</strong> {invoice}</Text>
                 <Text><strong>ID:</strong> {payment.orderID}</Text>
                 <Text>{today}</Text>
               </td>

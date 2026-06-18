@@ -117,7 +117,7 @@ export async function POST(req: NextRequest) {
       subject: texto[lang].subject,
       react: (
         <BookingEmail
-          data={{ form, payment, totals: { total, paid, pending } }}
+          data={{ form, invoice: bookingData.invoice_number, payment, totals: { total, paid, pending } }}
           lang={lang}
         />
       ),
