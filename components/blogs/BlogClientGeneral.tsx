@@ -5,8 +5,9 @@ import BlogHero from './BlogHero'
 import BlogTabs from './BlogTabs'
 import BlogFeaturedCarousel from './BlogFeaturedCarousel'
 import BlogCategorySection from './BlogCategorySection'
+import RecognizedExcellence from '../shared/RecognizedExcellence'
 
-export default function BlogClient({ categories, posts, featuredPosts, lang, hero }: any) {
+export default function BlogClient({ categories, posts, featuredPosts, lang, hero, reconocimiento }: any) {
   const [active, setActive] = useState(
     categories?.[0]?.slug?.current
   )
@@ -38,6 +39,14 @@ export default function BlogClient({ categories, posts, featuredPosts, lang, her
           lang={lang}
         />
       ))}
+
+      <div className='pt-36'>
+        <RecognizedExcellence
+          title={reconocimiento.title}
+          items={reconocimiento.items}
+          lang={lang}
+        />
+      </div>
     </main>
   )
 }

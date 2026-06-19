@@ -4,10 +4,11 @@ import { urlFor } from '@/lib/sanity.image'
 import { useState, useEffect } from 'react'
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
+import RecognizedExcellence from '../shared/RecognizedExcellence';
 
 type Language = 'en' | 'es'
 
-export default function ComplaintsBookForm({ language, hero }: { language: Language, hero: any }) {
+export default function ComplaintsBookForm({ language, hero, reconocimiento }: { language: Language, hero: any, reconocimiento: any }) {
     const [loading, setLoading] = useState(false)
     const [errors, setErrors] = useState<Record<string, boolean>>({})
     const [toast, setToast] = useState<{
@@ -271,6 +272,12 @@ export default function ComplaintsBookForm({ language, hero }: { language: Langu
                     </div>
                 </div>
             </section>
+
+            <RecognizedExcellence
+                title={reconocimiento.title}
+                items={reconocimiento.items}
+                lang={language}
+            />
         </>
     )
 }

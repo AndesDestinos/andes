@@ -4,8 +4,9 @@ import { useEffect, useRef, useState } from 'react'
 import { urlFor } from '@/lib/sanity.image'
 import { useRouter } from 'next/navigation'
 import ContactModal from '../packages/ContactModal'
+import RecognizedExcellence from '../shared/RecognizedExcellence'
 
-export default function BlogClient({ data, lang }: any) {
+export default function BlogClient({ data, lang, reconocimiento }: any) {
     const [open, setOpen] = useState(false)
     const router = useRouter()
     const [progress, setProgress] = useState(0)
@@ -148,7 +149,7 @@ export default function BlogClient({ data, lang }: any) {
                     </div>
                 </div>
             </div>
-            <div className="bg-white scroll-smooth flex flex-col gap-20 pb-36">
+            <div className="bg-white scroll-smooth flex flex-col gap-20">
                 <section className="andes-contenido-pequenio text-center !mt-[130px]">
                     <h1 className="leading-tight andes-blog-font">
                         {data.headline?.[lang]}
@@ -289,6 +290,12 @@ export default function BlogClient({ data, lang }: any) {
                         </div>
                     </div>
                 </section>
+
+                <RecognizedExcellence
+                    title={reconocimiento.title}
+                    items={reconocimiento.items}
+                    lang={lang}
+                />
 
                 <ContactModal
                     isOpen={open}

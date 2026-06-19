@@ -10,5 +10,19 @@ export default async function Page({ params }: any) {
   }`;
   const heroData = await client.fetch(hero);
 
-  return <ComplaintsBookForm language={lang} hero={heroData} />
+  const reconocimiento = await client.fetch(`
+    *[_type == "recognizedExcellence"][0]{
+      title,
+      items[]{
+        alt,
+        image{
+          asset->{
+            url
+          }
+        }
+      }
+    }
+  `)
+
+  return <ComplaintsBookForm language={lang} hero={heroData} reconocimiento={reconocimiento} />
 }

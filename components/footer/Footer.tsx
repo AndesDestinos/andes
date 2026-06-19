@@ -38,14 +38,14 @@ export default function Footer({ lang, home }: Props) {
             </div>
 
             <div className={`${openSection === 'contact' ? 'block' : 'hidden'} md:block space-y-2`}>
-              <p>
+              {/* <p>
                 <b>{lang === 'es' ? 'Razón social:' : 'Company name:'} </b>
                 {home?.businessName}
               </p>
               <p>
                 <b>RUC: </b>
                 {home?.ruc}
-              </p>
+              </p> */}
               <p>
                 <b>{lang === 'es' ? 'Reservas:' : 'Reservations:'} </b>
                 <a
@@ -143,9 +143,9 @@ export default function Footer({ lang, home }: Props) {
                 {lang === 'es' ? 'Código ESNNA' : 'ESNNA Code'}
                 <img src="/images/footer/directionBlack.svg" className="h-5 w-5 ml-3" />
               </li>
-              <li onClick={() => goTo('esnna')}>
+              {/* <li onClick={() => goTo('esnna')}>
                 <img src="/images/footer/protegeme.svg" className="w-20 h-auto cursor-pointer" />
-              </li>
+              </li> */}
             </ul>
           </div>
 

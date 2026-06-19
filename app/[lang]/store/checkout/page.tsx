@@ -9,5 +9,19 @@ export default async function Page({ params }: { params: { lang: "es" | "en" } }
   }`;
   const heroData = await client.fetch(hero);
 
-  return <CheckoutPage lang={lang} hero={heroData} />;
+  const reconocimiento = await client.fetch(`
+    *[_type == "recognizedExcellence"][0]{
+      title,
+      items[]{
+        alt,
+        image{
+          asset->{
+            url
+          }
+        }
+      }
+    }
+  `)
+
+  return <CheckoutPage lang={lang} hero={heroData} reconocimiento={reconocimiento} />;
 }

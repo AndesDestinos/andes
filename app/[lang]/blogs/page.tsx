@@ -58,5 +58,19 @@ export default async function BlogPage({ params }: any) {
   }));
   const featuredPosts = data.featuredPosts;
 
-  return <BlogClientGeneral categories={categories} posts={data.posts} featuredPosts={featuredPosts} lang={lang} hero={heroData} />
+  const reconocimiento = await client.fetch(`
+    *[_type == "recognizedExcellence"][0]{
+      title,
+      items[]{
+        alt,
+        image{
+          asset->{
+            url
+          }
+        }
+      }
+    }
+  `)
+
+  return <BlogClientGeneral categories={categories} posts={data.posts} featuredPosts={featuredPosts} lang={lang} hero={heroData} reconocimiento={reconocimiento}/>
 }

@@ -6,7 +6,7 @@ export default function PaypalButton({ lang, amount, onSuccess, showToast }: any
   return (
     <PayPalScriptProvider
       options={{
-        clientId: "AWk76rJqM8uMwzXhSwv2b6ZS6YCLr7Arg3B5LQX_uGrgkDBXJ3f3euOg82mTCFtIf50niAoYvA2Ajmbz",
+        clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID!,
         components: "buttons,funding-eligibility",
         intent: "capture",
         currency: "USD",

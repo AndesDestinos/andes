@@ -2,8 +2,9 @@
 
 import { useState } from 'react'
 import { urlFor } from '@/lib/sanity.image'
+import RecognizedExcellence from '../shared/RecognizedExcellence'
 
-export default function PrivacyClient({ data, lang }: any) {
+export default function PrivacyClient({ data, lang, reconocimiento }: any) {
   const [activeIndex, setActiveIndex] = useState<number | null>(0)
 
   const toggle = (index: number) => {
@@ -49,6 +50,12 @@ export default function PrivacyClient({ data, lang }: any) {
           })}
         </div>
       </div>
+
+      <RecognizedExcellence
+        title={reconocimiento.title}
+        items={reconocimiento.items}
+        lang={lang}
+      />
     </section>
   )
 }

@@ -4,8 +4,9 @@ import { urlFor } from "@/lib/sanity.image";
 import { useState } from "react";
 import { useCart } from "../cart/CartContext";
 import { useRouter } from "next/navigation";
+import RecognizedExcellence from "../shared/RecognizedExcellence";
 
-export default function ProductDetail({ product, lang }: any) {
+export default function ProductDetail({ product, lang, reconocimiento }: any) {
   const [current, setCurrent] = useState(0);
   const [openItems, setOpenItems] = useState<number[]>([]);
   const { addToCart } = useCart();
@@ -46,7 +47,8 @@ export default function ProductDetail({ product, lang }: any) {
   };
 
   return (
-    <div className="andes-contenido flex flex-col md:flex-row gap-12">
+    <div className="andes-contenido">
+      <div className="flex flex-col md:flex-row gap-12">
       <div className="w-full md:w-1/2 md:sticky md:top-0 h-[75vh] md:h-screen">
         <div className="relative w-full h-full">
           {images.length > 0 && (
@@ -214,6 +216,15 @@ export default function ProductDetail({ product, lang }: any) {
             })}
           </div>
         </div>
+      </div>
+      </div>
+
+      <div className="pt-30">
+        <RecognizedExcellence
+          title={reconocimiento.title}
+          items={reconocimiento.items}
+          lang={lang}
+        />
       </div>
     </div>
   );

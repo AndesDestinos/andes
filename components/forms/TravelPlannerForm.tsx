@@ -6,10 +6,11 @@ import PhoneInput, { getCountries } from "react-phone-number-input";
 import esCountries from "react-phone-number-input/locale/es.json";
 import enCountries from "react-phone-number-input/locale/en.json";
 import "react-phone-number-input/style.css";
+import RecognizedExcellence from '../shared/RecognizedExcellence';
 
 type Language = 'en' | 'es'
 
-export default function TravelPlannerForm({ language, hero }: { language: Language, hero: any }) {
+export default function TravelPlannerForm({ language, hero, reconocimiento }: { language: Language, hero: any, reconocimiento: any }) {
     const [activeSection, setActiveSection] = useState<number | null>(0)
 
     const [destinations, setDestinations] = useState<string[]>([])
@@ -632,6 +633,12 @@ export default function TravelPlannerForm({ language, hero }: { language: Langua
                     </Section>
                 </form>
             </section>)}
+
+            <RecognizedExcellence
+                title={reconocimiento.title}
+                items={reconocimiento.items}
+                lang={language}
+            />
         </>
     )
 }

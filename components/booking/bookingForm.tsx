@@ -7,6 +7,7 @@ import { urlFor } from '@/lib/sanity.image';
 import { useEffect, useState } from 'react';
 import Step4 from './step4';
 import { useSearchParams } from 'next/navigation';
+import RecognizedExcellence from '../shared/RecognizedExcellence';
 
 export type FormData = {
   tourId: string;
@@ -31,7 +32,7 @@ export type FormData = {
   donationAmount: number;
 };
 
-export default function BookingForm({lang, hero, data}: any) {
+export default function BookingForm({lang, hero, data, reconocimiento}: any) {
   const searchParams = useSearchParams()
   const tourIdFromUrl = searchParams.get('tourId')
   const inititalStateForm: FormData = {
@@ -144,6 +145,14 @@ export default function BookingForm({lang, hero, data}: any) {
                 reset={() => reset()}
             />
         )}
+
+        <div className='pt-36'>
+          <RecognizedExcellence
+            title={reconocimiento.title}
+            items={reconocimiento.items}
+            lang={lang}
+          />
+        </div>
     </>
   );
 }

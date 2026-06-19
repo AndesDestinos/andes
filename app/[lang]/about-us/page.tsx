@@ -15,5 +15,19 @@ export default async function Page({ params }: any) {
     }
   `)
 
-  return <AboutPage data={data} lang={lang} />
+  const reconocimiento = await client.fetch(`
+    *[_type == "recognizedExcellence"][0]{
+      title,
+      items[]{
+        alt,
+        image{
+          asset->{
+            url
+          }
+        }
+      }
+    }
+  `)
+
+  return <AboutPage data={data} lang={lang} reconocimiento={reconocimiento} />
 }

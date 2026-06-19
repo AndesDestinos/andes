@@ -3,8 +3,9 @@
 import { useRef, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { urlFor } from '@/lib/sanity.image'
+import RecognizedExcellence from '../shared/RecognizedExcellence';
 
-export default function StoreGrid({ storePage, products, categories, lang }: any) {
+export default function StoreGrid({ storePage, products, categories, lang, reconocimiento }: any) {
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const [currentHero, setCurrentHero] = useState(0);
   const heroImages = storePage?.images?.length
@@ -48,7 +49,7 @@ export default function StoreGrid({ storePage, products, categories, lang }: any
   }, []);
 
   return (
-    <div className='w-full flex flex-col gap-25 pb-25'>
+    <div className='w-full flex flex-col gap-25'>
       <section className="relative w-full h-screen overflow-hidden">
         {heroImages.map((img: string, i: number) => (
           <img
@@ -250,6 +251,12 @@ export default function StoreGrid({ storePage, products, categories, lang }: any
           ))}
         </div>
       </section>
+
+      <RecognizedExcellence
+        title={reconocimiento.title}
+        items={reconocimiento.items}
+        lang={lang}
+      />
     </div>
   )
 }

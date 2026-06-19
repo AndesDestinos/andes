@@ -6,6 +6,7 @@ import StrengthsSection from "@/components/home/StrengthsSection";
 import FeaturedToursSection from "@/components/home/FeaturedToursSection";
 import BlogSection from "@/components/home/BlogSection";
 import FeaturedOtherssSection from "@/components/home/FeaturedOthersSection";
+import RecognizedExcellence from "@/components/shared/RecognizedExcellence";
 
 
 export default async function HomePage({params}: any) {
@@ -111,6 +112,20 @@ export default async function HomePage({params}: any) {
     }
   `)
 
+  const reconocimiento = await client.fetch(`
+    *[_type == "recognizedExcellence"][0]{
+      title,
+      items[]{
+        alt,
+        image{
+          asset->{
+            url
+          }
+        }
+      }
+    }
+  `)
+
   return (
     <main className="w-full flex flex-col gap-30">
       <HeroSection data={homeData} lang={lang} />
@@ -138,6 +153,12 @@ export default async function HomePage({params}: any) {
       <div className="andes-contenido andes-blog !pb-30">
         <BlogSection posts={blogs} lang={lang} home={homeData.blogsSection} />
       </div>
+
+      <RecognizedExcellence
+        title={reconocimiento.title}
+        items={reconocimiento.items}
+        lang={lang}
+      />
     </main>
   )
 }

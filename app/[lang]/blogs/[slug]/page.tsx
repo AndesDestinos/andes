@@ -23,5 +23,19 @@ export default async function Page({ params }: any) {
   const { slug, lang } = await params
   const data = await client.fetch(query, { slug })
 
-  return <BlogClient data={data} lang={lang} />
+  const reconocimiento = await client.fetch(`
+    *[_type == "recognizedExcellence"][0]{
+      title,
+      items[]{
+        alt,
+        image{
+          asset->{
+            url
+          }
+        }
+      }
+    }
+  `)
+
+  return <BlogClient data={data} lang={lang} reconocimiento={reconocimiento} />
 }

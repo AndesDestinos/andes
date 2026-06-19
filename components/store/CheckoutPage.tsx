@@ -4,8 +4,9 @@ import CheckoutForm from "@/components/store/CheckoutForm";
 import OrderSummary from "@/components/store/OrderSummary";
 import { urlFor } from "@/lib/sanity.image";
 import { useState } from "react";
+import RecognizedExcellence from "../shared/RecognizedExcellence";
 
-export default function CheckoutPage({ lang, hero }: any) {
+export default function CheckoutPage({ lang, hero, reconocimiento }: any) {
     const [form, setForm] = useState({
         firstName: '',
         lastName: '',
@@ -32,6 +33,14 @@ export default function CheckoutPage({ lang, hero }: any) {
             <div className="andes-contenido-pequenio grid grid-cols-1 lg:grid-cols-2 gap-10">
                 <CheckoutForm lang={lang} form={form} setForm={setForm} />
                 <OrderSummary lang={lang} form={form} setForm={setForm} />
+            </div>
+
+            <div className="pt-30">
+                <RecognizedExcellence
+                    title={reconocimiento.title}
+                    items={reconocimiento.items}
+                    lang={lang}
+                />
             </div>
         </>
     );

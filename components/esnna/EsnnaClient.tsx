@@ -1,6 +1,7 @@
 import { urlFor } from "@/lib/sanity.image";
+import RecognizedExcellence from "../shared/RecognizedExcellence";
 
-export default function EsnnaClient({ lang, hero }: any) {
+export default function EsnnaClient({ lang, hero, reconocimiento }: any) {
     return (
         <section>
             <div className="relative w-full h-[75vh]">
@@ -68,6 +69,12 @@ export default function EsnnaClient({ lang, hero }: any) {
                     </div>
                 </div>
             </div>
+
+            <RecognizedExcellence
+                    title={reconocimiento.title}
+                    items={reconocimiento.items}
+                    lang={lang}
+                  />
         </section>
     )
 }

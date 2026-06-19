@@ -56,12 +56,27 @@ export default async function TiendaPage({ params }: any) {
     }`)
   ])
 
+  const reconocimiento = await client.fetch(`
+    *[_type == "recognizedExcellence"][0]{
+      title,
+      items[]{
+        alt,
+        image{
+          asset->{
+            url
+          }
+        }
+      }
+    }
+  `)
+
   return (
     <StoreGrid
       storePage={storePage}
       products={products}
       categories={categories}
       lang={lang}
+      reconocimiento={reconocimiento}
     />
   )
 }

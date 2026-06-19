@@ -26,5 +26,19 @@ export default async function Booking({ params }: any) {
   }`
   const data = await client.fetch(query, { lang })
 
-  return <BookingForm lang={lang} hero={heroData} data={data} />
+  const reconocimiento = await client.fetch(`
+    *[_type == "recognizedExcellence"][0]{
+      title,
+      items[]{
+        alt,
+        image{
+          asset->{
+            url
+          }
+        }
+      }
+    }
+  `)
+
+  return <BookingForm lang={lang} hero={heroData} data={data} reconocimiento={reconocimiento} />
 }

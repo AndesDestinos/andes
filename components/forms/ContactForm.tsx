@@ -6,10 +6,11 @@ import ContactModal from '../packages/ContactModal'
 import PhoneInput, { getCountries } from "react-phone-number-input";
 import esCountries from "react-phone-number-input/locale/es.json";
 import "react-phone-number-input/style.css";
+import RecognizedExcellence from '../shared/RecognizedExcellence';
 
 type Language = 'en' | 'es'
 
-export default function ContactUsForm({ language, hero }: { language: Language, hero: any }) {
+export default function ContactUsForm({ language, hero, reconocimiento }: { language: Language, hero: any, reconocimiento: any }) {
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState<Record<string, boolean>>({})
@@ -324,6 +325,12 @@ export default function ContactUsForm({ language, hero }: { language: Language, 
                     </button>
                 </div>
             </form>
+
+            <RecognizedExcellence
+                    title={reconocimiento.title}
+                    items={reconocimiento.items}
+                    lang={language}
+                  />
 
             <ContactModal
                 isOpen={open}

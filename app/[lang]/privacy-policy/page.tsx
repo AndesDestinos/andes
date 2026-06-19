@@ -24,5 +24,19 @@ export default async function Page({
     const { lang } = await params
     const data = await client.fetch(query)
 
-    return <PrivacyClient data={data} lang={lang} />
+    const reconocimiento = await client.fetch(`
+    *[_type == "recognizedExcellence"][0]{
+      title,
+      items[]{
+        alt,
+        image{
+          asset->{
+            url
+          }
+        }
+      }
+    }
+  `)
+
+    return <PrivacyClient data={data} lang={lang} reconocimiento={reconocimiento} />
 }

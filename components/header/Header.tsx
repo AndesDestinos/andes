@@ -806,9 +806,8 @@ export default function Header({
 </div>
     </div>
 
-    <div className="px-6 pb-6">
-
-      <div className="flex justify-between mb-4">
+    <div className="px-6 pb-6 border-t border-t-[#CDCDCD]">
+      <div className="flex justify-between my-2">
         <a href="mailto:hola@andes.travel" className="flex items-center gap-2 opacity-70">
           <img src="/images/header/email.svg" className="w-4 h-auto cursor-pointer" />
           <span>{lang === "es" ? "CONTACTAR" : "CONTACT"}</span>

@@ -2,8 +2,9 @@
 
 import { urlFor } from '@/lib/sanity.image'
 import { Fragment, useEffect } from 'react'
+import RecognizedExcellence from '../shared/RecognizedExcellence';
 
-export default function AboutPage({ data, lang }: any) {
+export default function AboutPage({ data, lang, reconocimiento }: any) {
   const texto = (field: any) => field?.[lang] || '';
 
   useEffect(() => {
@@ -24,7 +25,7 @@ export default function AboutPage({ data, lang }: any) {
   }, [])
 
   return (
-    <div className="w-full flex flex-col gap-36 pb-36">
+    <div className="w-full flex flex-col gap-36">
         <section className="relative w-full h-[50vh] md:h-[75vh]">
             <img
                 src={urlFor(data.heroImage).url()}
@@ -132,6 +133,12 @@ export default function AboutPage({ data, lang }: any) {
                 </div>
             </div>
         </section>
+
+        <RecognizedExcellence
+            title={reconocimiento.title}
+            items={reconocimiento.items}
+            lang={lang}
+        />
     </div>
   )
 }
