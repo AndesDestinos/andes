@@ -14,6 +14,7 @@ const query = `
   sections[]{
     heading,
     content,
+    contentEdit,
     image
   },
   cta,

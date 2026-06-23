@@ -5,6 +5,7 @@ import { urlFor } from '@/lib/sanity.image'
 import { useRouter } from 'next/navigation'
 import ContactModal from '../packages/ContactModal'
 import RecognizedExcellence from '../shared/RecognizedExcellence'
+import { PortableText } from '@portabletext/react'
 
 export default function BlogClient({ data, lang, reconocimiento }: any) {
     const [open, setOpen] = useState(false)
@@ -242,12 +243,10 @@ export default function BlogClient({ data, lang, reconocimiento }: any) {
                                     <h2 className='andes-blog-font'>
                                         {i + 1}/{data.sections.length}
                                     </h2>
-                                    <h2 className='andes-blog-font'>
+                                    <h2 className='andes-blog-font !pb-5'>
                                         {sec.heading?.[lang]}
                                     </h2>
-                                    <p className="mt-4 text-gray-600 whitespace-pre-line">
-                                        {sec.content?.[lang]}
-                                    </p>
+                                    <PortableText value={sec.contentEdit?.[lang]} />
                                 </div>
                                 <div className={reverse ? 'md:order-1' : ''}>
                                     <img

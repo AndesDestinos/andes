@@ -74,14 +74,14 @@ export default function BlogTabs({ categories, posts, lang }: any) {
               setActive('alls')
               handleScrollTo('alls')
             }}
-            className={`flex items-center gap-2 whitespace-nowrap pb-2 cursor-pointer border-b-2 ${
+            className={`flex items-center gap-2 whitespace-nowrap pb-2 cursor-pointer border-b-2 pr-3 md:pr-0 ${
               active === 'alls'
                 ? 'border-black text-black'
                 : 'border-transparent text-gray-500'
             }`}
           >
             <img src="/images/header/menuOscuro.svg" className="w-5 h-5" />
-            {lang === 'es' ? 'Todos' : 'Alls'}
+            <span>{lang === 'es' ? 'Todos' : 'Alls'}</span>
           </button>
 
           {categories.map((cat: any) => (
@@ -91,7 +91,7 @@ export default function BlogTabs({ categories, posts, lang }: any) {
                 setActive(cat.slug.current)
                 handleScrollTo(cat.slug.current)
               }}
-              className={`flex items-center gap-2 whitespace-nowrap pb-2 cursor-pointer border-b-2 ${
+              className={`flex items-center gap-2 whitespace-nowrap pb-2 pr-3 md:pr-0 cursor-pointer border-b-2 ${
                 active === cat.slug.current
                   ? 'border-black text-black'
                   : 'border-transparent text-gray-500'
@@ -103,7 +103,7 @@ export default function BlogTabs({ categories, posts, lang }: any) {
                   className="w-5 h-5 object-contain"
                 />
               )}
-              {cat.title?.[lang]}
+              <span>{cat.title?.[lang]}</span>
             </button>
           ))}
         </div>
