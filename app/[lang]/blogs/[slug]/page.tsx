@@ -6,6 +6,7 @@ const query = `
   headline,
   publishedAt,
   readingTime,
+  autor,
   mainImage,
   category->{
     title

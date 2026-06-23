@@ -93,7 +93,7 @@ export default function BlogCategorySection({ category, posts, lang }: any) {
                           ? urlFor(post.mainImage).url()
                           : "/images/share/noImage.jpg"
                       }
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
                     />
 
                     <span className="absolute top-4 left-4 bg-black text-white px-3 py-1 rounded-full">

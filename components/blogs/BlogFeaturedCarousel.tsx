@@ -49,7 +49,7 @@ export default function BlogFeaturedCarousel({ posts, lang }: any) {
 
   return (
     <div className="flex flex-col gap-12">
-      <Link href={`/${lang}/blogs/${mainPost.slug.current}`} className="grid md:grid-cols-2 gap-12 items-center">
+      <Link href={`/${lang}/blogs/${mainPost.slug.current}`} className="grid md:grid-cols-2 gap-12 items-center group">
         <div className="relative w-full aspect-[16/9] overflow-hidden">
           <img
             src={
@@ -58,7 +58,7 @@ export default function BlogFeaturedCarousel({ posts, lang }: any) {
                 : "/images/share/noImage.jpg"
             }
             alt={mainPost.headline?.[lang]}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
           />
 
           {mainPost.category?.title && (
@@ -126,7 +126,7 @@ export default function BlogFeaturedCarousel({ posts, lang }: any) {
                                 : "/images/share/noImage.jpg"
                             }
                             alt=""
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
                         />
 
                         <span className="absolute top-4 left-4 bg-black text-white px-3 py-1 rounded-full">

@@ -80,7 +80,7 @@ export default function BlogSection({ posts, lang, home }: any) {
               <Link
                 key={post.slug.current}
                 href={`/${lang}/blogs/${post.slug.current}`}
-                className="shrink-0 w-full sm:w-[48%] lg:w-[32%] block"
+                className="shrink-0 w-full sm:w-[48%] lg:w-[32%] block group"
               >
                 <div className="relative w-full aspect-16/9 overflow-hidden">
                   <img
@@ -90,7 +90,7 @@ export default function BlogSection({ posts, lang, home }: any) {
                         : "/images/share/noImage.jpg"
                     }
                     alt=""
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
                   />
 
                   <span className="absolute top-4 left-4 bg-black text-white px-3 py-1 rounded-full">

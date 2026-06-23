@@ -52,10 +52,6 @@ export default function FeaturedOtherssSection({ tours, lang, home }: any) {
             {home.title?.[lang]}
           </h2>
         </div>
-
-        {/*<button className="mt-4 md:mt-0 border border-gray-400 px-6 py-2 hover:bg-black hover:text-white transition">
-          {lang === "es" ? "EXPLORAR MÁS" : "EXPLORE MORE"}
-        </button>*/}
       </div>
 
       <div className="relative">

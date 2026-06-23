@@ -84,9 +84,9 @@ export default function BlogClient({ data, lang, reconocimiento }: any) {
                         >
                             ← {lang === 'es' ? 'VOLVER' : 'BACK'}
                         </button>
-                        <span className="hidden md:block truncate max-w-[400px] andes-blog-font">
+                        <h4 className="hidden md:block truncate andes-blog-font">
                             {data.headline?.[lang]}
-                        </span>
+                        </h4>
                         <div className="flex items-center gap-6">
                             <button
                                 onClick={() => router.push(`/${lang}/blogs`)}
@@ -158,7 +158,7 @@ export default function BlogClient({ data, lang, reconocimiento }: any) {
                         <div className="flex items-center gap-2 w-full justify-center md:w-auto">
                             <span><b>{data.publishedAt}</b></span>
                             <span>|</span>
-                            <span>TEAM ANDES</span>
+                            <span>{data?.autor}</span>
                         </div>
                         
                         <div className="flex items-center gap-4 w-full justify-center md:w-auto">
@@ -252,7 +252,7 @@ export default function BlogClient({ data, lang, reconocimiento }: any) {
                                 <div className={reverse ? 'md:order-1' : ''}>
                                     <img
                                     src={urlFor(sec.image).url()}
-                                    className="w-full h-[420px] object-cover"
+                                    className="w-full aspect-[4/5] object-cover"
                                     />
                                 </div>
                             </div>
@@ -265,13 +265,13 @@ export default function BlogClient({ data, lang, reconocimiento }: any) {
                         <div className="hidden md:block absolute left-0 top-0 w-[35%]">
                             <img
                                 src={urlFor(data.cta?.images?.[0]).url()}
-                                className="w-full h-[300px] object-cover"
+                                className="w-full object-cover"
                             />
                         </div>
                         <div className="hidden md:block absolute right-0 top-0 w-[35%]">
                             <img
                                 src={urlFor(data.cta?.images?.[1]).url()}
-                                className="w-full h-[300px] object-cover"
+                                className="w-full object-cover"
                             />
                         </div>
                         <div className="relative z-10 max-w-[500px] mx-auto bg-white px-8 py-10 text-center">

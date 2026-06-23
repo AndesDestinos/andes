@@ -45,7 +45,7 @@ export default function RecognizedExcellence({
                   h-7 md:h-10 lg:h-12
                   w-auto
                   object-contain
-                  grayscale hover:grayscale-0
+                  grayscale hover:grayscale-0 opacity-50 hover:opacity-100
                   transition duration-300 ease-in-out
                 "
               />
